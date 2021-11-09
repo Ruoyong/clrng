@@ -1,0 +1,3 @@
+    bin/ 	# ignore bin directory 
+    *.o 	# ignore any files with .o 
+
