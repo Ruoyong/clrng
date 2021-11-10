@@ -1,0 +1,29 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Create streams}
+-->
+
+
+```{r test uint3, eval=FALSE}
+library(clrng)
+library(gpuR)
+
+###CPU streams
+t(createStreamsCpu(n=4, initial=12345))
+
+
+
+###GPU streams
+myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4, initial=12345))
+
+myStreamsGpu2 = createStreamsGpu(n=4, initial=c(12345,12345))
+t(as.matrix(myStreamsGpu2))
+
+myStreamsGpu3 = createStreamsGpu(n=4)
+t(as.matrix(myStreamsGpu3))
+```
+
+
+
+
+

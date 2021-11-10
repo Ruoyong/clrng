@@ -35,6 +35,7 @@ a<-clrng::rnorm(c(1024,512), streams=streams, Nglobal=c(512,128), type="float")
 
 avector<-as.vector(as.matrix(a))
 hist(avector,breaks=40)
+
 clrng::qqnorm(avector, Nglobal = c(64,64))
 stats::qqnorm(avector)
 ```
@@ -47,7 +48,8 @@ stats::qqnorm(avector)
 
 #rexp
 ```{r exp}
-b<-clrng::rexp(c(200,100), rate=1, Nglobal=c(64,16), type="double")
+streams <- createStreamsGpu(n=64*16, initial=12345)
+b<-clrng::rexp(c(200,100), rate=1, streams = streams, Nglobal=c(64,16), type="double")
 bvector<-as.vector(as.matrix(b))
 hist(bvector, freq=TRUE, breaks=40)
 

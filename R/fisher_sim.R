@@ -59,13 +59,13 @@ fisher.sim=function(
   if(missing(streams)) {
     if(missing(Nglobal)) {
       Nglobal = c(64,16)
-      seedR = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) ) 
+      seedR = sample.int(2147483647, 6, replace = TRUE)
       seed <- gpuR::vclVector(seedR, type="integer")  
       streams<-vclMatrix(0L, nrow=1024, ncol=12, type="integer")
       CreateStreamsGpuBackend(seed, streams, keepInitial=1)
       
     }else{
-      seedR = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) ) 
+      seedR = sample.int(2147483647, 6, replace = TRUE)
       seed <- gpuR::vclVector(seedR, type="integer")  
       streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
       CreateStreamsGpuBackend(seed, streams, keepInitial=1)
@@ -133,7 +133,7 @@ fisher.sim=function(
   
   if (returnStatistics){
     
-    theResult = list(p.value = PVAL, simNum=TotalSim, sim = results, counts=counts, streams=streams)
+    theResult = list(p.value = PVAL, simNum=TotalSim, counts=counts, sim = results, streams=streams)
     
   }else {
     

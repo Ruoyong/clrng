@@ -44,12 +44,12 @@ rexp = function(
   if(missing(streams)) {
     if(missing(Nglobal)) {
       Nglobal = c(64,8)
-      seedR = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) ) 
+      seedR = sample.int(2147483647, 6, replace = TRUE) 
       seed <- gpuR::vclVector(seedR, type="integer")  
       streams<-vclMatrix(0L, nrow=512, ncol=12, type="integer")
       CreateStreamsGpuBackend(seed, streams, keepInitial=1)
     }else{
-      seedR = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) ) 
+      seedR = sample.int(2147483647, 6, replace = TRUE)
       seed <- gpuR::vclVector(seedR, type="integer")  
       streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
       CreateStreamsGpuBackend(seed, streams, keepInitial=1)
