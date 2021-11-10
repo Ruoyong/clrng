@@ -1,0 +1,63 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Random numbers}
+-->
+
+
+```{r packages, results='hide'}
+library('gpuR')
+library('clrng')
+```
+
+Use double precision if the GPU supports it
+```{r setType}
+theType = c('float','double')[1+gpuInfo()$double_support]
+theType
+```
+
+
+
+#runif
+```{r unif}
+b<-clrng::runif(c(200,800), Nglobal=c(64,4), type="double")
+bvector<-as.vector(as.matrix(b))
+hist(bvector, breaks=40)
+quantile(bvector)
+```
+
+
+
+
+#rnorm
+```{r rnorm}
+streams <- createStreamsGpu(n =512*128, initial=12345)
+a<-clrng::rnorm(c(1024,512), streams=streams, Nglobal=c(512,128), type="float")
+
+avector<-as.vector(as.matrix(a))
+hist(avector,breaks=40)
+clrng::qqnorm(avector, Nglobal = c(64,64))
+stats::qqnorm(avector)
+```
+
+
+
+
+
+
+
+#rexp
+```{r exp}
+b<-clrng::rexp(c(200,100), rate=1, Nglobal=c(64,16), type="double")
+bvector<-as.vector(as.matrix(b))
+hist(bvector, freq=TRUE, breaks=40)
+
+
+b2 <- stats::rexp(20000, rate=1)
+hist(b2, freq=TRUE, breaks = 40)
+
+
+quantile(bvector)
+quantile(b2)
+
+```
+

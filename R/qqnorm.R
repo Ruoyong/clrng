@@ -56,7 +56,7 @@ qqnorm<-function(y, ylim, mu=0, sigma=1, lowertail=1,
    
     x <- as.vector(cpp_gpu_qqnorm(out, mu,sigma, lowertail, Nglobal , Nlocal))
     
-    x<-x[order(order(as.vector(y)))]  ###
+    x <- x[order(order(as.vector(y)))]  ###
     
     
     if(has.na) {
@@ -69,7 +69,7 @@ qqnorm<-function(y, ylim, mu=0, sigma=1, lowertail=1,
     
       plot(x, y, main = main, xlab = xlab, ylab = ylab, ylim = ylim, ...)
    
-       invisible(list(x = x, y = y))
+      invisible(list(x = x, y = y))
        
       
   }
