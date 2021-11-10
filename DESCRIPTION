@@ -9,7 +9,6 @@ License: GPL (>= 2)
 Encoding: UTF-8
 NeedsCompilation: yes
 Depends: R (>= 3.5.0), gpuR
-Imports: 
 Suggests: knitr, 
 LinkingTo:
 	RViennaCL (>= 1.7.1.4),
