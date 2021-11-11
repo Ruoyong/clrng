@@ -1,15 +1,11 @@
 #' @title createStreamsCpu
-#'
-#' @description create streams stored on the CPU.
-#' 
-#' @param n number of streams to create
-#' @param initial initial state of first stream, length 6, recycled if shorter
-#' @return A stream object on CPU.
+#' @description Create streams stored on the CPU
+#' @param n Number of streams to create
+#' @param initial Initial state of the first stream, length 6, recycled if shorter
+#' @return A stream object on CPU
 #' @useDynLib clrng
+#' @author Ruoyong Xu
 #' @export
-
-
-
 
 
 createStreamsCpu = function(n, 

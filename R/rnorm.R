@@ -1,11 +1,10 @@
 #' @title rnorm
-#' 
-#' @param n a number or a vector specifying the size of output matrix
-#' @param streams streams matrix of random number seeds
-#' @param Nglobal vector of length 2, number of work items
-#' @param type precision type of random numbers, "double" or "float"
-#' 
-#' @return a vclVector or vclMatrix of standard normal random numbers
+#' @description Generate standard normal random numbers on a GPU
+#' @param n A number or a vector specifying the size of output vector or matrix
+#' @param streams Streams object
+#' @param Nglobal NDRange of work items for use
+#' @param type Precision type of random numbers, "double" or "float"
+#' @return A 'vclVector' or 'vclMatrix' of standard normal random numbers
 #' 
 #' @useDynLib clrng
 #' @export

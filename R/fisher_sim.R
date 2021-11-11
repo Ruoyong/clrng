@@ -1,16 +1,13 @@
-#' @title Fisher's exact test on GPU
+#' @title fisher.sim
+#' @description Monte carlo's simulation for Fisher's exact test on GPU
 #'
-#'
-#' @param x a vclMatrix for Fisher's test
-#' @param N requested number of simulations.
-#' @param streams streams objects. 
-#' @param type "double" or "float" of test statistics.
-#' @param Nglobal the size of the index space for use.
+#' @param x A contingency table, a vclMatrix 
+#' @param N Requested a number of replicates
+#' @param streams Streams objects
+#' @param type "double" or "float" of returned test statistics
+#' @param Nglobal Size of the index space for use
 #' 
-#' 
-#' @return a list of results
-#' 
-#' 
+#' @return A list of results, including p-value, actual number of replicates, test statistics and so on
 #' @useDynLib clrng
 #' @export
 

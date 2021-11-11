@@ -1,11 +1,9 @@
-#' @title logfactsumBackend on GPU
+#' @title logfactSum
+#' @description Computes the log-factorial of a table
 #' 
-#' 
-#' @param x an R matrix
-#' @param Nglobal the size of the index space for use
-#' 
-#' @return the sum of log-factorials of the matrix
-#'
+#' @param x A matrix
+#' @param Nglobal Size of the index space for use
+#' @return Sum of log-factorials of elements of the matrix
 #' @useDynLib clrng
 #' @export
 

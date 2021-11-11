@@ -1,11 +1,10 @@
 #' @title runif
-#' 
-#' @param n a number or a vector specifying the size of output matrix
-#' @param streams streams matrix of random number seeds
-#' @param Nglobal vector of length 2, number of work items
-#' @param type precision type of random numbers, "double" or "float" or "integer"
-#' 
-#' @return a vclVector or vclMatrix of uniform random numbers
+#' @description Generate uniform random numbers on a GPU
+#' @param n A number or a vector specifying the size of output vector or matrix
+#' @param streams Streams object
+#' @param Nglobal NDRange of work items for use
+#' @param type Precision type of random numbers, "double" or "float" or "integer"
+#' @return A vclVector or vclMatrix of uniform random numbers
 #' 
 #' @useDynLib clrng
 #' @export

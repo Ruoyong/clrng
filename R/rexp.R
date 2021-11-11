@@ -1,13 +1,11 @@
 #' @title rexp
-#' 
-#' @param n a number or a vector specifying the size of output matrix
-#' @param streams streams 
-#' @param rate mean equals to 1/rate
-#' @param Nglobal vector of length 2, number of work items
-#' @param type random number type, one of "uniform" or "normal"
-#' 
-#' @return a vclVector or vclMatrix of exponential random numbers
-#' 
+#' @description Generate exponential random numbers on a GPU
+#' @param n A number or a vector specifying the size of the output vector or matrix
+#' @param rate Distribution parameter, mean equals to 1/rate
+#' @param streams Streams object
+#' @param Nglobal NDRange of work items for use
+#' @param type "uniform" or "normal" of generated random numbers
+#' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
 #' @useDynLib clrng
 #' @export
 

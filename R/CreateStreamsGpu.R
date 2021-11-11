@@ -1,10 +1,8 @@
-#' @title Create streams on GPU
-#'
-#' @description Create streams in R.
-#' 
-#' @param n number of streams to create.
-#' @param seed the initial seed of streams.
-#' @return A stream object on GPU.
+#' @title createStreamsGpu
+#' @description Generate streams on GPU device
+#' @param n number of streams to create
+#' @param initial Initial state of the first stream, length 6, recycled if shorter
+#' @return A stream object of class 'vclMatrix' on GPU
 #' @useDynLib clrng
 #' @export
 
