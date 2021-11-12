@@ -17,7 +17,8 @@ rexp = function(
   rate=1,
   streams, 
   Nglobal,
-  type=c("double","float")) {
+  type=c("double","float")
+  verbose=FALSE) {
   
   
   if(length(n)>=3){

@@ -35,6 +35,11 @@ quantile(bvector)
 
 # rnorm
 ```{r rnorm}
+
+as.vector(clrng::rnorm(10, Nglobal=c(2,4),type=theType, verbose=2))
+
+
+
 streams <- createStreamsGpu(n =512*128, initial=rep(12345,6))
 a<-clrng::rnorm(c(1024,512), streams=streams, Nglobal=c(512,128), type=theType)
 
