@@ -26,7 +26,7 @@ std::string mrg31k3pMatrixString(
   if(typeString == "double") {
     
     result += "\n#pragma OPENCL EXTENSION cl_khr_fp64 : enable\n"
-    "#define PI M_PI\n"
+    "#define PI_2 M_PI_2\n"
     "#define TWOPI 6.283185307179586231996\n" 
     "#define mrg31k3p_NORM_cl 4.656612873077392578125e-10\n"
     "//TWOPI * mrg31k3p_NORM_cl\n"
@@ -34,7 +34,7 @@ std::string mrg31k3pMatrixString(
     
   } else if(typeString == "float") {
     result += "\n#define TWOPI 6.28318530717\n" 
-    "#define PI M_PI_F\n"
+    "#define PI_2 M_PI_2_F\n"
     "\n#define mrg31k3p_NORM_cl 4.6566126e-10\n\n"
     "//TWOPI * mrg31k3p_NORM_cl\n"
     "#define TWOPI_mrg31k3p_NORM_cl 2.9258361e-09\n\n";
@@ -80,7 +80,7 @@ std::string mrg31k3pMatrixString(
   if(random_type == "normal"){  
     result += 
       "local " + typeString + " part[2];\n";// local size must be 1,2
-    result += typeString + " sinOrCosPart1, addForSine = get_local_id(1) * PI;\n";
+    result += typeString + " sinOrCosPart1, addForSine = - get_local_id(1) * PI_2;\n";
     result += "if(get_local_id(1)){\n"
               "  fact = TWOPI_mrg31k3p_NORM_cl;\n"          
               "}\n";
