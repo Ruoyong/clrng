@@ -164,10 +164,10 @@ int gpuMatrixRn(
     streams.internal_size2(),
     random_type);
   
-  if(numWorkItems[1] < 2) {
-    Rcpp::warning(
-      "number of work items needs to be an even number for second dimension\n");
-  }  
+  // if(numWorkItems[1] < 2) {
+  //   Rcpp::warning(
+  //     "number of work items needs to be an even number for second dimension\n");
+  // }  
   if(numWorkItems[1] * (x.internal_size2()/numWorkItems[1]) != x.internal_size2()) {
     Rcpp::warning(
       "number of work items in dimension 2 must be a divisor of internal size 2 of x\n");

@@ -31,7 +31,7 @@ runif = function(
   }
   
   if(Nglobal[2]<2){
-    stop("Nglobal[2] should be larger than 1")
+    stop("number of work items needs to be an even number for second dimension\n")
   }
   
   if(missing(streams)) {

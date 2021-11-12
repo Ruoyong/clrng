@@ -38,7 +38,11 @@ rexp = function(
     stop("invalid rate value")
   }
   
+  if(Nglobal[2]<2){
+    stop("number of work items needs to be an even number for second dimension\n")
+  }
   
+ 
   if(missing(streams)) {
     if(missing(Nglobal)) {
       Nglobal = c(64,8)
