@@ -4,6 +4,7 @@
 #' @param streams Streams object
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float" or "integer"
+#' @param verbose print extra information
 #' @return A vclVector or vclMatrix of uniform random numbers
 #' 
 #' @useDynLib clrng
@@ -15,7 +16,8 @@ runif = function(
   n, 
   streams, 
   Nglobal,
-  type=c("double","float","integer")) {
+  type=c("double","float","integer"),
+  verbose=FALSE) {
   
   
   if(length(n)>=3){
@@ -56,7 +58,7 @@ runif = function(
   xVcl<-gpuR::vclMatrix(0L, nrow=n[1], ncol=n[2], type=type[1])    
   
   
-  gpuRnBackend(xVcl, streams, Nglobal,"uniform") 
+  gpuRnBackend(xVcl, streams, Nglobal,"uniform", verbose) 
   
   invisible(streams)
   

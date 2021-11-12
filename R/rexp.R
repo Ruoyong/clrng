@@ -64,7 +64,7 @@ rexp = function(
   xVcl<-gpuR::vclMatrix(0, nrow=n[1], ncol=n[2], type=type[1])     
   
   
-  gpuRnBackend(xVcl,streams, Nglobal,"exponential") 
+  gpuRnBackend(xVcl,streams, Nglobal,"exponential", FALSE) 
   
   invisible(streams)
   

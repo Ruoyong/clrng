@@ -4,6 +4,7 @@
 #' @param streams Streams object
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float"
+#' @param verbose print extra information
 #' @return A 'vclVector' or 'vclMatrix' of standard normal random numbers
 #' 
 #' @useDynLib clrng
@@ -16,21 +17,22 @@ rnorm = function(
   n, 
   streams, 
   Nglobal,
-  type=c("double","float")) {
+  type=c("double","float"),
+  verbose = FALSE) {
   
-  
-  if(length(n)>=3){
-    stop("'n' has to be a vector of no more than two elements")
-  }
-  if(length(n)==0){
-    stop("specify the number of rows and columns of the output matrix")
-  }
-  if(length(n)==1){
-    n<-c(n,1)
-  }
-  
-  if(Nglobal[2]<2){
-    stop("Nglobal[2] should be larger than 1")
+  if(any(grepl("vclMatrix", class(n)))) {
+    xVcl = n
+  } else {
+    if(length(n)>=3){
+      stop("'n' has to be a vector of no more than two elements")
+    }
+    if(length(n)==0){
+      stop("specify the number of rows and columns of the output matrix")
+    }
+    if(length(n)==1){
+      n<-c(1,n)
+    }
+    xVcl<-gpuR::vclMatrix(0, nrow=n[1], ncol=n[2], type=type[1])
   }
   
   if(missing(streams)) {
@@ -52,17 +54,13 @@ rnorm = function(
     warning("number of work items needs to be same as number of streams")
   }
   
-  
 
   
-  xVcl<-gpuR::vclMatrix(0, nrow=n[1], ncol=n[2], type=type[1])     
+  gpuRnBackend(xVcl, streams, Nglobal,"normal", verbose) 
   
+#  invisible(streams)
   
-  gpuRnBackend(xVcl, streams, Nglobal,"normal") 
-  
-  invisible(streams)
-  
-  if(ncol(xVcl)==1) xVcl = xVcl[,1]
+  if( nrow(xVcl)==1 & is.numeric(n)) xVcl = xVcl[1,]
   
   xVcl
   

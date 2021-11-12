@@ -11,15 +11,17 @@ library('clrng')
 
 Use double precision if the GPU supports it
 ```{r setType}
-theType = c('float','double')[1+gpuInfo()$double_support]
-theType
+#theType = c('float','double')[1+gpuInfo()$double_support]
+theType = 'float'
 ```
 
 
 
-#runif
-```{r unif}
-b<-clrng::runif(c(200,800), Nglobal=c(64,4), type="double")
+
+# runif
+
+```{r unif, eval=FALSE}
+b<-clrng::runif(c(100,100), Nglobal=c(64,64), type=theType)
 bvector<-as.vector(as.matrix(b))
 hist(bvector, breaks=40)
 quantile(bvector)
@@ -28,10 +30,10 @@ quantile(bvector)
 
 
 
-#rnorm
+# rnorm
 ```{r rnorm}
-streams <- createStreamsGpu(n =512*128, initial=12345)
-a<-clrng::rnorm(c(1024,512), streams=streams, Nglobal=c(512,128), type="float")
+streams <- createStreamsGpu(n =512*128, initial=rep(12345,6))
+a<-clrng::rnorm(c(1024,512), streams=streams, Nglobal=c(512,128), type=theType)
 
 avector<-as.vector(as.matrix(a))
 hist(avector,breaks=40)
@@ -46,9 +48,9 @@ stats::qqnorm(avector)
 
 
 
-#rexp
+#rexp 
 ```{r exp}
-streams <- createStreamsGpu(n=64*16, initial=12345)
+streams <- createStreamsGpu(n=64*16, initial=1:3)
 b<-clrng::rexp(c(200,100), rate=1, streams = streams, Nglobal=c(64,16), type="double")
 bvector<-as.vector(as.matrix(b))
 hist(bvector, freq=TRUE, breaks=40)
