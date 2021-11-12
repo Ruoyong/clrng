@@ -4,7 +4,14 @@
 \alias{rexp}
 \title{rexp}
 \usage{
-rexp(n, rate = 1, streams, Nglobal, type = c("double", "float"))
+rexp(
+  n,
+  rate = 1,
+  streams,
+  Nglobal,
+  type = c("double", "float"),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{n}{A number or a vector specifying the size of the output vector or matrix}
