@@ -228,26 +228,7 @@ clrngMrg31k3pStream* clrngMrg31k3pCreateStreams(clrngMrg31k3pStreamCreator* crea
 	return streams;
 }
 
-clrngMrg31k3pStream* clrngMrg31k3pCopyStreams(size_t count, const clrngMrg31k3pStream* streams, clrngStatus* err)
-{
-	clrngStatus err_ = CLRNG_SUCCESS;
-	clrngMrg31k3pStream* dest = NULL;
 
-	//Check params
-	if (streams == NULL)
-		err_ = clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): stream cannot be NULL", __func__);
-
-	if (err_ == CLRNG_SUCCESS)
-		dest = clrngMrg31k3pAllocStreams(count, NULL, &err_);
-
-	if (err_ == CLRNG_SUCCESS)
-		err_ = clrngMrg31k3pCopyOverStreams(count, dest, streams);
-
-	if (err != NULL)
-		*err = err_;
-
-	return dest;
-}
 
 
 

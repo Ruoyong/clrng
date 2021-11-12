@@ -15,7 +15,7 @@ rexp(n, rate = 1, streams, Nglobal, type = c("double", "float"))
 
 \item{Nglobal}{NDRange of work items for use}
 
-\item{type}{"uniform" or "normal" of generated random numbers}
+\item{type}{"double" or "float" of generated random numbers}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of exponential random numbers

@@ -1,4 +1,5 @@
-/************************************************************************
+/*
+ ************************************************************************
  Copyright (c) 2015 Advanced Micro Devices, Inc. 
  All rights reserved.
  
@@ -27,6 +28,11 @@
  
  ***********************************************************************
  */
+
+/*
+ * unused original files are already removed for clrng package
+ */
+
 
 /*  @file mrg31k3p.h
  *  @brief Specific interface for the MRG31k3p generator
@@ -91,25 +97,6 @@ extern "C" {
  */
 CLRNGAPI clrngMrg31k3pStreamCreator* clrngMrg31k3pCopyStreamCreator(const clrngMrg31k3pStreamCreator* creator, clrngStatus* err);
 
-/*! @copybrief clrngDestroyStreamCreator()
- *  @see clrngDestroyStreamCreator()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pDestroyStreamCreator(clrngMrg31k3pStreamCreator* creator);
-
-/*! @copybrief clrngRewindStreamCreator()
- *  @see clrngRewindStreamCreator()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pRewindStreamCreator(clrngMrg31k3pStreamCreator* creator);
-
-/*! @copybrief clrngSetBaseCreatorState()
- *  @see clrngSetBaseCreatorState()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pSetBaseCreatorState(clrngMrg31k3pStreamCreator* creator, const clrngMrg31k3pStreamState* baseState);
-
-/*! @copybrief clrngChangeStreamsSpacing()
- *  @see clrngChangeStreamsSpacing()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pChangeStreamsSpacing(clrngMrg31k3pStreamCreator* creator, cl_int e, cl_int c);
 
 
 /*! @copybrief clrngAllocStreams()
@@ -119,11 +106,6 @@ CLRNGAPI clrngMrg31k3pStream* clrngMrg31k3pAllocStreams(size_t count, size_t* bu
 //Reserve memory space for count stream objects, without creating the stream objects. Returns a pointer to the newly allocated buffer. 
 
 
-/*! @copybrief clrngDestroyStreams()
- *  @see clrngDestroyStreams()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pDestroyStreams(clrngMrg31k3pStream* streams); 
-//Destroy one or many stream objects.Release the memory space taken by those stream objects.
 
 
 /*! @copybrief clrngCreateOverStreams()
@@ -145,128 +127,7 @@ CLRNGAPI clrngMrg31k3pStream* clrngMrg31k3pCreateStreams(clrngMrg31k3pStreamCrea
 
 
 
-/*! @copybrief clrngCopyOverStreams()
- *  @see clrngCopyOverStreams()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pCopyOverStreams(size_t count, clrngMrg31k3pStream* destStreams, const clrngMrg31k3pStream* srcStreams);
-//Copy (or restore) the stream objects srcStreams into the buffer destStreams, 
-//and each of the count stream objects from the array srcStreams into the buffer destStreams.
 
-
-
-/*! @copybrief clrngCopyStreams()
- *  @see clrngCopyStreams()
- */
-CLRNGAPI clrngMrg31k3pStream* clrngMrg31k3pCopyStreams(size_t count, const clrngMrg31k3pStream* streams, clrngStatus* err);
-//Create an identical copy of each of the count stream objects in the array streams.
-
-
-
-
-
-
-
-
-
-
-
-#define clrngMrg31k3pRandomU01          _CLRNG_TAG_FPTYPE(clrngMrg31k3pRandomU01)
-#define clrngMrg31k3pRandomInteger      _CLRNG_TAG_FPTYPE(clrngMrg31k3pRandomInteger)
-#define clrngMrg31k3pRandomU01Array     _CLRNG_TAG_FPTYPE(clrngMrg31k3pRandomU01Array)
-#define clrngMrg31k3pRandomIntegerArray _CLRNG_TAG_FPTYPE(clrngMrg31k3pRandomIntegerArray)
-
-/*! @copybrief clrngRandomU01()
- *  @see clrngRandomU01()
- */
-CLRNGAPI _CLRNG_FPTYPE clrngMrg31k3pRandomU01(clrngMrg31k3pStream* stream);
-CLRNGAPI cl_float  clrngMrg31k3pRandomU01_cl_float (clrngMrg31k3pStream* stream);
-CLRNGAPI cl_double clrngMrg31k3pRandomU01_cl_double(clrngMrg31k3pStream* stream);
-
-/*! @copybrief clrngRandomInteger()
- *  @see clrngRandomInteger()
- */
-CLRNGAPI cl_int clrngMrg31k3pRandomInteger(clrngMrg31k3pStream* stream, cl_int i, cl_int j);
-CLRNGAPI cl_int clrngMrg31k3pRandomInteger_cl_float (clrngMrg31k3pStream* stream, cl_int i, cl_int j);
-CLRNGAPI cl_int clrngMrg31k3pRandomInteger_cl_double(clrngMrg31k3pStream* stream, cl_int i, cl_int j);
-//Generate the next random integer value [device].
-
-
-
-
-/*! @copybrief clrngRandomU01Array()
- *  @see clrngRandomU01Array()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pRandomU01Array(clrngMrg31k3pStream* stream, size_t count, _CLRNG_FPTYPE* buffer);
-CLRNGAPI clrngStatus clrngMrg31k3pRandomU01Array_cl_float (clrngMrg31k3pStream* stream, size_t count, cl_float * buffer);
-CLRNGAPI clrngStatus clrngMrg31k3pRandomU01Array_cl_double(clrngMrg31k3pStream* stream, size_t count, cl_double* buffer);
-//Fill an array with successive random values in (0,1) [device].
-
-
-/*! @copybrief clrngRandomIntegerArray()
- *  @see clrngRandomIntegerArray()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pRandomIntegerArray(clrngMrg31k3pStream* stream, cl_int i, cl_int j, size_t count, cl_int* buffer);
-CLRNGAPI clrngStatus clrngMrg31k3pRandomIntegerArray_cl_float (clrngMrg31k3pStream* stream, cl_int i, cl_int j, size_t count, cl_int* buffer);
-CLRNGAPI clrngStatus clrngMrg31k3pRandomIntegerArray_cl_double(clrngMrg31k3pStream* stream, cl_int i, cl_int j, size_t count, cl_int* buffer);
-
-/*! @copybrief clrngRewindStreams()
- *  @see clrngRewindStreams()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pRewindStreams(size_t count, clrngMrg31k3pStream* streams);
-
-/*! @copybrief clrngRewindSubstreams()
- *  @see clrngRewindSubstreams()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pRewindSubstreams(size_t count, clrngMrg31k3pStream* streams);
-
-/*! @copybrief clrngForwardToNextSubstreams()
- *  @see clrngForwardToNextSubstreams()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pForwardToNextSubstreams(size_t count, clrngMrg31k3pStream* streams);
-
-/*! @copybrief clrngMakeSubstreams()
- *  @see clrngMakeSubstreams()
- */
-CLRNGAPI clrngMrg31k3pStream* clrngMrg31k3pMakeSubstreams(clrngMrg31k3pStream* stream, size_t count, size_t* bufSize, clrngStatus* err);
-
-/*! @copybrief clrngMakeOverSubstreams()
- *  @see clrngMakeOverSubstreams()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pMakeOverSubstreams(clrngMrg31k3pStream* stream, size_t count, clrngMrg31k3pStream* substreams);
-
-/*! @copybrief clrngAdvanceStreams()
- *  @see clrngAdvanceStreams()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pAdvanceStreams(size_t count, clrngMrg31k3pStream* streams, cl_int e, cl_int c);
-
-/*! @copybrief clrngDeviceRandomU01Array()
- *  @see clrngDeviceRandomU01Array()
- */
-#ifdef CLRNG_SINGLE_PRECISION
-#define clrngMrg31k3pDeviceRandomU01Array(...) clrngMrg31k3pDeviceRandomU01Array_(__VA_ARGS__, CL_TRUE)
-#else
-#define clrngMrg31k3pDeviceRandomU01Array(...) clrngMrg31k3pDeviceRandomU01Array_(__VA_ARGS__, CL_FALSE)
-#endif
-
-/** \internal
- *  @brief Helper function for clrngMrg31k3pDeviceRandomU01Array()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pDeviceRandomU01Array_(size_t streamCount, cl_mem streams,
-	size_t numberCount, cl_mem outBuffer, cl_uint numQueuesAndEvents,
-	cl_command_queue* commQueues, cl_uint numWaitEvents,
-	const cl_event* waitEvents, cl_event* outEvents, cl_bool singlePrecision);
-/** \endinternal
- */
-
-/*! @copybrief clrngWriteStreamInfo()
- *  @see clrngWriteStreamInfo()
- */
-CLRNGAPI clrngStatus clrngMrg31k3pWriteStreamInfo(const clrngMrg31k3pStream* stream, FILE *file);
-
-
-#if 0
-CLRNGAPI clrngMrg31k3pStream* clrngMrg31k3pGetStreamByIndex(clrngMrg31k3pStream* stream, cl_uint index);
-#endif
 
 
 #ifdef __cplusplus

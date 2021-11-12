@@ -29,6 +29,13 @@
  ************************************************************************
  */
 
+/*
+ * unused original files are already removed
+ */
+
+
+
+
 /* @file clRNG.c
 * @brief Implementation of functions defined in clRNG.h and private.h
 */

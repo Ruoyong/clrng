@@ -29,6 +29,14 @@
  
  ***********************************************************************
  */
+ 
+ 
+ /*
+  * unused original files are already removed for clrng package
+  */
+ 
+ 
+ 
 
 /*! @file mrg31k3p.c.h
  *  @brief Code for the MRG31k3p generator common to the host and device
@@ -145,35 +153,14 @@ static cl_uint clrngMrg31k3pNextState(clrngMrg31k3pStreamState* currentState)
 
 // We use an underscore on the r.h.s. to avoid potential recursion with certain
 // preprocessors.
-#define IMPLEMENT_GENERATE_FOR_TYPE(fptype) \
-	\
-	fptype clrngMrg31k3pRandomU01_##fptype(clrngMrg31k3pStream* stream) { \
-	    return clrngMrg31k3pNextState(&stream->current) * mrg31k3p_NORM_##fptype; \
-	} \
-	\
-	cl_int clrngMrg31k3pRandomInteger_##fptype(clrngMrg31k3pStream* stream, cl_int i, cl_int j) { \
-	    return i + (cl_int)((j - i + 1) * clrngMrg31k3pRandomU01_##fptype(stream)); \
-	} \
-	\
-	clrngStatus clrngMrg31k3pRandomU01Array_##fptype(clrngMrg31k3pStream* stream, size_t count, fptype* buffer) { \
-		if (!stream) \
-			return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): stream cannot be NULL", __func__); \
-		if (!buffer) \
-			return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): buffer cannot be NULL", __func__); \
-		for (size_t i = 0; i < count; i++)  \
-			buffer[i] = clrngMrg31k3pRandomU01_##fptype(stream); \
-		return CLRNG_SUCCESS; \
-	} \
-	\
-	clrngStatus clrngMrg31k3pRandomIntegerArray_##fptype(clrngMrg31k3pStream* stream, cl_int i, cl_int j, size_t count, cl_int* buffer) { \
-		if (!stream) \
-			return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): stream cannot be NULL", __func__); \
-		if (!buffer) \
-			return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): buffer cannot be NULL", __func__); \
-		for (size_t k = 0; k < count; k++) \
-			buffer[k] = clrngMrg31k3pRandomInteger_##fptype(stream, i, j); \
-		return CLRNG_SUCCESS; \
-	}
+#define IMPLEMENT_GENERATE_FOR_TYPE(fptype) 
+
+
+
+
+
+
+
 
 // On the host, implement everything.
 // On the device, implement only what is required to avoid cluttering memory.
@@ -187,73 +174,5 @@ IMPLEMENT_GENERATE_FOR_TYPE(cl_double)
 // Clean up macros, especially to avoid polluting device code.
 #undef IMPLEMENT_GENERATE_FOR_TYPE
 
-
-
-clrngStatus clrngMrg31k3pRewindStreams(size_t count, clrngMrg31k3pStream* streams)
-{
-	//Check params
-	if (!streams)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): streams cannot be NULL", __func__);
-	//Reset current state to the stream initial state
-	for (size_t j = 0; j < count; j++) {
-#ifdef __CLRNG_DEVICE_API
-#ifdef CLRNG_ENABLE_SUBSTREAMS
-		streams[j].current = streams[j].substream = *streams[j].initial;
-#else
-		streams[j].current = *streams[j].initial;
-#endif
-#else
-		streams[j].current = streams[j].substream = streams[j].initial;
-#endif
-	}
-
-	return CLRNG_SUCCESS;
-}
-
-#if defined(CLRNG_ENABLE_SUBSTREAMS) || !defined(__CLRNG_DEVICE_API)
-clrngStatus clrngMrg31k3pRewindSubstreams(size_t count, clrngMrg31k3pStream* streams)
-{
-	//Check params
-	if (!streams)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): streams cannot be NULL", __func__);
-	//Reset current state to the subStream initial state
-	for (size_t j = 0; j < count; j++) {
-		streams[j].current = streams[j].substream;
-	}
-
-	return CLRNG_SUCCESS;
-}
-
-clrngStatus clrngMrg31k3pForwardToNextSubstreams(size_t count, clrngMrg31k3pStream* streams)
-{
-	//Check params
-	if (!streams)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): streams cannot be NULL", __func__);
-	
-	for (size_t k = 0; k < count; k++) {
-		modMatVec (clrngMrg31k3p_A1p72, streams[k].substream.g1, streams[k].substream.g1, mrg31k3p_M1);
-		modMatVec (clrngMrg31k3p_A2p72, streams[k].substream.g2, streams[k].substream.g2, mrg31k3p_M2);
-		streams[k].current = streams[k].substream;
-	}
-
-	return CLRNG_SUCCESS;
-}
-
-clrngStatus clrngMrg31k3pMakeOverSubstreams(clrngMrg31k3pStream* stream, size_t count, clrngMrg31k3pStream* substreams)
-{
-	for (size_t i = 0; i < count; i++) {
-		clrngStatus err;
-		// snapshot current stream into substreams[i]
-		err = clrngMrg31k3pCopyOverStreams(1, &substreams[i], stream);
-		if (err != CLRNG_SUCCESS)
-		    return err;
-		// advance to next substream
-		err = clrngMrg31k3pForwardToNextSubstreams(1, stream);
-		if (err != CLRNG_SUCCESS)
-		    return err;
-	}
-	return CLRNG_SUCCESS;
-}
-#endif // substreams
 
 #endif // PRIVATE_MRG31K3P_CH
