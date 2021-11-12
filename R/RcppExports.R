@@ -5,8 +5,8 @@ cpp_gpuFisher_test <- function(xR, resultsR, B, streamsR, max_global_size, max_l
     .Call('_clrng_cpp_gpuFisher_test', PACKAGE = 'clrng', xR, resultsR, B, streamsR, max_global_size, max_local_size)
 }
 
-gpuRnBackend <- function(x, streams, max_global_size, random_type) {
-    .Call('_clrng_gpuRnBackend', PACKAGE = 'clrng', x, streams, max_global_size, random_type)
+gpuRnBackend <- function(x, streams, max_global_size, random_type, verbose) {
+    .Call('_clrng_gpuRnBackend', PACKAGE = 'clrng', x, streams, max_global_size, random_type, verbose)
 }
 
 logfactsumBackend <- function(xR, numWorkItems) {

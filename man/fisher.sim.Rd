@@ -2,7 +2,7 @@
 % Please edit documentation in R/fisher_sim.R
 \name{fisher.sim}
 \alias{fisher.sim}
-\title{Fisher's exact test on GPU}
+\title{fisher.sim}
 \usage{
 fisher.sim(
   x,
@@ -15,19 +15,19 @@ fisher.sim(
 )
 }
 \arguments{
-\item{x}{a vclMatrix for Fisher's test}
+\item{x}{A contingency table, a vclMatrix}
 
-\item{N}{requested number of simulations.}
+\item{N}{Requested a number of replicates}
 
-\item{streams}{streams objects.}
+\item{streams}{Streams objects}
 
-\item{type}{"double" or "float" of test statistics.}
+\item{type}{"double" or "float" of returned test statistics}
 
-\item{Nglobal}{the size of the index space for use.}
+\item{Nglobal}{Size of the index space for use}
 }
 \value{
-a list of results
+A list of results, including p-value, actual number of replicates, test statistics and so on
 }
 \description{
-Fisher's exact test on GPU
+Monte carlo's simulation for Fisher's exact test on GPU
 }

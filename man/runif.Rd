@@ -4,20 +4,28 @@
 \alias{runif}
 \title{runif}
 \usage{
-runif(n, streams, Nglobal, type = c("double", "float", "integer"))
+runif(
+  n,
+  streams,
+  Nglobal,
+  type = c("double", "float", "integer"),
+  verbose = FALSE
+)
 }
 \arguments{
-\item{n}{a number or a vector specifying the size of output matrix}
+\item{n}{A number or a vector specifying the size of output vector or matrix}
 
-\item{streams}{streams matrix of random number seeds}
+\item{streams}{Streams object}
 
-\item{Nglobal}{vector of length 2, number of work items}
+\item{Nglobal}{NDRange of work items for use}
 
-\item{type}{precision type of random numbers, "double" or "float" or "integer"}
+\item{type}{Precision type of random numbers, "double" or "float" or "integer"}
+
+\item{verbose}{print extra information}
 }
 \value{
-a vclVector or vclMatrix of uniform random numbers
+A vclVector or vclMatrix of uniform random numbers
 }
 \description{
-runif
+Generate uniform random numbers on a GPU
 }

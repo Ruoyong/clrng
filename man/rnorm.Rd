@@ -4,20 +4,22 @@
 \alias{rnorm}
 \title{rnorm}
 \usage{
-rnorm(n, streams, Nglobal, type = c("double", "float"))
+rnorm(n, streams, Nglobal, type = c("double", "float"), verbose = FALSE)
 }
 \arguments{
-\item{n}{a number or a vector specifying the size of output matrix}
+\item{n}{A number or a vector specifying the size of output vector or matrix}
 
-\item{streams}{streams matrix of random number seeds}
+\item{streams}{Streams object}
 
-\item{Nglobal}{vector of length 2, number of work items}
+\item{Nglobal}{NDRange of work items for use}
 
-\item{type}{precision type of random numbers, "double" or "float"}
+\item{type}{Precision type of random numbers, "double" or "float"}
+
+\item{verbose}{print extra information}
 }
 \value{
-a vclVector or vclMatrix of standard normal random numbers
+A 'vclVector' or 'vclMatrix' of standard normal random numbers
 }
 \description{
-rnorm
+Generate standard normal random numbers on a GPU
 }

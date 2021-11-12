@@ -7,19 +7,19 @@
 rexp(n, rate = 1, streams, Nglobal, type = c("double", "float"))
 }
 \arguments{
-\item{n}{a number or a vector specifying the size of output matrix}
+\item{n}{A number or a vector specifying the size of the output vector or matrix}
 
-\item{rate}{mean equals to 1/rate}
+\item{rate}{Distribution parameter, mean equals to 1/rate}
 
-\item{streams}{streams}
+\item{streams}{Streams object}
 
-\item{Nglobal}{vector of length 2, number of work items}
+\item{Nglobal}{NDRange of work items for use}
 
-\item{type}{random number type, one of "uniform" or "normal"}
+\item{type}{"uniform" or "normal" of generated random numbers}
 }
 \value{
-a vclVector or vclMatrix of exponential random numbers
+a 'vclVector' or 'vclMatrix' of exponential random numbers
 }
 \description{
-rexp
+Generate exponential random numbers on a GPU
 }

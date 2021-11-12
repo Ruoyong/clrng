@@ -28,6 +28,11 @@
  
  ***********************************************************************
  */
+/*
+ * unused original files are already removed
+ */
+
+
 
 #include <clRNG/mrg31k3p.h>
 
@@ -117,27 +122,6 @@ static clrngMrg31k3pStreamCreator defaultStreamCreator = {
 	BASE_CREATOR_JUMP_MATRIX_2
 };
 
-/*! @brief Check the validity of a seed for MRG31k3p
- */
-static clrngStatus validateSeed(const clrngMrg31k3pStreamState* seed)
-{
-	// Check that the seeds have valid values
-	for (size_t i = 0; i < 3; ++i)
-		if (seed->g1[i] >= mrg31k3p_M1)
-			return clrngSetErrorString(CLRNG_INVALID_SEED, "seed.g1[%u] >= mrg31k3p_M1", i);
-
-	for (size_t i = 0; i < 3; ++i)
-		if (seed->g2[i] >= mrg31k3p_M2)
-			return clrngSetErrorString(CLRNG_INVALID_SEED, "seed.g2[%u] >= mrg31k3p_M2", i);
-
-	if (seed->g1[0] == 0 && seed->g1[1] == 0 && seed->g1[2] == 0)
-		return clrngSetErrorString(CLRNG_INVALID_SEED, "seed.g1 = (0,0,0)");
-
-	if (seed->g2[0] == 0 && seed->g2[1] == 0 && seed->g2[2] == 0)
-		return clrngSetErrorString(CLRNG_INVALID_SEED, "seed.g2 = (0,0,0)");
-
-	return CLRNG_SUCCESS;
-}
 
 clrngMrg31k3pStreamCreator* clrngMrg31k3pCopyStreamCreator(const clrngMrg31k3pStreamCreator* creator, clrngStatus* err)
 {
@@ -163,69 +147,6 @@ clrngMrg31k3pStreamCreator* clrngMrg31k3pCopyStreamCreator(const clrngMrg31k3pSt
 	return newCreator;
 }
 
-clrngStatus clrngMrg31k3pDestroyStreamCreator(clrngMrg31k3pStreamCreator* creator)
-{
-	if (creator != NULL)
-		free(creator);
-	return CLRNG_SUCCESS;
-}
-
-clrngStatus clrngMrg31k3pRewindStreamCreator(clrngMrg31k3pStreamCreator* creator)
-{
-	if (creator == NULL)
-	    creator = &defaultStreamCreator;
-	creator->nextState = creator->initialState;
-	return CLRNG_SUCCESS;
-}
-
-clrngStatus clrngMrg31k3pSetBaseCreatorState(clrngMrg31k3pStreamCreator* creator, const clrngMrg31k3pStreamState* baseState)
-{
-	//Check params
-	if (creator == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_STREAM_CREATOR, "%s(): modifying the default stream creator is forbidden", __func__);
-	if (baseState == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): baseState cannot be NULL", __func__);
-
-	clrngStatus err = validateSeed(baseState);
-
-	if (err == CLRNG_SUCCESS) {
-		// initialize new creator
-		creator->initialState = creator->nextState = *baseState;
-	}
-
-	return err;
-}
-
-clrngStatus clrngMrg31k3pChangeStreamsSpacing(clrngMrg31k3pStreamCreator* creator, cl_int e, cl_int c)
-{
-	//Check params
-	if (creator == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_STREAM_CREATOR, "%s(): modifying the default stream creator is forbidden", __func__);
-	if (e < 0)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): e must be >= 0", __func__);
-
-	cl_uint B[3][3];
-
-	if (c >= 0)
-		modMatPow(mrg31k3p_A1p0, creator->nuA1, mrg31k3p_M1, c);
-	else
-		modMatPow(invA1, creator->nuA1, mrg31k3p_M1, -c);
-	if (e > 0) {
-	    modMatPowLog2(mrg31k3p_A1p0, B, mrg31k3p_M1, e);
-	    modMatMat(B, creator->nuA1, creator->nuA1, mrg31k3p_M1);
-	}
-
-	if (c >= 0)
-		modMatPow(mrg31k3p_A2p0, creator->nuA2, mrg31k3p_M2, c);
-	else
-		modMatPow(invA2, creator->nuA2, mrg31k3p_M2, -c);
-	if (e > 0) {
-	    modMatPowLog2(mrg31k3p_A2p0, B, mrg31k3p_M2, e);
-	    modMatMat(B, creator->nuA2, creator->nuA2, mrg31k3p_M2);
-	}
-
-	return CLRNG_SUCCESS;
-}
 
 clrngMrg31k3pStream* clrngMrg31k3pAllocStreams(size_t count, size_t* bufSize, clrngStatus* err)
 {
@@ -252,12 +173,6 @@ clrngMrg31k3pStream* clrngMrg31k3pAllocStreams(size_t count, size_t* bufSize, cl
 	return buf;
 }
 
-clrngStatus clrngMrg31k3pDestroyStreams(clrngMrg31k3pStream* streams)
-{
-	if (streams != NULL)
-		free(streams);
-	return CLRNG_SUCCESS;
-}
 
 static clrngStatus mrg31k3pCreateStream(clrngMrg31k3pStreamCreator* creator, clrngMrg31k3pStream* buffer)
 {
@@ -334,216 +249,8 @@ clrngMrg31k3pStream* clrngMrg31k3pCopyStreams(size_t count, const clrngMrg31k3pS
 	return dest;
 }
 
-clrngMrg31k3pStream* clrngMrg31k3pMakeSubstreams(clrngMrg31k3pStream* stream, size_t count, size_t* bufSize, clrngStatus* err)
-{
-	clrngStatus err_;
-	size_t bufSize_;
-	clrngMrg31k3pStream* substreams = clrngMrg31k3pAllocStreams(count, &bufSize_, &err_);
 
-	if (err_ == CLRNG_SUCCESS)
-		err_ = clrngMrg31k3pMakeOverSubstreams(stream, count, substreams);
 
-	if (bufSize != NULL)
-		*bufSize = bufSize_;
-
-	if (err != NULL)
-		*err = err_;
-
-	return substreams;
-}
-
-clrngStatus clrngMrg31k3pAdvanceStreams(size_t count, clrngMrg31k3pStream* streams, cl_int e, cl_int c)
-{
-
-	//Check params
-	if (streams == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): streams cannot be NULL", __func__);
-
-	//Advance Stream
-	cl_uint B1[3][3], C1[3][3], B2[3][3], C2[3][3];
-
-	// if e == 0, do not add 2^0; just behave as in docs
-	if (e > 0) {
-		modMatPowLog2(mrg31k3p_A1p0, B1, mrg31k3p_M1, e);
-		modMatPowLog2(mrg31k3p_A2p0, B2, mrg31k3p_M2, e);
-	}
-	else if (e < 0) {
-		modMatPowLog2(invA1, B1, mrg31k3p_M1, -e);
-		modMatPowLog2(invA2, B2, mrg31k3p_M2, -e);
-	}
-
-	if (c >= 0) {
-		modMatPow(mrg31k3p_A1p0, C1, mrg31k3p_M1, c);
-		modMatPow(mrg31k3p_A2p0, C2, mrg31k3p_M2, c);
-	}
-	else {
-		modMatPow(invA1, C1, mrg31k3p_M1, -c);
-		modMatPow(invA2, C2, mrg31k3p_M2, -c);
-	}
-
-	if (e) {
-		modMatMat(B1, C1, C1, mrg31k3p_M1);
-		modMatMat(B2, C2, C2, mrg31k3p_M2);
-	}
-
-	for (size_t i = 0; i < count; i++) {
-		modMatVec(C1, streams[i].current.g1, streams[i].current.g1, mrg31k3p_M1);
-		modMatVec(C2, streams[i].current.g2, streams[i].current.g2, mrg31k3p_M2);
-	}
-
-	return CLRNG_SUCCESS;
-}
-
-clrngStatus clrngMrg31k3pWriteStreamInfo(const clrngMrg31k3pStream* stream, FILE *file)
-{
-	//Check params
-	if (stream == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): stream cannot be NULL", __func__);
-	if (file == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): file cannot be NULL", __func__);
-
-	// The Initial state of the Stream
-	fprintf(file, "\n   initial = { ");
-	for (size_t i = 0; i < 3; i++)
-		fprintf(file, "%u, ", stream->initial.g1[i]);
-
-	for (size_t i = 0; i < 2; i++)
-		fprintf(file, "%u, ", stream->initial.g2[i]);
-
-	fprintf(file, "%u }\n", stream->initial.g2[2]);
-	//The Current state of the Stream
-	fprintf(file, "\n   Current = { ");
-	for (size_t i = 0; i < 3; i++)
-		fprintf(file, "%u, ", stream->current.g1[i]);
-
-	for (size_t i = 0; i < 2; i++)
-		fprintf(file, "%u, ", stream->current.g2[i]);
-
-	fprintf(file, "%u }\n", stream->current.g2[2]);
-
-	return CLRNG_SUCCESS;
-}
-
-clrngStatus clrngMrg31k3pDeviceRandomU01Array_(size_t streamCount, cl_mem streams,
-	size_t numberCount, cl_mem outBuffer, cl_uint numQueuesAndEvents,
-	cl_command_queue* commQueues, cl_uint numWaitEvents,
-	const cl_event* waitEvents, cl_event* outEvents, cl_bool singlePrecision)
-{
-	//Check params
-	if (streamCount < 1)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): streamCount cannot be less than 1", __func__);
-	if (streams == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): stream_array cannot be NULL", __func__);
-	if (numberCount < 1)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): numberCount cannot be less than 1", __func__);
-	if (outBuffer == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): buffer cannot be NULL", __func__);
-	if (commQueues == NULL)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): commQueues cannot be NULL", __func__);
-	if (numberCount % streamCount != 0)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): numberCount must be a multiple of streamCount", __func__);
-	if (numQueuesAndEvents != 1)
-		return clrngSetErrorString(CLRNG_INVALID_VALUE, "%s(): numQueuesAndEvents can only have the value '1'", __func__);
-
-	//***************************************************************************************
-	//Get the context
-	cl_int err;
-	
-	cl_context ctx;
-	err = clGetCommandQueueInfo(commQueues[0], CL_QUEUE_CONTEXT, sizeof(cl_context), &ctx, NULL);
-	if (err != CLRNG_SUCCESS)
-		return clrngSetErrorString(err, "%s(): cannot retrieve context", __func__);
-
-	//Get the Device
-	cl_device_id dev;
-	err = clGetCommandQueueInfo(commQueues[0], CL_QUEUE_DEVICE, sizeof(cl_device_id), &dev, NULL);
-	if (err != CLRNG_SUCCESS)
-		return clrngSetErrorString(err, "%s(): cannot retrieve the device", __func__);
-
-	//create the program
-	const char *sources[4] = {
-	        singlePrecision ? "#define CLRNG_SINGLE_PRECISION\n" : "",
-		"#include <clRNG/mrg31k3p.clh>\n"
-		"__kernel void fillBufferU01(__global clrngMrg31k3pHostStream* streams, uint numberCount, __global ",
-		singlePrecision ? "float" : "double",
-		"* numbers) {\n"
-		"	int gid = get_global_id(0);\n"
-		"       int gsize = get_global_size(0);\n"
-		"	//Copy a stream from global stream array to local stream struct\n"
-		"	clrngMrg31k3pStream local_stream;\n"
-		"	clrngMrg31k3pCopyOverStreamsFromGlobal(1, &local_stream, &streams[gid]);\n"
-		"	// wavefront-friendly ordering\n"
-		"	for (int i = 0; i < numberCount; i++)\n"
-		"		numbers[i * gsize + gid] = clrngMrg31k3pRandomU01(&local_stream);\n"
-		"}\n"
-	};
-	cl_program program = clCreateProgramWithSource(ctx, 4, sources, NULL, &err);
-	if (err != CLRNG_SUCCESS)
-		return clrngSetErrorString(err, "%s(): cannot create program", __func__);
-
-	// construct compiler options
-	const char* includes = clrngGetLibraryDeviceIncludes(&err);
-	if (err != CLRNG_SUCCESS)
-		return (clrngStatus)err;
-
-	err = clBuildProgram(program, 0, NULL, includes, NULL, NULL);  
-	if (err < 0) {
-		// Find size of log and print to std output
-		char *program_log;
-		size_t log_size;
-		clGetProgramBuildInfo(program, dev, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
-		program_log = (char *)malloc(log_size + 1);
-		program_log[log_size] = '\0';
-		clGetProgramBuildInfo(program, dev, CL_PROGRAM_BUILD_LOG, log_size + 1, program_log, NULL);
-		printf("clBuildProgram fails:\n%s\n", program_log);
-		free(program_log);
-		exit(1);
-	}
-
-	// Create the kernel
-	cl_kernel kernel = clCreateKernel(program, "fillBufferU01", &err);
-	if (err != CLRNG_SUCCESS)
-		return clrngSetErrorString(err, "%s(): cannot create kernel", __func__);
-	
-	//***************************************************************************************
-	//Random numbers generated by each work-item
-	cl_uint number_count_per_stream = numberCount / streamCount;
-
-	//Work Group Size (local_size)
-	size_t local_size;
-	err = clGetDeviceInfo(dev, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(local_size), &local_size, NULL);
-	if (err != CLRNG_SUCCESS)
-		return clrngSetErrorString(err, "%s(): cannot read CL_DEVICE_MAX_WORK_GROUP_SIZE", __func__);
-
-	if (local_size > streamCount)
-		local_size = streamCount;
-
-	// Set kernel arguments for kernel and enqueue that kernel.
-	err =  clSetKernelArg(kernel, 0, sizeof(streams),		     &streams);
-	err |= clSetKernelArg(kernel, 1, sizeof(number_count_per_stream),    &number_count_per_stream);
-	err |= clSetKernelArg(kernel, 2, sizeof(outBuffer),		     &outBuffer);
-	if (err != CLRNG_SUCCESS)
-		return clrngSetErrorString(err, "%s(): cannot create kernel arguments", __func__);
-
-	// Enqueue kernel
-	err = clEnqueueNDRangeKernel(commQueues[0], kernel, 1, NULL, &streamCount, &local_size, numWaitEvents, waitEvents, outEvents);
-	if (err != CLRNG_SUCCESS)
-		return clrngSetErrorString(err, "%s(): cannot enqueue kernel", __func__);
-
-	clReleaseKernel(kernel);
-	clReleaseProgram(program);
-
-	return(clrngStatus)EXIT_SUCCESS;
-}
-
-#if 0
-clrngMrg31k3pStream* mrg31k3pGetStreamByIndex(clrngMrg31k3pStream* stream, cl_uint index)
-{
-
-	return &stream[index];
-
-}
-#endif
 
 
 

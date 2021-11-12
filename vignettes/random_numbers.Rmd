@@ -21,6 +21,9 @@ theType = 'float'
 # runif
 
 ```{r unif, eval=FALSE}
+as.vector(clrng::runif(10, Nglobal=c(4,4), type=theType))
+
+
 b<-clrng::runif(c(100,100), Nglobal=c(64,64), type=theType)
 bvector<-as.vector(as.matrix(b))
 hist(bvector, breaks=40)

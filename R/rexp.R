@@ -4,7 +4,7 @@
 #' @param rate Distribution parameter, mean equals to 1/rate
 #' @param streams Streams object
 #' @param Nglobal NDRange of work items for use
-#' @param type "uniform" or "normal" of generated random numbers
+#' @param type "double" or "float" of generated random numbers
 #' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
 #' @useDynLib clrng
 #' @export

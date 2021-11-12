@@ -2,18 +2,18 @@
 % Please edit documentation in R/CreateStreamsGpu.R
 \name{createStreamsGpu}
 \alias{createStreamsGpu}
-\title{Create streams on GPU}
+\title{createStreamsGpu}
 \usage{
 createStreamsGpu(n, initial = sample.int(2147483647, 6, replace = TRUE))
 }
 \arguments{
-\item{n}{number of streams to create.}
+\item{n}{number of streams to create}
 
-\item{seed}{the initial seed of streams.}
+\item{initial}{Initial state of the first stream, length 6, recycled if shorter}
 }
 \value{
-A stream object on GPU.
+A stream object of class 'vclMatrix' on GPU
 }
 \description{
-Create streams in R.
+Generate streams on GPU device
 }

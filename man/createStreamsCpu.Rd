@@ -7,13 +7,16 @@
 createStreamsCpu(n, initial = sample.int(2147483647, 6, replace = TRUE))
 }
 \arguments{
-\item{n}{number of streams to create}
+\item{n}{Number of streams to create}
 
-\item{initial}{initial state of first stream, length 6, recycled if shorter}
+\item{initial}{Initial state of the first stream, length 6, recycled if shorter}
 }
 \value{
-A stream object on CPU.
+A stream object on CPU
 }
 \description{
-create streams stored on the CPU.
+Create streams stored on the CPU
+}
+\author{
+Ruoyong Xu
 }

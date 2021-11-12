@@ -2,7 +2,7 @@
 % Please edit documentation in R/qqnorm.R
 \name{qqnorm}
 \alias{qqnorm}
-\title{qqnorm on GPU}
+\title{qqnorm}
 \usage{
 qqnorm(
   y,
@@ -20,15 +20,15 @@ qqnorm(
 )
 }
 \arguments{
-\item{y}{the data sample}
+\item{y}{Data sample}
 
-\item{ylim}{limits on the plot region}
+\item{ylim}{Limits on the plot region}
 
-\item{mu}{mean of Normal distribution}
+\item{mu}{Mean of Normal distribution, default is 0}
 
-\item{sigma}{variance of Normal distribution}
+\item{sigma}{Variance of Normal distribution, default is 1}
 
-\item{lowertail}{logical, whether use lower tail probability, default is TRUE}
+\item{lowertail}{Logical, whether use lower tail probability, default is TRUE}
 
 \item{main}{plot label}
 
@@ -36,15 +36,13 @@ qqnorm(
 
 \item{ylab}{plot label}
 
-\item{Nglobal}{the size of the index space for use, default is 64 by 4}
+\item{Nglobal}{Size of the index space for use, default is 64 by 4}
 
-\item{Nlocal}{the work group size of the index space}
+\item{Nlocal}{Work group size of the index space}
 }
 \value{
 the Normal Q-Q plot
-
-the result matrices of LDB in batch
 }
 \description{
-qqnorm on GPU
+Calculate quantiles on GPU and produce a Q-Q plot in R
 }

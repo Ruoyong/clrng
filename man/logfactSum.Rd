@@ -2,18 +2,18 @@
 % Please edit documentation in R/logfactSum.R
 \name{logfactSum}
 \alias{logfactSum}
-\title{logfactsumBackend on GPU}
+\title{logfactSum}
 \usage{
 logfactSum(x, Nglobal)
 }
 \arguments{
-\item{x}{an R matrix}
+\item{x}{A matrix}
 
-\item{Nglobal}{the size of the index space for use}
+\item{Nglobal}{Size of the index space for use}
 }
 \value{
-the sum of log-factorials of the matrix
+Sum of log-factorials of elements of the matrix
 }
 \description{
-logfactsumBackend on GPU
+Computes the log-factorial of a table
 }
