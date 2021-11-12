@@ -1,6 +1,6 @@
 //#pragma OPENCL EXTENSION cl_khr_fp64 : enable
 
-#include <clRNG/clRNG.h>
+//#include <clRNG/clRNG.h>
 #include <Rcpp.h>
 #include <string>
 #include <clRNG/mrg31k3p.h>
