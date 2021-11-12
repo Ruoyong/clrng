@@ -111,7 +111,7 @@ std::string mrg31k3pMatrixString(
       "      }\n"
       "      barrier(CLK_LOCAL_MEM_FENCE);\n";
     result += 
-      "      sinOrCosPart1 = cos(part[1] + addForSine);// is sine for local1, cos for local0\n";
+      "      sinOrCosPart1 = cos(part[1] + addForSine);// is cos for local0, sine for local1\n";
     result += 
       "      temp = part[0]*sinOrCosPart1;\n";
   } // normal
