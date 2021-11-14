@@ -1,32 +1,3 @@
-# History files
-.Rhistory
-.Rapp.history
-
-# Session Data files
-.RData
-
-# User-specific files
-.Ruserdata
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
 # knitr and R markdown default cache directories
 *_cache/
 /cache/
@@ -38,8 +9,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
 
 # translation temp files
 po/*~
@@ -49,16 +18,10 @@ po/*~
 .RData
 src/*.o
 src/*.a
-inst/include/loader/x64
-inst/include/loader/i386
-inst/include/loader/*.o
-inst/include/loader/*.a
 *.so
 *.dll
 src/Makevars
-.httr-oauth
 doc
 Meta
-autom4te.cache
 config.log
 config.status
