@@ -27,11 +27,12 @@ streams <-  gpuR::vclMatrix(clrng::createStreamsCpu(n=64*8))
 Job<-vclMatrix(Job, type="integer")
 result3<-clrng::fisher.sim(Job, 1e5, returnStatistics=T, type="double", streams=streams, Nglobal = c(64,8))
 
-
+result3$threshold
 result3$counts
 result3$simNum
 result3$p.value
 result3$streams
+result3$sim
 as.vector(result3$sim)[10:20]
 length(result3$sim)
 ```

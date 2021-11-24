@@ -118,7 +118,7 @@ fisher.sim=function(
   #print(theTime)
   #time 
   
-  PVAL <- (1 + counts ) / (TotalSim + 1)
+  PVAL <- (1 + as.integer(counts[2]) ) / (TotalSim + 1)
   #counts<-10
   #PVAL<-0.1
   # format(PVAL, digits=5)
@@ -128,11 +128,11 @@ fisher.sim=function(
   
   if (returnStatistics){
     
-    theResult = list(p.value = PVAL, simNum=TotalSim, counts=counts, sim = results, streams=streams)
+    theResult = list(p.value = PVAL, simNum=TotalSim, threshold=counts[1], counts=counts[2], sim = results, streams=streams)
     
   }else {
     
-    theResult = list(p.value = PVAL, simNum=TotalSim, counts=counts, streams=streams)
+    theResult = list(p.value = PVAL, simNum=TotalSim, threshold=counts[1], counts=counts[2], streams=streams)
   }
   
   theResult

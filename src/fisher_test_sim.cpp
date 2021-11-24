@@ -170,7 +170,7 @@ std::string FisherSimkernelString(const int NR, const int NC, const int NpadStre
   "   __global int *ncolt, \n"
   "   const int n, \n" 
   "   const int vsize,\n"   //number of simulations
-  " __global  int *count, \n" // number of work items
+  " __global  " + typeString + " *count, \n" // number of work items
   + typeString + " threshold,\n"
   " __global  double  *fact,\n"
   " __global  " + typeString + "  *results,\n" // fisher log p
@@ -360,7 +360,7 @@ std::string FisherSimkernelString(const int NR, const int NC, const int NpadStre
 
 
 template<typename T> 
-int gpuFisher_test(
+Rcpp::NumericVector gpuFisher_test(
     viennacl::matrix<int> &x, //  viennacl::vector_base<int> &sr,  //  viennacl::vector_base<int> &sc,
     viennacl::vector_base<T> &results,  
     int B, //number of simualtion each work item, // int remainder,
@@ -370,10 +370,11 @@ int gpuFisher_test(
     int ctx_id){
   
   
-  T threshold;
+  std::vector<T> twostatistics(2);
+  //T threshold;
   double statistics;
   const int nr = x.size1(), nc = x.size2(), resultSize = results.size();
-  int countss=0;
+  //int countss=0;
   // int userrequired=(B-1)*numWorkItems[0]*numWorkItems[1]+remainder;
   // row and column sums
   viennacl::vector_base<int> sr(nr);
@@ -384,7 +385,7 @@ int gpuFisher_test(
 #endif  
   
   
-  viennacl::vector<int> count(numWorkItems[0]*numWorkItems[1]); 
+  viennacl::vector<T> count(numWorkItems[0]*numWorkItems[1]); 
 
   ///////
   std::string sumlfKernelString = sum_of_LfactorialString<double>(
@@ -444,7 +445,7 @@ int gpuFisher_test(
   viennacl::ocl::enqueue(sumLfactorialKernel(x, logFactorials), theQueue);
 
   statistics = viennacl::linalg::sum(logFactorials);
-  threshold = (T) (-statistics)/(1+64 * DOUBLE_EPS);
+  twostatistics[0] = (T) (-statistics)/(1+64 * DOUBLE_EPS);   // threshold
   row_sum_impl(x, sr);
   column_sum_impl(x, sc);
   int n = viennacl::linalg::sum(sr); //sum of row/column totals
@@ -466,7 +467,7 @@ int gpuFisher_test(
    }
    */
   viennacl::ocl::enqueue(lfactorialKernel(factTrue, (n+1)),theQueue);
-  viennacl::ocl::enqueue(fisher_sim(sr, sc, n, B, count, threshold, factTrue, results, streams),theQueue); 
+  viennacl::ocl::enqueue(fisher_sim(sr, sc, n, B, count, twostatistics[0], factTrue, results, streams),theQueue); 
   
   clFinish(theQueue.handle().get());
   
@@ -475,13 +476,13 @@ int gpuFisher_test(
   }
    results[0] = statistics;*/
   
-  countss = viennacl::linalg::sum(count);
+  twostatistics[1] = viennacl::linalg::sum(count); //countss
   
 #ifdef DEBUGKERNEL
-  Rcpp::Rcout << "threshold " << threshold << " countss " << countss << " count0 " << count(0) << " size " << B <<  "\n";
+ // Rcpp::Rcout << "threshold " << threshold << " countss " << countss << " count0 " << count(0) << " size " << B <<  "\n";
 #endif  
   
-  return countss;
+  return (wrap(twostatistics));
 }
 
 
@@ -499,15 +500,16 @@ SEXP gpuFisher_test_Templated(
   
   const bool BisVCL=1;
   const int ctx_id = INTEGER(resultsR.slot(".context_index"))[0]-1;
-  int countss=0;
+  //int countss=0;
   
+  Rcpp::NumericVector twostatistics;
   std::shared_ptr<viennacl::matrix<int> > x =getVCLptr<int>(xR.slot("address"), BisVCL, ctx_id);
   std::shared_ptr<viennacl::vector_base<T> > results = getVCLVecptr<T>(resultsR.slot("address"), BisVCL, ctx_id);
   std::shared_ptr<viennacl::matrix<int> > streams = getVCLptr<int>(streamsR.slot("address"), BisVCL, ctx_id);
   
-  countss=gpuFisher_test<T>(*x, *results, B, *streams, max_global_size, max_local_size, ctx_id);
+  twostatistics=gpuFisher_test<T>(*x, *results, B, *streams, max_global_size, max_local_size, ctx_id);
   
-  return (Rcpp::wrap(countss));
+  return twostatistics;
 }
 
 
