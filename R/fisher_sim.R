@@ -126,8 +126,6 @@ fisher.sim=function(
   #  PVAL = counts
   #}
   
-  
-  
   if (returnStatistics){
     
     theResult = list(p.value = PVAL, simNum=TotalSim, counts=counts, sim = results, streams=streams)
