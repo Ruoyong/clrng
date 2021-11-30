@@ -3,7 +3,7 @@
 #' @param n A number or a vector specifying the size of output vector or matrix
 #' @param streams Streams object
 #' @param Nglobal NDRange of work items for use
-#' @param type Precision type of random numbers, "double" or "float" or "integer"
+#' @param type Precision type of random numbers, "double" or "float" or "integer", default is double
 #' @param verbose print extra information
 #' @return A vclVector or vclMatrix of uniform random numbers
 #' 
@@ -16,7 +16,7 @@ runif = function(
   n, 
   streams, 
   Nglobal,
-  type=c("double","float","integer"),
+  type=c("float", "double", "integer")[1+gpuInfo()$double_support],
   verbose=FALSE) {
   
   
