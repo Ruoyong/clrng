@@ -71,21 +71,20 @@ std::string mrg31k3pMatrixString(
   
   result += "uint g1[3], g2[3];\n"
   "const int startvalue=index * NpadStreams;\n";
-  if (typeString == "int"){
-    result += "int temp, fact=1;\n";
+
+  result += typeString + " temp;\n";
+
+  if(random_type == "normal"){
+    result += "const " + typeString + " fact[2] = { mrg31k3p_NORM_cl, TWOPI * mrg31k3p_NORM_cl };\n";
+    result += "const " + typeString + " addForSine[2] = { 0.0, - PI_2 };\n";
+    result += 
+      "local " + typeString + " part[2];\n";// local size must be X,2
+  } else if (typeString == "int"){
+    result += "const int fact = 1;\n";
   } else {
-    result += typeString + " temp, fact = mrg31k3p_NORM_cl;\n";
+    result += "const " + typeString + " fact = mrg31k3p_NORM_cl;\n";
   }
 
-  if(random_type == "normal"){  
-    result += 
-      "local " + typeString + " part[2];\n";// local size must be 1,2
-    result += typeString + " sinOrCosPart1, addForSine = - get_local_id(1) * PI_2;\n";
-    result += "if(get_local_id(1)){\n"
-              "  fact = TWOPI_mrg31k3p_NORM_cl;\n"          
-              "}\n";
-  }
-  
   result += "streamsToPrivate(streams,g1,g2,startvalue);\n";
   
   result += 
@@ -99,26 +98,19 @@ std::string mrg31k3pMatrixString(
   result += 
     "    for(DcolBlock = 0, Dcol=get_global_id(1), Dentry = DrowStart + Dcol;\n" 
     "        DcolBlock < Ncol;\n"
-    "        DcolBlock += get_global_size(1), Dentry += get_global_size(1) ) {\n"
-    "      temp = fact * clrngMrg31k3pNextState(g1, g2);\n";
+    "        DcolBlock += get_global_size(1), Dentry += get_global_size(1) ) {\n";
 
   if(random_type == "normal"){  
+    result += "      part[get_local_id(1)] = fact[get_local_id(1)] * clrngMrg31k3pNextState(g1, g2);\n";
     result += 
-      "      part[get_local_id(1)] = temp;\n";
-    result += 
-      "      if(!get_local_id(1)) {\n"
-      "        part[0] = sqrt(-2.0*log(part[0]));\n"
-      "      }\n"
-      "      barrier(CLK_LOCAL_MEM_FENCE);\n";
-    result += 
-      "      sinOrCosPart1 = cos(part[1] + addForSine);// is cos for local0, sine for local1\n";
-    result += 
-      "      temp = part[0]*sinOrCosPart1;\n";
-  } // normal
-  if(random_type == "exponential"){
-    result +=    // "if (mrg31k3p_NORM_cl * temp < 1)\n"
-      "      temp = - log(temp);\n";
+      "      barrier(CLK_LOCAL_MEM_FENCE);\n"
+      "      temp = sqrt( -2.0*log(part[0]) ) * cos(part[1] + addForSine[get_local_id(1)] );// is cos for local0, sine for local1\n";
+  } else if(random_type == "exponential"){
+    result += "      temp = - log(fact * clrngMrg31k3pNextState(g1, g2));\n";
+  } else {
+    result += "      temp = fact * clrngMrg31k3pNextState(g1, g2);\n";
   }
+  
   
   result += 
     "        if(DrowInBounds) out[Dentry] = temp;\n";

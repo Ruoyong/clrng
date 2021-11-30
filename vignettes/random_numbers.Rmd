@@ -36,7 +36,9 @@ quantile(bvector)
 # rnorm
 ```{r rnorm}
 
-as.vector(clrng::rnorm(10, Nglobal=c(2,4),type=theType, verbose=2))
+as.vector(clrng::rnorm(10, Nglobal=c(1,4),type=theType, verbose=2))
+
+(xx = as.matrix(clrng::rnorm(c(12, 4), Nglobal = c(2,4),  type=theType)))
 
 
 
