@@ -8,7 +8,7 @@ runif(
   n,
   streams,
   Nglobal,
-  type = c("double", "float", "integer"),
+  type = c("float", "double", "integer")[1 + gpuInfo()$double_support],
   verbose = FALSE
 )
 }
@@ -19,7 +19,7 @@ runif(
 
 \item{Nglobal}{NDRange of work items for use}
 
-\item{type}{Precision type of random numbers, "double" or "float" or "integer"}
+\item{type}{Precision type of random numbers, "double" or "float" or "integer", default is double}
 
 \item{verbose}{print extra information}
 }

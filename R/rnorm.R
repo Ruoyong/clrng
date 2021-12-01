@@ -17,7 +17,7 @@ rnorm = function(
   n, 
   streams, 
   Nglobal,
-  type=c("double","float"),
+  type=c("float", "double")[1+gpuInfo()$double_support],
   verbose = FALSE) {
   
   if(any(grepl("vclMatrix", class(n)))) {
