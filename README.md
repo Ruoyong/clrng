@@ -4,9 +4,8 @@ It is dependent on the gpuR package and utilize the MRG31k3p RNG from the clRNG,
 
 
 ## Installation
-Install the current development version with
-
-library("devtools");
+Install the current development version with\
+library("devtools");\
 devtools::install_github("Ruoyong/clrng")
 
 
