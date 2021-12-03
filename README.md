@@ -1,13 +1,14 @@
 ## clrng
-We create this R package as a tool set for random number generation on GPUs in R.
+This clrng R package is built as a tool set for random number generation on GPUs in R. 
+It is dependent on the gpuR package and utilize the MRG31k3p RNG from the clRNG, an OpenCL library by Pierre L’Ecuyer.
 
 
 ## Installation
 Install the current development version with
 
-library("devtools")
+library("devtools");
 devtools::install_github("Ruoyong/clrng")
 
-Citation
+## Citation
 Ruoyong Xu, Patrick Brown, Pierre L’Ecuyer (2021). 
 A tool set for random number generation on GPUs in R.
