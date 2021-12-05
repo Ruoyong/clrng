@@ -30,11 +30,11 @@ rexp = function(
   if(length(n)==1){
     n<-c(n,1)
   }
-
+  
   if(Nglobal[2]<2){
     stop("Nglobal[2] should be larger than 1")
   }
-
+  
   if(rate <= 0 || !is.finite(rate)){
     stop("invalid rate value")
   }
@@ -43,7 +43,7 @@ rexp = function(
     stop("number of work items needs to be an even number for second dimension\n")
   }
   
- 
+  
   if(missing(streams)) {
     if(missing(Nglobal)) {
       Nglobal = c(64,8)

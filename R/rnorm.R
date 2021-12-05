@@ -58,11 +58,11 @@ rnorm = function(
     warning("number of work items needs to be same as number of streams")
   }
   
-
+  
   
   gpuRnBackend(xVcl, streams, Nglobal,"normal", verbose) 
   
-#  invisible(streams)
+  #  invisible(streams)
   
   if( nrow(xVcl)==1 & is.numeric(n)) xVcl = xVcl[1,]
   
