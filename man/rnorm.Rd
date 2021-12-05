@@ -4,7 +4,13 @@
 \alias{rnorm}
 \title{rnorm}
 \usage{
-rnorm(n, streams, Nglobal, type = c("double", "float"), verbose = FALSE)
+rnorm(
+  n,
+  streams,
+  Nglobal,
+  type = c("float", "double")[1 + gpuInfo()$double_support],
+  verbose = FALSE
+)
 }
 \arguments{
 \item{n}{A number or a vector specifying the size of output vector or matrix}

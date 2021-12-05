@@ -13,6 +13,7 @@ Suggests: knitr,
 LinkingTo:
 	RViennaCL (>= 1.7.1.4),
 	gpuR,
-	Rcpp
+	Rcpp,
+	usethis
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
