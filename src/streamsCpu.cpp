@@ -288,12 +288,12 @@ struct clrngMrg31k3pStreamCreator_ {
   cl_uint nuA1[3][3];
   cl_uint nuA2[3][3];
 };        
-static clrngMrg31k3pStreamCreator defaultStreamCreator = {
-  BASE_CREATOR_STATE,
-  BASE_CREATOR_STATE,
-  BASE_CREATOR_JUMP_MATRIX_1,
-  BASE_CREATOR_JUMP_MATRIX_2
-};
+// static clrngMrg31k3pStreamCreator defaultStreamCreator = {
+//   BASE_CREATOR_STATE,
+//   BASE_CREATOR_STATE,
+//   BASE_CREATOR_JUMP_MATRIX_1,
+//   BASE_CREATOR_JUMP_MATRIX_2
+// };
 
 
 // //[[Rcpp::export]]

@@ -90,63 +90,63 @@ static void modMatMat (MODULAR_NUMBER_TYPE A[N][N], MODULAR_NUMBER_TYPE B[N][N],
 
 //! @brief Compute matrix B = (A^(2^e) % m)
 //  @details Also works if A = B.
-#ifdef MODULAR_FIXED_SIZE
-static void modMatPowLog2 (MODULAR_NUMBER_TYPE A[N][N], MODULAR_NUMBER_TYPE B[N][N], MODULAR_NUMBER_TYPE m, cl_uint e)
-#else
-    void modMatPowLog2 (size_t N, MODULAR_NUMBER_TYPE* A, MODULAR_NUMBER_TYPE* B, MODULAR_NUMBER_TYPE m, cl_uint e)
-#endif
-{
-    // initialize: B = A
-    if (A != B) {
-        for (size_t i = 0; i < N; i++) {
-            for (size_t j = 0; j < N; ++j)
-                MATRIX_ELEM(B,i,j) = MATRIX_ELEM(A,i,j);
-        }
-    }
-    // Compute B = A^{2^e}mod m
-    for (cl_uint i = 0; i < e; i++)
-#ifdef MODULAR_FIXED_SIZE
-        modMatMat (B, B, B, m);
-#else
-    modMatMat (N, B, B, B, m);
-#endif
-}
+// #ifdef MODULAR_FIXED_SIZE
+// static void modMatPowLog2 (MODULAR_NUMBER_TYPE A[N][N], MODULAR_NUMBER_TYPE B[N][N], MODULAR_NUMBER_TYPE m, cl_uint e)
+// #else
+//     void modMatPowLog2 (size_t N, MODULAR_NUMBER_TYPE* A, MODULAR_NUMBER_TYPE* B, MODULAR_NUMBER_TYPE m, cl_uint e)
+// #endif
+// {
+//     // initialize: B = A
+//     if (A != B) {
+//         for (size_t i = 0; i < N; i++) {
+//             for (size_t j = 0; j < N; ++j)
+//                 MATRIX_ELEM(B,i,j) = MATRIX_ELEM(A,i,j);
+//         }
+//     }
+//     // Compute B = A^{2^e}mod m
+//     for (cl_uint i = 0; i < e; i++)
+// #ifdef MODULAR_FIXED_SIZE
+//         modMatMat (B, B, B, m);
+// #else
+//     modMatMat (N, B, B, B, m);
+// #endif
+// }
 
 
 //! @brief Compute matrix B = A^n % m
 //  @details Also works if A = B.
-#ifdef MODULAR_FIXED_SIZE
-static void modMatPow (MODULAR_NUMBER_TYPE A[N][N], MODULAR_NUMBER_TYPE B[N][N], MODULAR_NUMBER_TYPE m, cl_uint n)
-#else
-    void modMatPow (size_t N, MODULAR_NUMBER_TYPE* A, MODULAR_NUMBER_TYPE* B, MODULAR_NUMBER_TYPE m, cl_uint n)
-#endif
-{
-    MODULAR_NUMBER_TYPE W[N][N];
-    
-    // initialize: W = A; B = I
-    for (size_t i = 0; i < N; i++) {
-        for (size_t j = 0; j < N; ++j) {
-            W[i][j] = MATRIX_ELEM(A,i,j);
-            MATRIX_ELEM(B,i,j) = 0;
-        }
-    }
-    
-    for (size_t j = 0; j < N; ++j)
-        MATRIX_ELEM(B,j,j) = 1;
-    
-    // Compute B = A^n % m using the binary decomposition of n
-    while (n > 0) {
-        if (n & 1) // if n is odd
-#ifdef MODULAR_FIXED_SIZE
-            modMatMat (W, B, B, m);
-        modMatMat (W, W, W, m);
-#else
-        modMatMat (N, &W[0][0], B, B, m);
-        modMatMat (N, &W[0][0], &W[0][0], &W[0][0], m);
-#endif
-        n >>= 1;
-    }
-}
+// #ifdef MODULAR_FIXED_SIZE
+// static void modMatPow (MODULAR_NUMBER_TYPE A[N][N], MODULAR_NUMBER_TYPE B[N][N], MODULAR_NUMBER_TYPE m, cl_uint n)
+// #else
+//     void modMatPow (size_t N, MODULAR_NUMBER_TYPE* A, MODULAR_NUMBER_TYPE* B, MODULAR_NUMBER_TYPE m, cl_uint n)
+// #endif
+// {
+//     MODULAR_NUMBER_TYPE W[N][N];
+//     
+//     // initialize: W = A; B = I
+//     for (size_t i = 0; i < N; i++) {
+//         for (size_t j = 0; j < N; ++j) {
+//             W[i][j] = MATRIX_ELEM(A,i,j);
+//             MATRIX_ELEM(B,i,j) = 0;
+//         }
+//     }
+//     
+//     for (size_t j = 0; j < N; ++j)
+//         MATRIX_ELEM(B,j,j) = 1;
+//     
+//     // Compute B = A^n % m using the binary decomposition of n
+//     while (n > 0) {
+//         if (n & 1) // if n is odd
+// #ifdef MODULAR_FIXED_SIZE
+//             modMatMat (W, B, B, m);
+//         modMatMat (W, W, W, m);
+// #else
+//         modMatMat (N, &W[0][0], B, B, m);
+//         modMatMat (N, &W[0][0], &W[0][0], &W[0][0], m);
+// #endif
+//         n >>= 1;
+//     }
+// }
 
 #undef MATRIX_ELEM
 #undef N

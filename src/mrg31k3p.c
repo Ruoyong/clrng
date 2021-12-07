@@ -61,37 +61,37 @@ struct clrngMrg31k3pStreamCreator_ {
 
 
 
-/*! @brief Matrices to advance to the next state
- */
-static cl_uint mrg31k3p_A1p0[3][3] = {
-    {0, 4194304, 129},
-    {1, 0, 0},
-    {0, 1, 0}
-};
+// /*! @brief Matrices to advance to the next state
+//  */
+// static cl_uint mrg31k3p_A1p0[3][3] = {
+//     {0, 4194304, 129},
+//     {1, 0, 0},
+//     {0, 1, 0}
+// };
+// 
+// static cl_uint mrg31k3p_A2p0[3][3] = {
+//     {32768, 0, 32769},
+//     {1, 0, 0},
+//     {0, 1, 0}
+// };
 
-static cl_uint mrg31k3p_A2p0[3][3] = {
-    {32768, 0, 32769},
-    {1, 0, 0},
-    {0, 1, 0}
-};
 
-
-/*! @brief Inverse of mrg31k3p_A1p0 mod mrg31k3p_M1
- *
- *  Matrices to go back to the previous state.
- */
-static cl_uint invA1[3][3] = {
-	{ 0, 1, 0 },
-	{ 0, 0, 1 },
-	{ 1531538725, 0, 915561289 }
-};
-
-// inverse of mrg31k3p_A2p0 mod mrg31k3p_M2
-static cl_uint invA2[3][3] = {
-	{ 0, 1, 0 },
-	{ 0, 0, 1 },
-	{ 252696625, 252696624, 0 }
-};
+// /*! @brief Inverse of mrg31k3p_A1p0 mod mrg31k3p_M1
+//  *
+//  *  Matrices to go back to the previous state.
+//  */
+// static cl_uint invA1[3][3] = {
+// 	{ 0, 1, 0 },
+// 	{ 0, 0, 1 },
+// 	{ 1531538725, 0, 915561289 }
+// };
+// 
+// // inverse of mrg31k3p_A2p0 mod mrg31k3p_M2
+// static cl_uint invA2[3][3] = {
+// 	{ 0, 1, 0 },
+// 	{ 0, 0, 1 },
+// 	{ 252696625, 252696624, 0 }
+// };
 
 
 /*! @brief Default initial seed of the first stream

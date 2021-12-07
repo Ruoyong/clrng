@@ -101,53 +101,53 @@ clrngStatus clrngMrg31k3pCopyOverStreams(size_t count, clrngMrg31k3pStream* dest
     return CLRNG_SUCCESS;
 }
 
-/*! @brief Advance the rng one step and returns z such that 1 <= z <= mrg31k3p_M1
- */
-static cl_uint clrngMrg31k3pNextState(clrngMrg31k3pStreamState* currentState)
-{
-	
-	cl_uint* g1 = currentState->g1;
-	cl_uint* g2 = currentState->g2;
-	cl_uint y1, y2;
-
-	// first component
-	y1 = ((g1[1] & mrg31k3p_MASK12) << 22) + (g1[1] >> 9)
-		+ ((g1[2] & mrg31k3p_MASK13) << 7) + (g1[2] >> 24);
-
-	if (y1 >= mrg31k3p_M1)
-		y1 -= mrg31k3p_M1;
-
-	y1 += g1[2];
-	if (y1 >= mrg31k3p_M1)
-		y1 -= mrg31k3p_M1;
-
-	g1[2] = g1[1];
-	g1[1] = g1[0];
-	g1[0] = y1;
-
-	// second component
-	y1 = ((g2[0] & mrg31k3p_MASK2) << 15) + (mrg31k3p_MULT2 * (g2[0] >> 16));
-	if (y1 >= mrg31k3p_M2)
-		y1 -= mrg31k3p_M2;
-	y2 = ((g2[2] & mrg31k3p_MASK2) << 15) + (mrg31k3p_MULT2 * (g2[2] >> 16));
-	if (y2 >= mrg31k3p_M2)
-		y2 -= mrg31k3p_M2;
-	y2 += g2[2];
-	if (y2 >= mrg31k3p_M2)
-		y2 -= mrg31k3p_M2;
-	y2 += y1;
-	if (y2 >= mrg31k3p_M2)
-		y2 -= mrg31k3p_M2;
-
-	g2[2] = g2[1];
-	g2[1] = g2[0];
-	g2[0] = y2;
-
-	if (g1[0] <= g2[0])
-		return (g1[0] - g2[0] + mrg31k3p_M1);
-	else
-		return (g1[0] - g2[0]);
-}
+// /*! @brief Advance the rng one step and returns z such that 1 <= z <= mrg31k3p_M1
+//  */
+// static cl_uint clrngMrg31k3pNextState(clrngMrg31k3pStreamState* currentState)
+// {
+// 	
+// 	cl_uint* g1 = currentState->g1;
+// 	cl_uint* g2 = currentState->g2;
+// 	cl_uint y1, y2;
+// 
+// 	// first component
+// 	y1 = ((g1[1] & mrg31k3p_MASK12) << 22) + (g1[1] >> 9)
+// 		+ ((g1[2] & mrg31k3p_MASK13) << 7) + (g1[2] >> 24);
+// 
+// 	if (y1 >= mrg31k3p_M1)
+// 		y1 -= mrg31k3p_M1;
+// 
+// 	y1 += g1[2];
+// 	if (y1 >= mrg31k3p_M1)
+// 		y1 -= mrg31k3p_M1;
+// 
+// 	g1[2] = g1[1];
+// 	g1[1] = g1[0];
+// 	g1[0] = y1;
+// 
+// 	// second component
+// 	y1 = ((g2[0] & mrg31k3p_MASK2) << 15) + (mrg31k3p_MULT2 * (g2[0] >> 16));
+// 	if (y1 >= mrg31k3p_M2)
+// 		y1 -= mrg31k3p_M2;
+// 	y2 = ((g2[2] & mrg31k3p_MASK2) << 15) + (mrg31k3p_MULT2 * (g2[2] >> 16));
+// 	if (y2 >= mrg31k3p_M2)
+// 		y2 -= mrg31k3p_M2;
+// 	y2 += g2[2];
+// 	if (y2 >= mrg31k3p_M2)
+// 		y2 -= mrg31k3p_M2;
+// 	y2 += y1;
+// 	if (y2 >= mrg31k3p_M2)
+// 		y2 -= mrg31k3p_M2;
+// 
+// 	g2[2] = g2[1];
+// 	g2[1] = g2[0];
+// 	g2[0] = y2;
+// 
+// 	if (g1[0] <= g2[0])
+// 		return (g1[0] - g2[0] + mrg31k3p_M1);
+// 	else
+// 		return (g1[0] - g2[0]);
+// }
 
 // The following would be much cleaner with C++ templates instead of macros.
 
