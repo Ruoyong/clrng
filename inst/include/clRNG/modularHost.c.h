@@ -62,30 +62,30 @@
 //! @brief Compute A*B % m
 //  @details Also works if A = C or B = C or A = B = C.
 //  @return C = A*B % m
-#ifdef MODULAR_FIXED_SIZE
-static void modMatMat (MODULAR_NUMBER_TYPE A[N][N], MODULAR_NUMBER_TYPE B[N][N], MODULAR_NUMBER_TYPE C[N][N], MODULAR_NUMBER_TYPE m)
-#else
-    void modMatMat (size_t N, MODULAR_NUMBER_TYPE* A, MODULAR_NUMBER_TYPE* B, MODULAR_NUMBER_TYPE* C, MODULAR_NUMBER_TYPE m)
-#endif
-{
-    MODULAR_NUMBER_TYPE V[N];
-    MODULAR_NUMBER_TYPE W[N][N];
-    for (size_t i = 0; i < N; ++i) {
-        for (size_t j = 0; j < N; ++j)
-            V[j] = MATRIX_ELEM(B,j,i);
-#ifdef MODULAR_FIXED_SIZE
-        modMatVec (A, V, V, m);
-#else
-        modMatVec (N, A, V, V, m);
-#endif
-        for (size_t j = 0; j < N; ++j)
-            W[j][i] = V[j];
-    }
-    for (size_t i = 0; i < N; ++i) {
-        for (size_t j = 0; j < N; ++j)
-            MATRIX_ELEM(C,i,j) = W[i][j];
-    }
-}
+// #ifdef MODULAR_FIXED_SIZE
+// static void modMatMat (MODULAR_NUMBER_TYPE A[N][N], MODULAR_NUMBER_TYPE B[N][N], MODULAR_NUMBER_TYPE C[N][N], MODULAR_NUMBER_TYPE m)
+// #else
+//     void modMatMat (size_t N, MODULAR_NUMBER_TYPE* A, MODULAR_NUMBER_TYPE* B, MODULAR_NUMBER_TYPE* C, MODULAR_NUMBER_TYPE m)
+// #endif
+// {
+//     MODULAR_NUMBER_TYPE V[N];
+//     MODULAR_NUMBER_TYPE W[N][N];
+//     for (size_t i = 0; i < N; ++i) {
+//         for (size_t j = 0; j < N; ++j)
+//             V[j] = MATRIX_ELEM(B,j,i);
+// #ifdef MODULAR_FIXED_SIZE
+//         modMatVec (A, V, V, m);
+// #else
+//         modMatVec (N, A, V, V, m);
+// #endif
+//         for (size_t j = 0; j < N; ++j)
+//             W[j][i] = V[j];
+//     }
+//     for (size_t i = 0; i < N; ++i) {
+//         for (size_t j = 0; j < N; ++j)
+//             MATRIX_ELEM(C,i,j) = W[i][j];
+//     }
+// }
 
 
 //! @brief Compute matrix B = (A^(2^e) % m)
