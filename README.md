@@ -9,7 +9,7 @@ installation instructions relevant to your operating system.
 
 Install the current development version with\
 library("devtools");\
-devtools::install_github("Ruoyong/clrng")
+devtools::install_github("ruoyongxu/clrng")
 
 
 ## Contributions
