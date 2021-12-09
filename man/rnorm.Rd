@@ -21,7 +21,7 @@ rnorm(
 
 \item{type}{Precision type of random numbers, "double" or "float"}
 
-\item{verbose}{print extra information}
+\item{verbose}{if TRUE, print extra information}
 }
 \value{
 A 'vclVector' or 'vclMatrix' of standard normal random numbers

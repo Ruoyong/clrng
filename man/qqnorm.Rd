@@ -39,6 +39,10 @@ qqnorm(
 \item{Nglobal}{Size of the index space for use, default is 64 by 4}
 
 \item{Nlocal}{Work group size of the index space}
+
+\item{verbose}{if TRUE, print extra information}
+
+\item{...}{other plot configurations}
 }
 \value{
 the Normal Q-Q plot

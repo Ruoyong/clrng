@@ -23,6 +23,8 @@ rexp(
 \item{Nglobal}{NDRange of work items for use}
 
 \item{type}{"double" or "float" of generated random numbers}
+
+\item{verbose}{if TRUE, print extra information}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of exponential random numbers

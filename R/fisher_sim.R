@@ -6,6 +6,7 @@
 #' @param streams Streams objects
 #' @param type "double" or "float" of returned test statistics
 #' @param Nglobal Size of the index space for use
+#' @param returnStatistics logical, if TRUE, return test statistics
 #' @param verbose if TRUE, print extra information
 #' @return A list of results, including p-value, actual number of replicates, test statistics and so on
 #' @useDynLib clrng

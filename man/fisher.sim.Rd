@@ -23,7 +23,11 @@ fisher.sim(
 
 \item{type}{"double" or "float" of returned test statistics}
 
+\item{returnStatistics}{logical, if TRUE, return test statistics}
+
 \item{Nglobal}{Size of the index space for use}
+
+\item{verbose}{if TRUE, print extra information}
 }
 \value{
 A list of results, including p-value, actual number of replicates, test statistics and so on
