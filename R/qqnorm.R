@@ -10,6 +10,7 @@
 #' @param ylab plot label
 #' @param Nglobal Size of the index space for use, default is 64 by 4
 #' @param Nlocal Work group size of the index space
+#' @param verbose if TRUE, print extra information
 #' @return the Normal Q-Q plot
 #' @useDynLib clrng
 #' @export

@@ -4,7 +4,7 @@
 #' @param streams Streams object
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float" or "integer", default is double
-#' @param verbose print extra information
+#' @param verbose if TRUE, print extra information
 #' @return A vclVector or vclMatrix of uniform random numbers
 #' 
 #' @useDynLib clrng

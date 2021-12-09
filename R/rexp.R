@@ -5,6 +5,7 @@
 #' @param streams Streams object
 #' @param Nglobal NDRange of work items for use
 #' @param type "double" or "float" of generated random numbers
+#' @param verbose if TRUE, print extra information
 #' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
 #' @useDynLib clrng
 #' @export
