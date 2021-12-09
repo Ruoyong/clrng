@@ -20,6 +20,8 @@ theType = 'double'
 
 # runif
 
+here we are simulating a ranndom uniform
+
 ```{r unif, eval=FALSE}
 as.vector(clrng::runif(10, Nglobal=c(4,4), type=theType,verbose=2))
 
