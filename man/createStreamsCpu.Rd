@@ -17,6 +17,14 @@ A stream object on CPU
 \description{
 Create streams stored on the CPU
 }
+\examples{
+library(clrng)
+library(gpuR)
+t(createStreamsCpu(n=4, initial=12345))
+###GPU streams
+myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4, initial=12345))
+
+}
 \author{
 Ruoyong Xu
 }

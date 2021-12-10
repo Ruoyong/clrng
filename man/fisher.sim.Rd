@@ -35,3 +35,12 @@ A list of results, including p-value, actual number of replicates, test statisti
 \description{
 Monte carlo's simulation for Fisher's exact test on GPU
 }
+\examples{
+Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
+Job <- gpuR::vclMatrix(Job, type="integer")
+streams <- createStreamsGpu(n=64*16, initial=c(1,2,306,6,9,5))
+result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
+result$p.value
+result$simNum
+
+}

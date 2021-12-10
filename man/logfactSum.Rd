@@ -7,7 +7,7 @@
 logfactSum(x, Nglobal)
 }
 \arguments{
-\item{x}{A matrix}
+\item{x}{A matrix of integers}
 
 \item{Nglobal}{Size of the index space for use}
 }
@@ -16,4 +16,12 @@ Sum of log-factorials of elements of the matrix
 }
 \description{
 Computes the log-factorial of a table
+}
+\examples{
+x<-matrix(c(1:36), 6,6)
+logfactSum(x, c(2,2))
+#if matrix is not of intergers, a warning will be displayed
+x2<-matrix(c(1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1,9.1), 3,3)
+!is.integer(x2)
+logfactSum(x2, c(16,16))
 }

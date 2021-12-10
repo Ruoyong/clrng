@@ -42,11 +42,19 @@ qqnorm(
 
 \item{verbose}{if TRUE, print extra information}
 
-\item{...}{other plot configurations}
+\item{...}{other graphical parameters}
 }
 \value{
 the Normal Q-Q plot
 }
 \description{
 Calculate quantiles on GPU and produce a Q-Q plot in R
+}
+\examples{
+library(clrng)
+y <- stats::rt(256, df = 5)
+clrng::qqnorm(y, ylim=c(-2,5), mu=0, sigma=1, Nglobal=c(16,4))
+x<-stats::rnorm(256)
+clrng::qqnorm(x, mu=0, sigma=1, Nglobal=c(8,6))
+
 }

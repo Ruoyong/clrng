@@ -17,3 +17,9 @@ A stream object of class 'vclMatrix' on GPU
 \description{
 Generate streams on GPU device
 }
+\examples{
+myStreamsGpu = createStreamsGpu(n=4, initial=c(12345,12345))
+t(as.matrix(myStreamsGpu))
+myStreamsGpu2 = createStreamsGpu(n=4)
+t(as.matrix(myStreamsGpu2))
+}
