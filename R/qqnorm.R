@@ -18,7 +18,7 @@
 #' y <- stats::rt(256, df = 5)
 #' clrng::qqnorm(y, ylim=c(-2,5), mu=0, sigma=1, Nglobal=c(16,4))
 #' x<-stats::rnorm(256)
-#' clrng::qqnorm(x, mu=0, sigma=1, Nglobal=c(8,6))
+#' clrng::qqnorm(x, Nglobal=c(8,6))
 #' 
 #' @useDynLib clrng
 #' @export
