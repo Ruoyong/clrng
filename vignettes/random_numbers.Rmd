@@ -19,7 +19,7 @@ theType = c('float','double')[1+gpuInfo()$double_support]
 
 # runif
 Here we are generating some uniform random numbers.
-```{r unif, eval=FALSE}
+```{r unif, eval=TRUE}
 # Generating random uniforms stored in a vector
 as.vector(clrng::runif(10, Nglobal=c(4,4), type=theType,verbose=2))
 
