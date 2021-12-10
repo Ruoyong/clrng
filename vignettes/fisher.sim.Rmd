@@ -17,7 +17,7 @@ gpuInfo()$deviceName   #gpuInfo()$maxAllocatableMem/(1024^3)
 ```
 
 
-#Fisher simulation example
+## Example
 This table is small in dimension and size of values, doesn't really need a simulation. We do the simulation on GPU just for demonstration and test.
 See more tests on real data examples on section 4 of the paper "Ruoyong Xu, Patrick Brown, Pierre L’Ecuyer (2021). A tool set for random number generation on GPUs in R."
 ```{r  teaTasting, eval=T}
