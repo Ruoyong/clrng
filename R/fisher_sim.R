@@ -9,6 +9,14 @@
 #' @param returnStatistics logical, if TRUE, return test statistics
 #' @param verbose if TRUE, print extra information
 #' @return A list of results, including p-value, actual number of replicates, test statistics and so on
+#' @examples 
+#' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
+#' Job <- gpuR::vclMatrix(Job, type="integer")
+#' streams <- createStreamsGpu(n=64*16, initial=c(1,2,306,6,9,5))
+#' result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
+#' result$p.value
+#' result$simNum
+#' 
 #' @useDynLib clrng
 #' @export
 

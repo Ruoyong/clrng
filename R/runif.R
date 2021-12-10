@@ -6,7 +6,10 @@
 #' @param type Precision type of random numbers, "double" or "float" or "integer", default is double
 #' @param verbose if TRUE, print extra information
 #' @return A vclVector or vclMatrix of uniform random numbers
-#' 
+#' @examples  
+#' library(clrng)
+#' as.vector(runif(5, Nglobal=c(4,2)))
+#' as.matrix(runif(c(2,2), Nglobal=c(2,2), type="float"))
 #' @useDynLib clrng
 #' @export
 

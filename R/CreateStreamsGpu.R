@@ -3,6 +3,11 @@
 #' @param n number of streams to create
 #' @param initial Initial state of the first stream, length 6, recycled if shorter
 #' @return A stream object of class 'vclMatrix' on GPU
+#' @examples
+#' myStreamsGpu = createStreamsGpu(n=4, initial=c(12345,12345))
+#' t(as.matrix(myStreamsGpu))
+#' myStreamsGpu2 = createStreamsGpu(n=4)
+#' t(as.matrix(myStreamsGpu2))
 #' @useDynLib clrng
 #' @export
 

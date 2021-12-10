@@ -4,26 +4,19 @@
 -->
 
 
-```{r test uint3, eval=FALSE}
+```{r streams}
 library(clrng)
 library(gpuR)
+#Create streams on CPU as R matrix
+a1 = createStreamsCpu(n=4, initial=12345)
+#Important: streams are of type integer in R
+typeof(a1) 
+#Attenntion: when converting streams from CPU to GPU, should set type = "integer", or leave it as default NULL
+t(as.matrix(vclMatrix(a1)))
+t(as.matrix(2*vclMatrix(a1)))
+t(as.matrix(2*vclMatrix(a1, type="integer"))) 
+#Set as "double" or else changes the streams precision type and can cause problems
+t(as.matrix(2*vclMatrix(a1, type="double"))) 
+t(as.matrix(vclMatrix(2*a1)))
 
-###CPU streams
-t(createStreamsCpu(n=4, initial=12345))
-
-
-
-###GPU streams
-myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4, initial=12345))
-
-myStreamsGpu2 = createStreamsGpu(n=4, initial=c(12345,12345))
-t(as.matrix(myStreamsGpu2))
-
-myStreamsGpu3 = createStreamsGpu(n=4)
-t(as.matrix(myStreamsGpu3))
 ```
-
-
-
-
-

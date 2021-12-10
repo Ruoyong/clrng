@@ -11,8 +11,15 @@
 #' @param Nglobal Size of the index space for use, default is 64 by 4
 #' @param Nlocal Work group size of the index space
 #' @param verbose if TRUE, print extra information
-#' @param ... other plot configurations
+#' @param ... other graphical parameters
 #' @return the Normal Q-Q plot
+#' @examples 
+#' library(clrng)
+#' y <- stats::rt(256, df = 5)
+#' clrng::qqnorm(y, ylim=c(-2,5), mu=0, sigma=1, Nglobal=c(16,4))
+#' x<-stats::rnorm(256)
+#' clrng::qqnorm(x, mu=0, sigma=1, Nglobal=c(8,6))
+#' 
 #' @useDynLib clrng
 #' @export
 

@@ -89,7 +89,7 @@ std::string streamsString(int NpadStreams,
     // upate creatorNext from creatorCurrentState,
     "for (i=0; i<6; i++) {\n"
     " streams[Dstream * NpadStreams +  i] = \n"//initial
-    "streams[Dstream * NpadStreams + 6 + i] = \n"//current
+    " streams[Dstream * NpadStreams + 6 + i] = \n"//current
     //"streams[Dstream * NpadStreams + 12 + i] = "// substream
     " creatorNextState[i] = creatorCurrentState[i];\n"
     "}\n"

@@ -3,6 +3,13 @@
 #' @param n Number of streams to create
 #' @param initial Initial state of the first stream, length 6, recycled if shorter
 #' @return A stream object on CPU
+#' @examples 
+#' library(clrng)
+#' library(gpuR)
+#' t(createStreamsCpu(n=4, initial=12345))
+#' ###GPU streams
+#' myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4, initial=12345))
+#' 
 #' @useDynLib clrng
 #' @author Ruoyong Xu
 #' @export

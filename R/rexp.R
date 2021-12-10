@@ -7,6 +7,14 @@
 #' @param type "double" or "float" of generated random numbers
 #' @param verbose if TRUE, print extra information
 #' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
+#' 
+#' @examples
+#' library(clrng)
+#' as.vector(rexp(7, Nglobal=c(4,2)))
+#' as.matrix(rexp(c(2,3), rate=0.5, Nglobal=c(2,2), type="float"))
+#' streams <- createStreamsGpu(6, initial = rep(5,6))
+#' as.vector(rnorm(3, streams=streams, Nglobal=c(3,2)))
+#' 
 #' @useDynLib clrng
 #' @export
 
