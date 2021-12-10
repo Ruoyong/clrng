@@ -45,17 +45,6 @@ length(result$sim)
 
 
 
-streams <-  gpuR::vclMatrix(clrng::createStreamsCpu(n=64*16))
-typeof(streams)
-result2<-clrng::fisher.sim(TeaTasting, 100000L, streams=streams,returnStatistics=F, type="double", Nglobal=c(16,64))
-result2$p.value
-t(as.matrix(streams))[,5:8]
-
-result2$simNum
-result2$counts
-
-
-
 
 
 
