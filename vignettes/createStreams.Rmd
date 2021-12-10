@@ -5,8 +5,8 @@
 
 # Create streams
 ```{r set, results='hide'}
-library(clrng)
-library(gpuR)
+library('clrng')
+library('gpuR')
 ```
 
 ```{r streams, eval=TRUE}
