@@ -63,7 +63,7 @@ stats::qqnorm(avector)
 
 
 
-#rexp 
+# rexp 
 Last, we show generating random exponential numbers.
 ```{r exp}
 streams <- createStreamsGpu(n=64*16, initial=1:3)
