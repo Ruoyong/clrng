@@ -3,8 +3,8 @@
 %\VignetteIndexEntry{Create streams}
 -->
 
-# Create streams
-```{r set, results='hide'}
+## Create streams
+```{r packages, results='hide', message=FALSE}
 library('clrng')
 library('gpuR')
 ```
@@ -14,7 +14,7 @@ library('gpuR')
 a1 <- createStreamsCpu(n=4, initial=12345)
 #Important: streams are of type integer in R
 typeof(a1) 
-#Attenntion: when converting streams from CPU to GPU, should set type = "integer", or leave it as default NULL
+#Attention: when converting streams from CPU to GPU, should set type = "integer", or leave it as default NULL
 t(as.matrix(vclMatrix(a1)))
 t(as.matrix(2*vclMatrix(a1)))
 t(as.matrix(2*vclMatrix(a1, type="integer"))) 
