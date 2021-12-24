@@ -7,12 +7,12 @@ It is dependent on the gpuR package and utilize the MRG31k3p RNG from the clRNG,
 See [github wiki](https://github.com/cdeterman/gpuR/wiki) for gpuR
 installation instructions relevant to your operating system.
 
-Install the current development version with\
+Install the current development version via the command below.\
 library("devtools");\
 devtools::install_github("ruoyongxu/clrng")
 
 
-## Contributions
+## Developers
 Author: Ruoyong Xu                                      
 E-mail: ruoyong.xu@mail.utoronto.ca                                   
 Affiliation: University of Toronto                                  
