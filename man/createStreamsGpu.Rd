@@ -4,7 +4,7 @@
 \alias{createStreamsGpu}
 \title{createStreamsGpu}
 \usage{
-createStreamsGpu(n, initial = sample.int(2147483647, 6, replace = TRUE))
+createStreamsGpu(n, initial = NULL)
 }
 \arguments{
 \item{n}{number of streams to create}
