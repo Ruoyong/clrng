@@ -28,9 +28,9 @@ createStreamsGpu = function(n,
   
   initial = rep_len(initial, 6)
   seedVec <- gpuR::vclVector(as.integer(initial), type="integer") 
-  streamsR<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
+  streamsMat<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
   
-  CreateStreamsGpuBackend(seedVec, streamsR, keepInitial=1)
+  CreateStreamsGpuBackend(seedVec, streamsMat, keepInitial=1)
   
   streamsR
   

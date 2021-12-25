@@ -12,22 +12,68 @@
 #' 
 #' @useDynLib clrng
 #' @author Ruoyong Xu
+
+
+
+     # clrngSetBaseCreatorState <- function(initial){
+     #   
+     #   # Check that the seeds have valid values
+     #   initial = rep_len(initial, 6)
+     #   if(!identical(initial, as.integer(initial))){
+     #     stop('inital must contain integer values!')
+     #   }
+     #  
+     #   if(any(initial < 0)){
+     #     stop('inital must contain unsigned integer values!')
+     #   }
+     #   
+     #   if(all(initial[1:3] == c(0,0,0) | all(initial[4:6] == c(0,0,0)){
+     #     stop('CLRNG_INVALID_SEED')
+     #   }
+     #   
+     # }
+
+
+
 #' @export
+     createStreamsCpu = function( n, initial=NULL ){
+  
+       # if(missing(initial)) {
+       #   initial = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) )
+       # }else{
+       #   initial = rep_len(initial, 6)
+       # }
+       if(!is.null(initial)){
 
+       initial = rep_len(initial, 6)
+       # Check that the seeds have valid values
+       if(any(initial < 0))
+         stop('inital must contain unsigned integer values!')
 
-createStreamsCpu = function(n, 
-                            initial=sample.int(2147483647, 6, replace = TRUE)){
-  
-  # if(missing(initial)) {
-  #   initial = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) )
-  # }else{
-  #   initial = rep_len(initial, 6)
-  # }
-  
-  initial = rep_len(initial, 6)
-  streamsR <- createStreamsCpuBackend(n, initial)
-  
-  streamsR
-  
-}
+       
+       if(all(initial[1:3] == c(0,0,0)) | all(initial[4:6] == c(0,0,0)))
+         stop('CLRNG_INVALID_SEED')
 
+      
+       initial = as.integer(initial)
+       }
+       
+       streamsR <- createStreamsCpuBackend(n, initial)
+       streamsR
+  
+     }
+
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     

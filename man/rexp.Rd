@@ -34,6 +34,7 @@ Generate exponential random numbers on a GPU
 }
 \examples{
 library(clrng)
+library(gpuR)
 as.vector(rexp(7, Nglobal=c(4,2)))
 as.matrix(rexp(c(2,3), rate=0.5, Nglobal=c(2,2), type="float"))
 streams <- createStreamsGpu(6, initial = rep(5,6))

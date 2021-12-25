@@ -70,14 +70,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // createStreamsCpuBackend
-Rcpp::IntegerMatrix createStreamsCpuBackend(Rcpp::IntegerVector n, Rcpp::IntegerVector initial);
-RcppExport SEXP _clrng_createStreamsCpuBackend(SEXP nSEXP, SEXP initialSEXP) {
+Rcpp::IntegerMatrix createStreamsCpuBackend(Rcpp::IntegerVector n, Rcpp::Nullable<Rcpp::IntegerVector> initial_);
+RcppExport SEXP _clrng_createStreamsCpuBackend(SEXP nSEXP, SEXP initial_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type n(nSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type initial(initialSEXP);
-    rcpp_result_gen = Rcpp::wrap(createStreamsCpuBackend(n, initial));
+    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::IntegerVector> >::type initial_(initial_SEXP);
+    rcpp_result_gen = Rcpp::wrap(createStreamsCpuBackend(n, initial_));
     return rcpp_result_gen;
 END_RCPP
 }

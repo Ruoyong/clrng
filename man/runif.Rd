@@ -32,6 +32,7 @@ Generate uniform random numbers on a GPU
 \examples{
  
 library(clrng)
+library(gpuR)
 as.vector(runif(5, Nglobal=c(4,2)))
 as.matrix(runif(c(2,2), Nglobal=c(2,2), type="float"))
 }
