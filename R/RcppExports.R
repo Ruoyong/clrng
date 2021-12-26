@@ -17,11 +17,11 @@ cpp_gpu_qqnorm <- function(outR, mu, sigma, lowertail, max_global_size, max_loca
     .Call('_clrng_cpp_gpu_qqnorm', PACKAGE = 'clrng', outR, mu, sigma, lowertail, max_global_size, max_local_size)
 }
 
-createStreamsCpuBackend <- function(n, initial_) {
-    .Call('_clrng_createStreamsCpuBackend', PACKAGE = 'clrng', n, initial_)
+createStreamsCpuBackend <- function(n, initial) {
+    .Call('_clrng_createStreamsCpuBackend', PACKAGE = 'clrng', n, initial)
 }
 
-CreateStreamsGpuBackend <- function(creatorInitialGlobalR_, streamsR, keepInitial) {
-    invisible(.Call('_clrng_CreateStreamsGpuBackend', PACKAGE = 'clrng', creatorInitialGlobalR_, streamsR, keepInitial))
+CreateStreamsGpuBackend <- function(creatorInitialGlobalR, streamsR, keepInitial) {
+    invisible(.Call('_clrng_CreateStreamsGpuBackend', PACKAGE = 'clrng', creatorInitialGlobalR, streamsR, keepInitial))
 }
 

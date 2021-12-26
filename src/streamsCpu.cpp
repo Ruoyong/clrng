@@ -4,6 +4,38 @@
 
 using namespace Rcpp;
 
+/*
+ //matrix ->clRNG streams
+ void convertMatclRng(Rcpp::IntegerMatrix Sin, clrngMrg31k3pStream* streams){
+ 
+ int Ditem,Delement,Dcis,Dg;
+ int numWorkItems = Sin.nrow();
+ 
+ for(Ditem =0;Ditem < numWorkItems;Ditem++){
+ for(Delement=0;Delement < 3;Delement++){
+ 
+ Dcis=0;
+ Dg=0;
+ streams[Ditem].current.g1[Delement] = Sin(Ditem,Dcis*6 + Dg*3 + Delement);
+ Dg=1;
+ streams[Ditem].current.g2[Delement] = Sin(Ditem,Dcis*6 + Dg*3 + Delement);
+ 
+ Dcis=1;
+ Dg=0;
+ streams[Ditem].initial.g1[Delement] = Sin(Ditem,Dcis*6 + Dg*3 + Delement);
+ Dg=1;
+ streams[Ditem].initial.g2[Delement]=Sin(Ditem,Dcis*6 + Dg*3 + Delement);
+ 
+ Dcis=2;
+ Dg=0;
+ streams[Ditem].substream.g1[Delement]=Sin(Ditem,Dcis*6 + Dg*3 + Delement);
+ Dg=1;
+ streams[Ditem].substream.g2[Delement] = Sin(Ditem,Dcis*6 + Dg*3 + Delement);
+ }
+ }
+ }
+ 
+ */
 
 // clRNG -> Matrix
 void convertclRngMat(clrngMrg31k3pStream* streams, Rcpp::IntegerMatrix result) {
@@ -41,7 +73,7 @@ void convertclRngMat(clrngMrg31k3pStream* streams, Rcpp::IntegerMatrix result) {
 
 /*! @brief Default initial seed of the first stream
  */
-#define BASE_CREATOR_STATE { {12345, 12345, 12345 }, { 12345, 12345, 12345 } }
+//#define BASE_CREATOR_STATE { {12345, 12345, 12345 }, { 12345, 12345, 12345 } }
 /*! @brief Jump matrices for \f$2^{134}\f$ steps forward
  */
 #define BASE_CREATOR_JUMP_MATRIX_1 {  \
@@ -68,12 +100,12 @@ struct clrngMrg31k3pStreamCreator_ {
   cl_uint nuA1[3][3];
   cl_uint nuA2[3][3];
 };        
-static clrngMrg31k3pStreamCreator defaultStreamCreator = {
-  BASE_CREATOR_STATE,
-  BASE_CREATOR_STATE,
-  BASE_CREATOR_JUMP_MATRIX_1,
-  BASE_CREATOR_JUMP_MATRIX_2
-};
+// static clrngMrg31k3pStreamCreator defaultStreamCreator = {
+//   BASE_CREATOR_STATE,
+//   BASE_CREATOR_STATE,
+//   BASE_CREATOR_JUMP_MATRIX_1,
+//   BASE_CREATOR_JUMP_MATRIX_2
+// };
 
 
 
@@ -87,14 +119,14 @@ clrngMrg31k3pStreamState SetBaseCreatorState(Rcpp::IntegerVector seed){
   
   int Ditem;
   
-  clrngMrg31k3pStreamState BASE_CREATOR_STATE_FromUser;
+  clrngMrg31k3pStreamState BASE_CREATOR_STATE;
   
   for(Ditem = 0; Ditem < 3; Ditem++) {
-    BASE_CREATOR_STATE_FromUser.g1[Ditem] = seed[Ditem];
-    BASE_CREATOR_STATE_FromUser.g2[Ditem] = seed[Ditem+3];
+    BASE_CREATOR_STATE.g1[Ditem] = seed[Ditem];
+    BASE_CREATOR_STATE.g2[Ditem] = seed[Ditem+3];
   }
   
-  return BASE_CREATOR_STATE_FromUser;
+  return BASE_CREATOR_STATE;
 }
 
 
@@ -103,7 +135,7 @@ clrngMrg31k3pStreamState SetBaseCreatorState(Rcpp::IntegerVector seed){
 // [[Rcpp::export]]
 Rcpp::IntegerMatrix  createStreamsCpuBackend(
     Rcpp::IntegerVector n,
-    Rcpp::Nullable<Rcpp::IntegerVector> initial_){  //Rcpp::Nullable<Rcpp::IntegerVector>
+    Rcpp::IntegerVector initial){  //Rcpp::Nullable<Rcpp::IntegerVector>
   
   
   Rcpp::IntegerMatrix result=Rcpp::IntegerMatrix(n[0], 12L);
@@ -118,13 +150,13 @@ Rcpp::IntegerMatrix  createStreamsCpuBackend(
   
   clrngMrg31k3pStream* streams;
   
-  if (!initial_.isNotNull()){
-    streams = clrngMrg31k3pCreateStreams(&defaultStreamCreator, n[0], &streamBufferSize, &err);//line 299 in mrg31k3p.c
-  }else{
-    Rcpp::IntegerVector initial(initial_);
+  // if (!initial_.isNotNull()){
+  //   streams = clrngMrg31k3pCreateStreams(&defaultStreamCreator, n[0], &streamBufferSize, &err);//line 299 in mrg31k3p.c
+  // }else{
+  //   Rcpp::IntegerVector initial(initial_);
     clrngMrg31k3pStreamState  BASE_CREATOR_STATE_FromUser = SetBaseCreatorState(initial);
     //Rcpp::Rcout << BASE_CREATOR_STATE_FromUser  << std::endl;
-    #undef BASE_CREATOR_STATE
+    //#undef BASE_CREATOR_STATE
     #define BASE_CREATOR_STATE BASE_CREATOR_STATE_FromUser
     
     static clrngMrg31k3pStreamCreator UserStreamCreator = {
@@ -136,7 +168,7 @@ Rcpp::IntegerMatrix  createStreamsCpuBackend(
     
     streams = clrngMrg31k3pCreateStreams(&UserStreamCreator, n[0], &streamBufferSize, &err);//line 299 in mrg31k3p.c
     
-  }
+  
   // Rcpp::Rcout << "a" << streamCreatorHere.initialState.g1[0]<< " " << streamCreatorHere.initialState.g1[1]<< " " << streamCreatorHere.initialState.g1[2]<< "\n";
   // Rcpp::Rcout << "b" << streamCreatorHere.initialState.g2[0]<< " " << streamCreatorHere.initialState.g2[1]<< " " << streamCreatorHere.initialState.g2[2]<< "\n";
   convertclRngMat(streams, result);

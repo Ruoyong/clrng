@@ -149,8 +149,8 @@ void CreateStreamsGpu(
     const int keepInitial,
     int ctx_id) {
   
-   static std::vector<uint>  creatorInitial_cpu = Rcpp::as<std::vector<uint> >(creatorInitialGlobalR);
-   viennacl::vector_base<uint> creatorInitial_gpu(6); 
+   static std::vector<cl_uint>  creatorInitial_cpu = Rcpp::as<std::vector<cl_uint> >(creatorInitialGlobalR);
+   viennacl::vector_base<cl_uint> creatorInitial_gpu(6); 
    copy(creatorInitial_cpu, creatorInitial_gpu);
   /* fill a vector on CPU
    for (size_t i=0; i<6; ++i)
@@ -227,6 +227,29 @@ void CreateStreamsGpuTemplated(
 
 
 
+
+
+
+//[[Rcpp::export]]
+void CreateStreamsGpuBackend(
+    Rcpp::IntegerVector creatorInitialGlobalR,    
+    Rcpp::S4 streamsR,
+    const int keepInitial){
+  
+    //   Rcpp::IntegerVector creatorInitial;
+    // 
+    // if (!creatorInitialGlobalR_.isNotNull()){
+    //    creatorInitial = {12345, 12345, 12345, 12345, 12345, 12345 };
+    // }else{
+    //   Rcpp::IntegerVector creatorInitial(creatorInitialGlobalR_);
+    // }
+    CreateStreamsGpuTemplated(creatorInitialGlobalR, streamsR, keepInitial);
+  
+  
+}
+
+
+
 // //[[Rcpp::export]]
 // void CreateStreamsGpuBackend(
 //     Rcpp::S4 creatorInitialGlobalR,    
@@ -236,68 +259,6 @@ void CreateStreamsGpuTemplated(
 //   CreateStreamsGpuTemplated(creatorInitialGlobalR, streamsR, keepInitial);
 //   
 //   
-// }
-
-
-
-//[[Rcpp::export]]
-void CreateStreamsGpuBackend(
-    Rcpp::Nullable<Rcpp::IntegerVector> creatorInitialGlobalR_,    
-    Rcpp::S4 streamsR,
-    const int keepInitial){
-  
-      Rcpp::IntegerVector creatorInitial;
-  
-    if (!creatorInitialGlobalR_.isNotNull()){
-       creatorInitial = {12345, 12345, 12345, 12345, 12345, 12345 };
-    }else{
-      Rcpp::IntegerVector creatorInitial(creatorInitialGlobalR_);
-    }
-    CreateStreamsGpuTemplated(creatorInitial, streamsR, keepInitial);
-  
-  
-}
-
-
-
-// // [[Rcpp::export]]
-// Rcpp::IntegerMatrix  createStreamsCpuBackend(
-//     Rcpp::IntegerVector n,
-//     Rcpp::Nullable<Rcpp::IntegerVector> initial_){  //Rcpp::Nullable<Rcpp::IntegerVector>
-//   
-//   
-//   Rcpp::IntegerMatrix result=Rcpp::IntegerMatrix(n[0], 12L);
-//   
-//   colnames(result) = CharacterVector::create(
-//     "current.g1.1", "current.g1.2", "current.g1.3", "current.g2.1", "current.g2.2", "current.g2.3",
-//     "initial.g1.1", "initial.g1.2", "initial.g1.3", "initial.g2.1", "initial.g2.2", "initial.g2.3");
-//   
-//   
-//   size_t streamBufferSize;
-//   clrngStatus err;
-//   
-//   clrngMrg31k3pStream* streams;
-//   
-//   if (!initial_.isNotNull()){
-//     streams = clrngMrg31k3pCreateStreams(&defaultStreamCreator, n[0], &streamBufferSize, &err);//line 299 in mrg31k3p.c
-//   }else{
-//     Rcpp::IntegerVector initial(initial_);
-//     clrngMrg31k3pStreamState  BASE_CREATOR_STATE_FromUser = SetBaseCreatorState(initial);
-//     //Rcpp::Rcout << BASE_CREATOR_STATE_FromUser  << std::endl;
-//     #undef BASE_CREATOR_STATE
-//     #define BASE_CREATOR_STATE BASE_CREATOR_STATE_FromUser
-//     
-//     static clrngMrg31k3pStreamCreator UserStreamCreator = {
-//       BASE_CREATOR_STATE,
-//       BASE_CREATOR_STATE,
-//       BASE_CREATOR_JUMP_MATRIX_1,
-//       BASE_CREATOR_JUMP_MATRIX_2
-//     };
-//     
-// 
-//   }
-// 
-//   return result;
 // }
 
 

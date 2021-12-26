@@ -59,11 +59,14 @@ rnorm = function(
   #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
   #   }
   # }else 
+     if(missing(streams)) {
+        stop('streams cannot be missing')
+      }
     if(missing(Nglobal)){
     stop("number of work items needs to be same as number of streams")
-  }else if(prod(Nglobal) != nrow(streams)){
-    warning("number of work items needs to be same as number of streams")
-  }
+    }else if(prod(Nglobal) != nrow(streams)){
+      warning("number of work items needs to be same as number of streams")
+     }
   
   
   

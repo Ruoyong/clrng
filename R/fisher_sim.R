@@ -77,6 +77,11 @@ fisher.sim=function(
   #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
   #   }
   # }else {
+  
+  
+     if(missing(streams)) {
+       stop('streams cannot be missing')
+      }
     if(!isS4(streams)) {
       warning("streams should be a S4 matrix")}
     

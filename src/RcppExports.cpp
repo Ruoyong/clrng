@@ -70,26 +70,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // createStreamsCpuBackend
-Rcpp::IntegerMatrix createStreamsCpuBackend(Rcpp::IntegerVector n, Rcpp::Nullable<Rcpp::IntegerVector> initial_);
-RcppExport SEXP _clrng_createStreamsCpuBackend(SEXP nSEXP, SEXP initial_SEXP) {
+Rcpp::IntegerMatrix createStreamsCpuBackend(Rcpp::IntegerVector n, Rcpp::IntegerVector initial);
+RcppExport SEXP _clrng_createStreamsCpuBackend(SEXP nSEXP, SEXP initialSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type n(nSEXP);
-    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::IntegerVector> >::type initial_(initial_SEXP);
-    rcpp_result_gen = Rcpp::wrap(createStreamsCpuBackend(n, initial_));
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type initial(initialSEXP);
+    rcpp_result_gen = Rcpp::wrap(createStreamsCpuBackend(n, initial));
     return rcpp_result_gen;
 END_RCPP
 }
 // CreateStreamsGpuBackend
-void CreateStreamsGpuBackend(Rcpp::Nullable<Rcpp::IntegerVector> creatorInitialGlobalR_, Rcpp::S4 streamsR, const int keepInitial);
-RcppExport SEXP _clrng_CreateStreamsGpuBackend(SEXP creatorInitialGlobalR_SEXP, SEXP streamsRSEXP, SEXP keepInitialSEXP) {
+void CreateStreamsGpuBackend(Rcpp::IntegerVector creatorInitialGlobalR, Rcpp::S4 streamsR, const int keepInitial);
+RcppExport SEXP _clrng_CreateStreamsGpuBackend(SEXP creatorInitialGlobalRSEXP, SEXP streamsRSEXP, SEXP keepInitialSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::IntegerVector> >::type creatorInitialGlobalR_(creatorInitialGlobalR_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type creatorInitialGlobalR(creatorInitialGlobalRSEXP);
     Rcpp::traits::input_parameter< Rcpp::S4 >::type streamsR(streamsRSEXP);
     Rcpp::traits::input_parameter< const int >::type keepInitial(keepInitialSEXP);
-    CreateStreamsGpuBackend(creatorInitialGlobalR_, streamsR, keepInitial);
+    CreateStreamsGpuBackend(creatorInitialGlobalR, streamsR, keepInitial);
     return R_NilValue;
 END_RCPP
 }
