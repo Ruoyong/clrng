@@ -15,14 +15,14 @@
 
 
 #' @export
-createStreamsCpu = function( n, initial=NULL ){
+createStreamsCpu = function( n, initial=rep(12345,6)){
   
   # if(missing(initial)) {
   #   initial = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) )
   # }else{
   #   initial = rep_len(initial, 6)
   # }
-  if(!is.null(initial)){
+  #if(!is.null(initial)){
     
     if(length(initial) != 6){
     # message('initial seed should be a vector of 6 integers!')
@@ -38,9 +38,9 @@ createStreamsCpu = function( n, initial=NULL ){
     
     
     initial = as.integer(initial)
-  }else{
-    initial = as.integer(rep(12345,6))
-  }
+  # }else{
+  #   initial = as.integer(rep(12345,6))
+  # }
   
   streamsR <- createStreamsCpuBackend(n, initial)
   streamsR

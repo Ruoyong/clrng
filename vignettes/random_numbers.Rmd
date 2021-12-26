@@ -47,7 +47,7 @@ as.vector(clrng::rnorm(10, myStreamsGpu, Nglobal=c(1,4),type=theType, verbose=2)
 (xx = as.matrix(clrng::rnorm(c(12, 4), Nglobal = c(2,4),  type=theType)))
 
 # Simulate a large matrix of random normal numbers, with user-supplied streams
-streams <- createStreamsGpu(n =512*128, initial=NULL)
+streams <- createStreamsGpu(n =512*128)
 a<-clrng::rnorm(c(1024,512), streams=streams, Nglobal=c(512,128), type=theType)
 
 # See the histogram of the output numbers

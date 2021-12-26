@@ -34,6 +34,6 @@ library(clrng)
 library(gpuR)
 as.vector(rnorm(7, Nglobal=c(4,2)))
 as.matrix(rnorm(c(2,3), Nglobal=c(2,2), type="float"))
-streams <- createStreamsGpu(8, initial = NULL)
+streams <- createStreamsGpu(8)
 as.vector(rnorm(3, streams=streams, Nglobal=c(4,2)))
 }

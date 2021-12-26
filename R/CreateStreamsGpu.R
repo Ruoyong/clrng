@@ -16,7 +16,7 @@
 
 
 createStreamsGpu = function(n, 
-                            initial=NULL){
+                            initial=rep(12345,6) ){
   
   # if(missing(initial)) {
   #   seed = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) ) 
@@ -26,7 +26,7 @@ createStreamsGpu = function(n,
   #   seedVec <- gpuR::vclVector(as.integer(seed), type="integer")  
   # }
   
-  if(!is.null(initial)){
+  # if(!is.null(initial)){
     
     if(length(initial) != 6){
       # message('initial seed should be a vector of 6 integers!')
@@ -42,9 +42,9 @@ createStreamsGpu = function(n,
     
     
     initial = as.integer(initial)
-  }else{
-    initial = as.integer(rep(12345,6))
-  }
+  # }else{
+  #   initial = as.integer(rep(12345,6))
+  # }
   
   streamsMat<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
   

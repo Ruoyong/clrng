@@ -11,7 +11,7 @@ library('gpuR')
 
 ```{r streams, eval=TRUE}
 #Create streams on CPU as R matrix
-a1 <- createStreamsCpu(n=4, initial=NULL)
+a1 <- createStreamsCpu(n=4)
 #Important: streams are of type integer in R
 typeof(a1) 
 #Attention: when converting streams from CPU to GPU, should set type = "integer", or leave it as default NULL

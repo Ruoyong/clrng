@@ -14,7 +14,7 @@
 #' library(gpuR)
 #' as.vector(rexp(7, Nglobal=c(4,2)))
 #' as.matrix(rexp(c(2,3), rate=0.5, Nglobal=c(2,2), type="float"))
-#' streams <- createStreamsGpu(6, initial = NULL)
+#' streams <- createStreamsGpu(6)
 #' as.vector(rnorm(3, streams=streams, Nglobal=c(3,2)))
 #' 
 #' @useDynLib clrng
