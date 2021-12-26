@@ -25,7 +25,7 @@ createStreamsCpu = function( n, initial=NULL ){
   if(!is.null(initial)){
     
     if(length(initial) != 6){
-    message('initial seed should be a vector of 6 integers!')
+    # message('initial seed should be a vector of 6 integers!')
     initial = rep_len(initial, 6)
     }
     # Check that the seeds have valid values

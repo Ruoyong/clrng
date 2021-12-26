@@ -3,11 +3,12 @@
 #'
 #' @param x A contingency table, a vclMatrix 
 #' @param N Requested a number of replicates
-#' @param streams Streams objects
+#' @param streams Streams objects. Default using GPU streams with package default initial seeds
 #' @param type "double" or "float" of returned test statistics
 #' @param Nglobal Size of the index space for use
 #' @param returnStatistics logical, if TRUE, return test statistics
 #' @param verbose if TRUE, print extra information
+#' @import gpuR
 #' @return A list of results, including p-value, actual number of replicates, test statistics and so on
 #' @examples 
 #' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
@@ -79,9 +80,16 @@ fisher.sim=function(
   # }else {
   
   
+     if(missing(Nglobal)){
+       stop("number of work items needs to be same as number of streams")
+     }
+  
      if(missing(streams)) {
-       stop('streams cannot be missing')
-      }
+       initial = as.integer(rep(12345,6))
+       streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+       CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+     }
+  
     if(!isS4(streams)) {
       warning("streams should be a S4 matrix")}
     

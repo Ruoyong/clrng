@@ -1,17 +1,18 @@
 #' @title rnorm
 #' @description Generate standard normal random numbers on a GPU
 #' @param n A number or a vector specifying the size of output vector or matrix
-#' @param streams Streams object
+#' @param streams Streams object. Default using GPU streams with package default initial seeds
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float"
 #' @param verbose if TRUE, print extra information 
+#' @import gpuR
 #' @return A 'vclVector' or 'vclMatrix' of standard normal random numbers
 #' @examples 
 #' library(clrng)
 #' library(gpuR)
 #' as.vector(rnorm(7, Nglobal=c(4,2)))
 #' as.matrix(rnorm(c(2,3), Nglobal=c(2,2), type="float"))
-#' streams <- createStreamsGpu(8, initial = rep(26,6))
+#' streams <- createStreamsGpu(8, initial = NULL)
 #' as.vector(rnorm(3, streams=streams, Nglobal=c(4,2)))
 #' @useDynLib clrng
 #' @export
@@ -59,18 +60,22 @@ rnorm = function(
   #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
   #   }
   # }else 
-     if(missing(streams)) {
-        stop('streams cannot be missing')
-      }
     if(missing(Nglobal)){
     stop("number of work items needs to be same as number of streams")
-    }else if(prod(Nglobal) != nrow(streams)){
-      warning("number of work items needs to be same as number of streams")
+    }
+  
+    if(missing(streams)) {
+       initial = as.integer(rep(12345,6))
+       streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+       CreateStreamsGpuBackend(initial, streams, keepInitial=1)
      }
+     
+    if(prod(Nglobal) != nrow(streams)){
+       warning("number of work items needs to be same as number of streams")
+    }
   
   
-  
-  gpuRnBackend(xVcl, streams, Nglobal,"normal", verbose) 
+    gpuRnBackend(xVcl, streams, Nglobal,"normal", verbose) 
   
   #  invisible(streams)
   

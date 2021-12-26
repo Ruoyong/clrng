@@ -15,7 +15,7 @@ rnorm(
 \arguments{
 \item{n}{A number or a vector specifying the size of output vector or matrix}
 
-\item{streams}{Streams object}
+\item{streams}{Streams object. Default using GPU streams with package default initial seeds}
 
 \item{Nglobal}{NDRange of work items for use}
 
@@ -34,6 +34,6 @@ library(clrng)
 library(gpuR)
 as.vector(rnorm(7, Nglobal=c(4,2)))
 as.matrix(rnorm(c(2,3), Nglobal=c(2,2), type="float"))
-streams <- createStreamsGpu(8, initial = rep(26,6))
+streams <- createStreamsGpu(8, initial = NULL)
 as.vector(rnorm(3, streams=streams, Nglobal=c(4,2)))
 }

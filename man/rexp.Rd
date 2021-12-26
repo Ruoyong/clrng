@@ -18,7 +18,7 @@ rexp(
 
 \item{rate}{Distribution parameter, mean equals to 1/rate}
 
-\item{streams}{Streams object}
+\item{streams}{Streams object. Default using GPU streams with package default initial seeds}
 
 \item{Nglobal}{NDRange of work items for use}
 
@@ -37,7 +37,7 @@ library(clrng)
 library(gpuR)
 as.vector(rexp(7, Nglobal=c(4,2)))
 as.matrix(rexp(c(2,3), rate=0.5, Nglobal=c(2,2), type="float"))
-streams <- createStreamsGpu(6, initial = rep(5,6))
+streams <- createStreamsGpu(6, initial = NULL)
 as.vector(rnorm(3, streams=streams, Nglobal=c(3,2)))
 
 }

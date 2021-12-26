@@ -15,7 +15,7 @@ runif(
 \arguments{
 \item{n}{A number or a vector specifying the size of output vector or matrix}
 
-\item{streams}{Streams object}
+\item{streams}{Streams object. Default using GPU streams with package default initial seeds}
 
 \item{Nglobal}{NDRange of work items for use}
 
@@ -31,8 +31,8 @@ Generate uniform random numbers on a GPU
 }
 \examples{
  
-library(clrng)
-library(gpuR)
+library('clrng')
+library('gpuR')
 as.vector(runif(5, Nglobal=c(4,2)))
 as.matrix(runif(c(2,2), Nglobal=c(2,2), type="float"))
 }

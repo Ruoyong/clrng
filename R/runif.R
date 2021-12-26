@@ -1,14 +1,16 @@
 #' @title runif
 #' @description Generate uniform random numbers on a GPU
 #' @param n A number or a vector specifying the size of output vector or matrix
-#' @param streams Streams object
+#' @param streams Streams object. Default using GPU streams with package default initial seeds
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float" or "integer", default is double
 #' @param verbose if TRUE, print extra information
+#' @import gpuR
+#' @importFrom utils capture.output
 #' @return A vclVector or vclMatrix of uniform random numbers
 #' @examples  
-#' library(clrng)
-#' library(gpuR)
+#' library('clrng')
+#' library('gpuR')
 #' as.vector(runif(5, Nglobal=c(4,2)))
 #' as.matrix(runif(c(2,2), Nglobal=c(2,2), type="float"))
 #' @useDynLib clrng
@@ -52,16 +54,19 @@ runif = function(
   #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
   #   }
   # }else 
-      if(missing(streams)) {
-      stop('streams cannot be missing')
-      }
     if(missing(Nglobal)){
     stop("number of work items needs to be same as number of streams")
-  }else if(prod(Nglobal) != nrow(streams)){
-      warning("number of work items needs to be same as number of streams")
-  }
-  
-
+     }
+ 
+   if(missing(streams)) {
+      initial = as.integer(rep(12345,6))
+      streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+      CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+   }
+    
+   if(prod(Nglobal) != nrow(streams)){
+    warning("number of work items needs to be same as number of streams")
+   }
 
   xVcl<-gpuR::vclMatrix(0L, nrow=n[1], ncol=n[2], type=type[1])    
   

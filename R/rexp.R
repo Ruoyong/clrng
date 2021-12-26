@@ -2,10 +2,11 @@
 #' @description Generate exponential random numbers on a GPU
 #' @param n A number or a vector specifying the size of the output vector or matrix
 #' @param rate Distribution parameter, mean equals to 1/rate
-#' @param streams Streams object
+#' @param streams Streams object. Default using GPU streams with package default initial seeds
 #' @param Nglobal NDRange of work items for use
 #' @param type "double" or "float" of generated random numbers
 #' @param verbose if TRUE, print extra information
+#' @import gpuR
 #' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
 #' 
 #' @examples
@@ -13,7 +14,7 @@
 #' library(gpuR)
 #' as.vector(rexp(7, Nglobal=c(4,2)))
 #' as.matrix(rexp(c(2,3), rate=0.5, Nglobal=c(2,2), type="float"))
-#' streams <- createStreamsGpu(6, initial = rep(5,6))
+#' streams <- createStreamsGpu(6, initial = NULL)
 #' as.vector(rnorm(3, streams=streams, Nglobal=c(3,2)))
 #' 
 #' @useDynLib clrng
@@ -68,14 +69,20 @@ rexp = function(
   #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
   #   }
   # }else 
-    if(missing(streams)) {
-       stop('streams cannot be missing')
-     }
+  
     if(missing(Nglobal)){
     stop("number of work items needs to be same as number of streams")
-     }else if(prod(Nglobal) != nrow(streams)){
-    warning("number of work items needs to be same as number of streams")
-  }
+     }
+     
+   if(missing(streams)) {
+      initial = as.integer(rep(12345,6))
+      streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+      CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+    }
+  
+    if(prod(Nglobal) != nrow(streams)){
+      warning("number of work items needs to be same as number of streams")
+    }
   
   
   

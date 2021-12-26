@@ -19,7 +19,7 @@ fisher.sim(
 
 \item{N}{Requested a number of replicates}
 
-\item{streams}{Streams objects}
+\item{streams}{Streams objects. Default using GPU streams with package default initial seeds}
 
 \item{type}{"double" or "float" of returned test statistics}
 
