@@ -22,6 +22,6 @@ createStreamsCpuBackend <- function(n, initial) {
 }
 
 CreateStreamsGpuBackend <- function(creatorInitialGlobalR, streamsR, keepInitial) {
-    invisible(.Call('_clrng_CreateStreamsGpuBackend', PACKAGE = 'clrng', creatorInitialGlobalR, streamsR, keepInitial))
+    .Call('_clrng_CreateStreamsGpuBackend', PACKAGE = 'clrng', creatorInitialGlobalR, streamsR, keepInitial)
 }
 

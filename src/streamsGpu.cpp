@@ -122,14 +122,14 @@ std::string streamsString(int NpadStreams,
     "}\n"
     
     "}\n"; // loop through streams
+  
+  
+  result +=  
+    " for (i=0; i<6; i++) {\n"
+    "creatorInitialGlobal[i] = creatorCurrentState[i];\n"
+    "}\n"
     
     
-    result +=  
-      " for (i=0; i<6; i++) {\n"
-      "creatorInitialGlobal[i] = creatorCurrentState[i];\n"
-      "}\n"
-    
-
     
     "}\n"; 
   
@@ -143,15 +143,15 @@ std::string streamsString(int NpadStreams,
 
 
 
-void CreateStreamsGpu(
+Rcpp::IntegerVector CreateStreamsGpu(
     Rcpp::IntegerVector creatorInitialGlobalR,
     viennacl::matrix_base<cl_uint> &streams, 
     const int keepInitial,
     int ctx_id) {
   
-   static std::vector<cl_uint>  creatorInitial_cpu = Rcpp::as<std::vector<cl_uint> >(creatorInitialGlobalR);
-   viennacl::vector_base<cl_uint> creatorInitial_gpu(6); 
-   copy(creatorInitial_cpu, creatorInitial_gpu);
+  static std::vector<cl_uint>  creatorInitial_cpu = Rcpp::as<std::vector<cl_uint> >(creatorInitialGlobalR);
+  viennacl::vector_base<cl_uint> creatorInitial_gpu(6); 
+  copy(creatorInitial_cpu, creatorInitial_gpu);
   /* fill a vector on CPU
    for (size_t i=0; i<6; ++i)
    cpu_vector[i] = 12345; */
@@ -191,6 +191,9 @@ void CreateStreamsGpu(
   //Rcpp::Rcout << "after enqueue kernel\n\n" << "\n\n";
   
   copy(creatorInitial_gpu,creatorInitial_cpu);
+  
+  Rcpp::IntegerVector current_initial_cpu( creatorInitial_cpu.begin(), creatorInitial_cpu.end() );
+  return current_initial_cpu;
   /* 
    Rcpp::Rcout << streams(0,0) << "\n" << streams(0,1) << "\n"<< streams(0,2) << "\n\n";
    Rcpp::Rcout << streams(1,0) << "\n" << streams(1,1) << "\n"<< streams(1,2) << "\n\n";
@@ -207,7 +210,7 @@ void CreateStreamsGpu(
 
 
 
-void CreateStreamsGpuTemplated(
+SEXP CreateStreamsGpuTemplated(
     Rcpp::IntegerVector creatorInitialGlobalR,
     Rcpp::S4 streamsR,
     const int keepInitial){
@@ -218,7 +221,7 @@ void CreateStreamsGpuTemplated(
   std::shared_ptr<viennacl::matrix_base<cl_uint> > streams = getVCLptr<cl_uint>(streamsR.slot("address"), BisVCL, ctx_id);
   
   //std::cout<< "in CreateStreamsGpuTemplated\n\n\n";    
-  CreateStreamsGpu(creatorInitialGlobalR, *streams, keepInitial, ctx_id);
+  return Rcpp::wrap(CreateStreamsGpu(creatorInitialGlobalR, *streams, keepInitial, ctx_id));
 
   //return Rcpp::wrap(0L);
 }
@@ -231,35 +234,21 @@ void CreateStreamsGpuTemplated(
 
 
 //[[Rcpp::export]]
-void CreateStreamsGpuBackend(
+SEXP CreateStreamsGpuBackend(
     Rcpp::IntegerVector creatorInitialGlobalR,    
     Rcpp::S4 streamsR,
     const int keepInitial){
   
-    //   Rcpp::IntegerVector creatorInitial;
-    // 
-    // if (!creatorInitialGlobalR_.isNotNull()){
-    //    creatorInitial = {12345, 12345, 12345, 12345, 12345, 12345 };
-    // }else{
-    //   Rcpp::IntegerVector creatorInitial(creatorInitialGlobalR_);
-    // }
-    CreateStreamsGpuTemplated(creatorInitialGlobalR, streamsR, keepInitial);
+  //   Rcpp::IntegerVector creatorInitial;
+  // 
+  // if (!creatorInitialGlobalR_.isNotNull()){
+  //    creatorInitial = {12345, 12345, 12345, 12345, 12345, 12345 };
+  // }else{
+  //   Rcpp::IntegerVector creatorInitial(creatorInitialGlobalR_);
+  // }
+  return CreateStreamsGpuTemplated(creatorInitialGlobalR, streamsR, keepInitial);
   
   
 }
-
-
-
-// //[[Rcpp::export]]
-// void CreateStreamsGpuBackend(
-//     Rcpp::S4 creatorInitialGlobalR,    
-//     Rcpp::S4 streamsR,
-//     const int keepInitial){
-//   
-//   CreateStreamsGpuTemplated(creatorInitialGlobalR, streamsR, keepInitial);
-//   
-//   
-// }
-
 
 

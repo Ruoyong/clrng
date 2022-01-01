@@ -68,6 +68,8 @@ rnorm = function(
        initial = as.integer(rep(12345,6))
        streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
        CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+       currentCreator <- streams[nrow(streams),]
+       assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
      }
      
     if(prod(Nglobal) != nrow(streams)){

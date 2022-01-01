@@ -4,7 +4,7 @@
 \alias{createStreamsCpu}
 \title{createStreamsCpu}
 \usage{
-createStreamsCpu(n, initial = rep(12345, 6))
+createStreamsCpu(n)
 }
 \arguments{
 \item{n}{Number of streams to create}

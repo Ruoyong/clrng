@@ -15,7 +15,12 @@
 
 
 #' @export
-createStreamsCpu = function( n, initial=rep(12345,6)){
+createStreamsCpu = function(n){
+  
+  
+    if(!exists(".Random.seed.clrng")) {
+      assign(".Random.seed.clrng", setBaseCreator())
+    } 
   
   # if(missing(initial)) {
   #   initial = as.integer(as.integer(2^31-1)*(2*stats::runif(6) - 1) )
@@ -24,28 +29,29 @@ createStreamsCpu = function( n, initial=rep(12345,6)){
   # }
   #if(!is.null(initial)){
     
-    if(length(initial) != 6){
-    # message('initial seed should be a vector of 6 integers!')
-    initial = rep_len(initial, 6)
-    }
-    # Check that the seeds have valid values
-    if(any(initial < 0))
-      stop('CLRNG_INVALID_SEED')
-    
-    
-    if(all(initial[1:3] == c(0,0,0)) | all(initial[4:6] == c(0,0,0)))
-      stop('CLRNG_INVALID_SEED')
-    
-    
-    initial = as.integer(initial)
-  # }else{
-  #   initial = as.integer(rep(12345,6))
-  # }
+    # if(length(initial) != 6){
+    # # message('initial seed should be a vector of 6 integers!')
+    # initial = rep_len(initial, 6)
+    # }
+    # # Check that the seeds have valid values
+    # if(any(initial < 0))
+    #   stop('CLRNG_INVALID_SEED')
+    # 
+    # 
+    # if(all(initial[1:3] == c(0,0,0)) | all(initial[4:6] == c(0,0,0)))
+    #   stop('CLRNG_INVALID_SEED')
+    # 
+    # 
+    # initial = as.integer(initial)
+
   
-  streamsR <- createStreamsCpuBackend(n, initial)
-  streamsR
+    streamsR <- createStreamsCpuBackend(n, .Random.seed.clrng)
+    currentCreator <- streamsR[nrow(streamsR),]
+    
+    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+    streamsR
   
-}
+   }
 
      
      
