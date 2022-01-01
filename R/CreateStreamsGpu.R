@@ -1,18 +1,15 @@
-#' @title createStreamsGpu
-#' @description Generate streams on GPU device
-#' @param n number of streams to create
+#' @title setBaseCreator
+#' @description Set the initial seed of the package or stream
 #' @param initial Initial state of the first stream, length 6, recycled if shorter
 #' @return A stream object of class 'vclMatrix' on GPU
 #' @examples
-#' myStreamsGpu = createStreamsGpu(n=4, initial=c(12345,12345))
-#' t(as.matrix(myStreamsGpu))
-#' myStreamsGpu2 = createStreamsGpu(n=4)
-#' t(as.matrix(myStreamsGpu2))
+#' setBaseCreator(c(111,222,333,444,555,666))
 #' @useDynLib clrng
 #' @export
 
 
     setBaseCreator <- function(initial = rep(12345,6)) {
+      
       if(length(initial) != 6){
         # message('initial seed should be a vector of 6 integers!')
         initial = rep_len(initial, 6)
@@ -32,8 +29,21 @@
 
     
     
+    
+    
+#' @title createStreamsGpu
+#' @description Generate streams on GPU device
+#' @param n number of streams to create
+#' @return A stream object of class 'vclMatrix' on GPU
+#' @examples
+#' setBaseCreator(rep(12345,6))
+#' myStreamsGpu = createStreamsGpu(n=4)
+#' t(as.matrix(myStreamsGpu))
+#' myStreamsGpu2 = createStreamsGpu(n=4)
+#' t(as.matrix(myStreamsGpu2))
+#' @useDynLib clrng    
 #' @export
-    createStreamsGpu = function(n, FromPreRsession=FALSE){
+    createStreamsGpu = function(n){
       
       streamsMat<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
       

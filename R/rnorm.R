@@ -10,10 +10,10 @@
 #' @examples 
 #' library(clrng)
 #' library(gpuR)
-#' as.vector(rnorm(7, Nglobal=c(4,2)))
-#' as.matrix(rnorm(c(2,3), Nglobal=c(2,2), type="float"))
 #' streams <- createStreamsGpu(8)
-#' as.vector(rnorm(3, streams=streams, Nglobal=c(4,2)))
+#' as.vector(rnorm(7, streams=streams, Nglobal=c(4,2)))
+#' as.matrix(rnorm(c(2,3), streams=streams, Nglobal=c(4,2), type="float"))
+#' 
 #' @useDynLib clrng
 #' @export
 
@@ -46,31 +46,20 @@ rnorm = function(
     stop("number of work items needs to be an even number for second dimension\n")
   }
   
-  # if(missing(streams)) {
-  #   if(missing(Nglobal)) {
-  #     Nglobal = c(64,8)
-  #     seedR = sample.int(2147483647, 6, replace = TRUE) 
-  #     seed <- gpuR::vclVector(seedR, type="integer")  
-  #     streams<-vclMatrix(0L, nrow=512, ncol=12, type="integer")
-  #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-  #   }else{
-  #     seedR = sample.int(2147483647, 6, replace = TRUE)
-  #     seed <- gpuR::vclVector(seedR, type="integer")  
-  #     streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-  #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-  #   }
-  # }else 
+  if(missing(streams)) {
+    stop("streams must be supplied")
+  }
     if(missing(Nglobal)){
     stop("number of work items needs to be same as number of streams")
     }
   
-    if(missing(streams)) {
-       initial = as.integer(rep(12345,6))
-       streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-       CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-       currentCreator <- streams[nrow(streams),]
-       assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
-     }
+    # if(missing(streams)) {
+    #    initial = as.integer(rep(12345,6))
+    #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+    #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+    #    currentCreator <- streams[nrow(streams),]
+    #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+    #  }
      
     if(prod(Nglobal) != nrow(streams)){
        warning("number of work items needs to be same as number of streams")

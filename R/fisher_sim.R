@@ -13,7 +13,7 @@
 #' @examples 
 #' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 #' Job <- gpuR::vclMatrix(Job, type="integer")
-#' streams <- createStreamsGpu(n=64*16, initial=c(1,2,306,6,9,5))
+#' streams <- createStreamsGpu(64*16)
 #' result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
 #' result$p.value
 #' result$simNum
@@ -63,32 +63,20 @@ fisher.sim=function(
   # 
   # threshold = STATISTIC/almost.1
   
-  # if(missing(streams)) {
-  #   if(missing(Nglobal)) {
-  #     Nglobal = c(64,16)
-  #     seedR = sample.int(2147483647, 6, replace = TRUE)
-  #     seed <- gpuR::vclVector(seedR, type="integer")  
-  #     streams<-vclMatrix(0L, nrow=1024, ncol=12, type="integer")
-  #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-  #     
-  #   }else{
-  #     seedR = sample.int(2147483647, 6, replace = TRUE)
-  #     seed <- gpuR::vclVector(seedR, type="integer")  
-  #     streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-  #     CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-  #   }
-  # }else {
+  if(missing(streams)) {
+    stop("streams must be supplied")
+  }
   
   
      if(missing(Nglobal)){
        stop("number of work items needs to be same as number of streams")
      }
   
-     if(missing(streams)) {
-       initial = as.integer(rep(12345,6))
-       streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-       CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-     }
+     # if(missing(streams)) {
+     #   initial = as.integer(rep(12345,6))
+     #   streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+     #   CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+     # }
   
     if(!isS4(streams)) {
       warning("streams should be a S4 matrix")}

@@ -8,8 +8,6 @@ createStreamsCpu(n)
 }
 \arguments{
 \item{n}{Number of streams to create}
-
-\item{initial}{Initial state of the first stream, length 6, recycled if shorter}
 }
 \value{
 A stream object on CPU
@@ -20,8 +18,8 @@ Create streams stored on the CPU
 \examples{
 library(clrng)
 library(gpuR)
-t(createStreamsCpu(n=4, initial=12345))
+t(createStreamsCpu(n=5))
 ###GPU streams
-myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4, initial=12345))
+myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4))
 
 }

@@ -33,6 +33,7 @@ Generate uniform random numbers on a GPU
  
 library('clrng')
 library('gpuR')
-as.vector(runif(5, Nglobal=c(4,2)))
-as.matrix(runif(c(2,2), Nglobal=c(2,2), type="float"))
+streams <- createStreamsGpu(8)
+as.vector(runif(5, streams, Nglobal=c(4,2)))
+as.matrix(runif(c(2,2), streams, Nglobal=c(2,4), type="float"))
 }

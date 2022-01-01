@@ -21,4 +21,7 @@ t(as.matrix(2*vclMatrix(a1, type="integer")))
 #Set as "double" or else changes the streams precision type and can cause problems
 t(as.matrix(2*vclMatrix(a1, type="double"))) 
 t(as.matrix(vclMatrix(2*a1)))
+
+#saveRDS(as.matrix(createStreamsCpu(n = 4)), "myStreams.rds")
+#streams_saved <- vclMatrix(readRDS("myStreams.rds"))
 ```

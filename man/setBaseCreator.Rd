@@ -2,24 +2,19 @@
 % Please edit documentation in R/CreateStreamsGpu.R
 \name{setBaseCreator}
 \alias{setBaseCreator}
-\title{createStreamsGpu}
+\title{setBaseCreator}
 \usage{
 setBaseCreator(initial = rep(12345, 6))
 }
 \arguments{
 \item{initial}{Initial state of the first stream, length 6, recycled if shorter}
-
-\item{n}{number of streams to create}
 }
 \value{
 A stream object of class 'vclMatrix' on GPU
 }
 \description{
-Generate streams on GPU device
+Set the initial seed of the package or stream
 }
 \examples{
-myStreamsGpu = createStreamsGpu(n=4, initial=c(12345,12345))
-t(as.matrix(myStreamsGpu))
-myStreamsGpu2 = createStreamsGpu(n=4)
-t(as.matrix(myStreamsGpu2))
+setBaseCreator(c(111,222,333,444,555,666))
 }

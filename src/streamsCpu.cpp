@@ -154,20 +154,20 @@ Rcpp::IntegerMatrix  createStreamsCpuBackend(
   //   streams = clrngMrg31k3pCreateStreams(&defaultStreamCreator, n[0], &streamBufferSize, &err);//line 299 in mrg31k3p.c
   // }else{
   //   Rcpp::IntegerVector initial(initial_);
-    clrngMrg31k3pStreamState  BASE_CREATOR_STATE_FromUser = SetBaseCreatorState(initial);
-    //Rcpp::Rcout << BASE_CREATOR_STATE_FromUser  << std::endl;
-    //#undef BASE_CREATOR_STATE
-    #define BASE_CREATOR_STATE BASE_CREATOR_STATE_FromUser
-    
-    static clrngMrg31k3pStreamCreator UserStreamCreator = {
-      BASE_CREATOR_STATE,
-      BASE_CREATOR_STATE,
-      BASE_CREATOR_JUMP_MATRIX_1,
-      BASE_CREATOR_JUMP_MATRIX_2
-    };
-    
-    streams = clrngMrg31k3pCreateStreams(&UserStreamCreator, n[0], &streamBufferSize, &err);//line 299 in mrg31k3p.c
-    
+  clrngMrg31k3pStreamState  BASE_CREATOR_STATE_FromUser = SetBaseCreatorState(initial);
+  //Rcpp::Rcout << BASE_CREATOR_STATE_FromUser  << std::endl;
+  //#undef BASE_CREATOR_STATE
+  #define BASE_CREATOR_STATE BASE_CREATOR_STATE_FromUser
+  
+  static clrngMrg31k3pStreamCreator UserStreamCreator = {
+    BASE_CREATOR_STATE,
+    BASE_CREATOR_STATE,
+    BASE_CREATOR_JUMP_MATRIX_1,
+    BASE_CREATOR_JUMP_MATRIX_2
+  };
+  
+  streams = clrngMrg31k3pCreateStreams(&UserStreamCreator, n[0], &streamBufferSize, &err);//line 299 in mrg31k3p.c
+  
   
   // Rcpp::Rcout << "a" << streamCreatorHere.initialState.g1[0]<< " " << streamCreatorHere.initialState.g1[1]<< " " << streamCreatorHere.initialState.g1[2]<< "\n";
   // Rcpp::Rcout << "b" << streamCreatorHere.initialState.g2[0]<< " " << streamCreatorHere.initialState.g2[1]<< " " << streamCreatorHere.initialState.g2[2]<< "\n";
@@ -175,8 +175,6 @@ Rcpp::IntegerMatrix  createStreamsCpuBackend(
   
   return result;
 }
-
-
 
 
 

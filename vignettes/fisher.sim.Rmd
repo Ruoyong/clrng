@@ -31,7 +31,6 @@ fisher.test(TeaTasting)$p.value
 
 ## Using GPU
 TeaTasting<-vclMatrix(TeaTasting,type="integer")
-setBaseCreator(c(1236,1238,1239,1630,1261,1652))
 streams <-  gpuR::vclMatrix(clrng::createStreamsCpu(n=64*16))
 result<-clrng::fisher.sim(TeaTasting, N=100000L, streams=streams, returnStatistics=TRUE, type="double", Nglobal=c(16,64))
 result$counts
