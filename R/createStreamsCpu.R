@@ -16,7 +16,8 @@
 #' @export
 createStreamsCpu = function(n){
   
-  
+    n = as.integer(n)
+
     if(!exists(".Random.seed.clrng")) {
       assign(".Random.seed.clrng", setBaseCreator())
     } 
@@ -43,13 +44,13 @@ createStreamsCpu = function(n){
     # 
     # initial = as.integer(initial)
     
-    
+    streamsMat<- matrix(0L, nrow=as.integer(n), ncol=12)
   
-    streamsR <- createStreamsCpuBackend(n, .Random.seed.clrng)
+    currentseeds <- createStreamsCpuBackend(n, .Random.seed.clrng, streamsMat)
     # currentCreator <- streamsR[nrow(streamsR),]
     # 
-    # assign(".Random.seed.clrng",  current_initial_cpu, envir = .GlobalEnv)
-    streamsR
+    assign(".Random.seed.clrng",  currentseeds, envir = .GlobalEnv)
+    streamsMat
   
    }
 
