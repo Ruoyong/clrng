@@ -21,7 +21,7 @@ createStreamsCpuBackend <- function(n, initial, streamsMat) {
     .Call('_clrng_createStreamsCpuBackend', PACKAGE = 'clrng', n, initial, streamsMat)
 }
 
-CreateStreamsGpuBackend <- function(creatorInitialGlobalR, streamsR, keepInitial) {
-    .Call('_clrng_CreateStreamsGpuBackend', PACKAGE = 'clrng', creatorInitialGlobalR, streamsR, keepInitial)
+CreateStreamsBackend <- function(creatorInitialGlobalR, streamsR, streamsMat, onGpu, keepInitial) {
+    .Call('_clrng_CreateStreamsBackend', PACKAGE = 'clrng', creatorInitialGlobalR, streamsR, streamsMat, onGpu, keepInitial)
 }
 
