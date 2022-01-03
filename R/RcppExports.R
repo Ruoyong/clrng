@@ -17,10 +17,6 @@ cpp_gpu_qqnorm <- function(outR, mu, sigma, lowertail, max_global_size, max_loca
     .Call('_clrng_cpp_gpu_qqnorm', PACKAGE = 'clrng', outR, mu, sigma, lowertail, max_global_size, max_local_size)
 }
 
-createStreamsCpuBackend <- function(n, initial, streamsMat) {
-    .Call('_clrng_createStreamsCpuBackend', PACKAGE = 'clrng', n, initial, streamsMat)
-}
-
 CreateStreamsBackend <- function(creatorInitialGlobalR, streamsR, streamsMat, onGpu, keepInitial) {
     .Call('_clrng_CreateStreamsBackend', PACKAGE = 'clrng', creatorInitialGlobalR, streamsR, streamsMat, onGpu, keepInitial)
 }
