@@ -1,4 +1,4 @@
-#' @title runif
+#' @title runifGpu
 #' @description Generate uniform random numbers on a GPU
 #' @param n A number or a vector specifying the size of output vector or matrix
 #' @param streams Streams object. Default using GPU streams with package default initial seeds
@@ -12,14 +12,14 @@
 #' library('clrng')
 #' library('gpuR')
 #' streams <- createStreamsGpu(8)
-#' as.vector(runif(5, streams, Nglobal=c(4,2)))
-#' as.matrix(runif(c(2,2), streams, Nglobal=c(2,4), type="float"))
+#' as.vector(runifGpu(5, streams, Nglobal=c(4,2)))
+#' as.matrix(runifGpu(c(2,2), streams, Nglobal=c(2,4), type="float"))
 #' @useDynLib clrng
 #' @export
 
 
 
-runif = function(
+runifGpu = function(
   n, 
   streams, 
   Nglobal,

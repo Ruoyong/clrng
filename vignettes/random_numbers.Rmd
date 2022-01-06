@@ -17,17 +17,17 @@ theType = c('float','double')[1+gpuInfo()$double_support]
 
 
 
-# runif
+# runifGpu
 Here we are generating some uniform random numbers.
 ```{r unif, eval=TRUE}
 setBaseCreator(rep(12235,6))
 # Generating random uniforms stored in a vector
 myStreamsGpu = clrng::createStreamsGpu(16)
-as.vector(clrng::runif(10, myStreamsGpu, Nglobal=c(4,4), type=theType,verbose=2))
+as.vector(clrng::runifGpu(10, myStreamsGpu, Nglobal=c(4,4), type=theType,verbose=2))
 
 # Generating random uniforms stored in a 100 x 100 matrix 
 myStreamsGpu2 = clrng::createStreamsGpu(n=64*64)
-b<-clrng::runif(c(100,100), myStreamsGpu2, Nglobal=c(64,64), type=theType)
+b<-clrng::runifGpu(c(100,100), myStreamsGpu2, Nglobal=c(64,64), type=theType)
 bvector<-as.vector(as.matrix(b))
 
 # plot the histogram
@@ -39,17 +39,17 @@ quantile(bvector)
 
 
 
-# rnorm
+# rnormGpu
 This part shows generating normal random numbers.
-```{r rnorm}
+```{r rnormGpu}
 # Simulate a vector of 10 random normal numbers, and print out the kernel code
 myStreamsGpu = clrng::createStreamsGpu(n=4)
-as.vector(clrng::rnorm(10, myStreamsGpu, Nglobal=c(1,4),type=theType, verbose=2))
-(xx = as.matrix(clrng::rnorm(c(4, 4), myStreamsGpu, Nglobal = c(1,4),  type=theType)))
+as.vector(clrng::rnormGpu(10, myStreamsGpu, Nglobal=c(1,4),type=theType, verbose=2))
+(xx = as.matrix(clrng::rnormGpu(c(4, 4), myStreamsGpu, Nglobal = c(1,4),  type=theType)))
 
 # Simulate a large matrix of random normal numbers, with user-supplied streams
 streams <- createStreamsGpu(n =512*128)
-a<-clrng::rnorm(c(1024,512), streams=streams, Nglobal=c(512,128), type=theType)
+a<-clrng::rnormGpu(c(1024,512), streams=streams, Nglobal=c(512,128), type=theType)
 
 # See the histogram of the output numbers
 avector<-as.vector(as.matrix(a))
@@ -67,12 +67,12 @@ stats::qqnorm(avector)
 
 
 
-# rexp 
+# rexpGpu 
 Last, we show generating random exponential numbers.
 ```{r exp}
 streams <- createStreamsGpu(n=64*16)
 # Generating a large matrix of exponential random numbers of mean = 1, using the supplied streams
-b<-clrng::rexp(c(200,100), rate=1, streams = streams, Nglobal=c(64,16), type="double")
+b<-clrng::rexpGpu(c(200,100), rate=1, streams = streams, Nglobal=c(64,16), type="double")
 
 # Convert it to a R vector on CPU, plot histogram
 bvector<-as.vector(as.matrix(b))

@@ -1,4 +1,4 @@
-#' @title rexp
+#' @title rexpGpu
 #' @description Generate exponential random numbers on a GPU
 #' @param n A number or a vector specifying the size of the output vector or matrix
 #' @param rate Distribution parameter, mean equals to 1/rate
@@ -13,8 +13,8 @@
 #' library('clrng')
 #' library('gpuR')
 #' streams <- createStreamsGpu(8)
-#' as.vector(rexp(7, streams=streams, Nglobal=c(4,2)))
-#' as.matrix(rexp(c(2,3), rate=0.5, streams, Nglobal=c(4,2), type="float"))
+#' as.vector(rexpGpu(7, streams=streams, Nglobal=c(4,2)))
+#' as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2), type="float"))
 #' 
 #' @useDynLib clrng
 #' @export
@@ -22,7 +22,7 @@
 
 
 
-rexp = function(
+rexpGpu = function(
   n, 
   rate=1,
   streams, 
