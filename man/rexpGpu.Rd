@@ -18,7 +18,7 @@ rexpGpu(
 
 \item{rate}{Distribution parameter, mean equals to 1/rate}
 
-\item{streams}{Streams object. Default using GPU streams with package default initial seeds}
+\item{streams}{Streams object.}
 
 \item{Nglobal}{NDRange of work items for use}
 

@@ -1,7 +1,7 @@
 #' @title rnormGpu
 #' @description Generate standard normal random numbers on a GPU
 #' @param n A number or a vector specifying the size of output vector or matrix
-#' @param streams Streams object. Default using GPU streams with package default initial seeds
+#' @param streams Streams object. 
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float"
 #' @param verbose if TRUE, print extra information 
@@ -9,7 +9,6 @@
 #' @return A 'vclVector' or 'vclMatrix' of standard normal random numbers
 #' @examples 
 #' library(clrng)
-#' library(gpuR)
 #' streams <- createStreamsGpu(8)
 #' as.vector(rnormGpu(7, streams=streams, Nglobal=c(4,2)))
 #' as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2), type="float"))
@@ -50,7 +49,7 @@ rnormGpu = function(
     stop("streams must be supplied")
   }
     if(missing(Nglobal)){
-    stop("number of work items needs to be same as number of streams")
+    stop("number of work items needs to be less than number of streams")
     }
   
     # if(missing(streams)) {
@@ -61,8 +60,8 @@ rnormGpu = function(
     #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
     #  }
      
-    if(prod(Nglobal) != nrow(streams)){
-       warning("number of work items needs to be same as number of streams")
+    if(prod(Nglobal) > nrow(streams)){
+       warning("to create more streams than you're likely to need")
     }
   
   

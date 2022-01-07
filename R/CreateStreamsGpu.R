@@ -1,6 +1,6 @@
 #' @title setBaseCreator
 #' @description Set the initial seed of the package or stream
-#' @param initial Initial state of the first stream, length 6, recycled if shorter
+#' @param initial Initial state of the first stream, length 6, recycled if shorter. Default is c(12345,12345,12345,12345,12345,12345)
 #' @return A stream object of class 'vclMatrix' on GPU
 #' @examples
 #' setBaseCreator(c(111,222,333,444,555,666))

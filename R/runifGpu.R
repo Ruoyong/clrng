@@ -1,7 +1,7 @@
 #' @title runifGpu
 #' @description Generate uniform random numbers on a GPU
 #' @param n A number or a vector specifying the size of output vector or matrix
-#' @param streams Streams object. Default using GPU streams with package default initial seeds
+#' @param streams Streams object. 
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float" or "integer", default is double
 #' @param verbose if TRUE, print extra information
@@ -45,7 +45,7 @@ runifGpu = function(
       stop("streams must be supplied")
     }
     if(missing(Nglobal)){
-      stop("number of work items needs to be same as number of streams")
+      stop("number of work items needs to be less than number of streams")
      }
  
    # if(missing(streams)) {
@@ -56,8 +56,8 @@ runifGpu = function(
    #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
    # }
     
-   if(prod(Nglobal) != nrow(streams)){
-    warning("number of work items needs to be same as number of streams")
+   if(prod(Nglobal) > nrow(streams)){
+    warning("number of work items needs to be less than number of streams")
    }
 
   xVcl<-gpuR::vclMatrix(0L, nrow=n[1], ncol=n[2], type=type[1])    
