@@ -1,21 +1,25 @@
-#' @title runif
+#' @title runifGpu
 #' @description Generate uniform random numbers on a GPU
 #' @param n A number or a vector specifying the size of output vector or matrix
-#' @param streams Streams object
+#' @param streams Streams object. Default using GPU streams with package default initial seeds
 #' @param Nglobal NDRange of work items for use
 #' @param type Precision type of random numbers, "double" or "float" or "integer", default is double
 #' @param verbose if TRUE, print extra information
+#' @import gpuR
+#' @importFrom utils capture.output
 #' @return A vclVector or vclMatrix of uniform random numbers
 #' @examples  
-#' library(clrng)
-#' as.vector(runif(5, Nglobal=c(4,2)))
-#' as.matrix(runif(c(2,2), Nglobal=c(2,2), type="float"))
+#' library('clrng')
+#' library('gpuR')
+#' streams <- createStreamsGpu(8)
+#' as.vector(runifGpu(5, streams, Nglobal=c(4,2)))
+#' as.matrix(runifGpu(c(2,2), streams, Nglobal=c(2,4), type="float"))
 #' @useDynLib clrng
 #' @export
 
 
 
-runif = function(
+runifGpu = function(
   n, 
   streams, 
   Nglobal,
@@ -37,26 +41,24 @@ runif = function(
     stop("number of work items needs to be an even number for second dimension\n")
   }
   
-  if(missing(streams)) {
-    if(missing(Nglobal)) {
-      Nglobal = c(64,8)
-      seedR = sample.int(2147483647, 6, replace = TRUE) 
-      seed <- gpuR::vclVector(seedR, type="integer")  
-      streams<-vclMatrix(0L, nrow=512, ncol=12, type="integer")
-      CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-    }else{
-      seedR = sample.int(2147483647, 6, replace = TRUE) 
-      seed <- gpuR::vclVector(seedR, type="integer")  
-      streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-      CreateStreamsGpuBackend(seed, streams, keepInitial=1)
+    if(missing(streams)) {
+      stop("streams must be supplied")
     }
-  }else if(missing(Nglobal)){
-    stop("number of work items needs to be same as number of streams")
-  }else if(prod(Nglobal) != nrow(streams)){
-      warning("number of work items needs to be same as number of streams")
-  }
-  
-
+    if(missing(Nglobal)){
+      stop("number of work items needs to be same as number of streams")
+     }
+ 
+   # if(missing(streams)) {
+   #    initial <- as.integer(rep(12345,6))
+   #    streams <- vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+   #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+   #    currentCreator <- streams[nrow(streams),]
+   #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+   # }
+    
+   if(prod(Nglobal) != nrow(streams)){
+    warning("number of work items needs to be same as number of streams")
+   }
 
   xVcl<-gpuR::vclMatrix(0L, nrow=n[1], ncol=n[2], type=type[1])    
   

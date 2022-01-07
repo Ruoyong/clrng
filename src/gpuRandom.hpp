@@ -3,7 +3,7 @@
 //#include <clRNG/clRNG.h>
 #include <Rcpp.h>
 #include <string>
-#include <clRNG/mrg31k3p.h>
+//#include <clRNG/mrg31k3p.h>
 
 
 #include <dynMatrix/dynVCLMatGeostatsgpu.hpp>
@@ -18,7 +18,7 @@ template <typename T> std::string openclTypeString();
 
 
 // clRNG -> Matrix
-void convertclRngMat(clrngMrg31k3pStream* streams, Rcpp::IntegerMatrix result);
+//void convertclRngMat(clrngMrg31k3pStream* streams, Rcpp::IntegerMatrix result);
 
 
 

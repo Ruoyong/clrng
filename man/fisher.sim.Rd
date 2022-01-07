@@ -19,7 +19,7 @@ fisher.sim(
 
 \item{N}{Requested a number of replicates}
 
-\item{streams}{Streams objects}
+\item{streams}{Streams objects. Default using GPU streams with package default initial seeds}
 
 \item{type}{"double" or "float" of returned test statistics}
 
@@ -38,7 +38,7 @@ Monte carlo's simulation for Fisher's exact test on GPU
 \examples{
 Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 Job <- gpuR::vclMatrix(Job, type="integer")
-streams <- createStreamsGpu(n=64*16, initial=c(1,2,306,6,9,5))
+streams <- createStreamsGpu(64*16)
 result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
 result$p.value
 result$simNum

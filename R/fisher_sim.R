@@ -3,16 +3,17 @@
 #'
 #' @param x A contingency table, a vclMatrix 
 #' @param N Requested a number of replicates
-#' @param streams Streams objects
+#' @param streams Streams objects. Default using GPU streams with package default initial seeds
 #' @param type "double" or "float" of returned test statistics
 #' @param Nglobal Size of the index space for use
 #' @param returnStatistics logical, if TRUE, return test statistics
 #' @param verbose if TRUE, print extra information
+#' @import gpuR
 #' @return A list of results, including p-value, actual number of replicates, test statistics and so on
 #' @examples 
 #' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 #' Job <- gpuR::vclMatrix(Job, type="integer")
-#' streams <- createStreamsGpu(n=64*16, initial=c(1,2,306,6,9,5))
+#' streams <- createStreamsGpu(64*16)
 #' result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
 #' result$p.value
 #' result$simNum
@@ -63,28 +64,28 @@ fisher.sim=function(
   # threshold = STATISTIC/almost.1
   
   if(missing(streams)) {
-    if(missing(Nglobal)) {
-      Nglobal = c(64,16)
-      seedR = sample.int(2147483647, 6, replace = TRUE)
-      seed <- gpuR::vclVector(seedR, type="integer")  
-      streams<-vclMatrix(0L, nrow=1024, ncol=12, type="integer")
-      CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-      
-    }else{
-      seedR = sample.int(2147483647, 6, replace = TRUE)
-      seed <- gpuR::vclVector(seedR, type="integer")  
-      streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-      CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-    }
-  }else {
+    stop("streams must be supplied")
+  }
+  
+  
+     if(missing(Nglobal)){
+       stop("number of work items needs to be same as number of streams")
+     }
+  
+     # if(missing(streams)) {
+     #   initial = as.integer(rep(12345,6))
+     #   streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+     #   CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+     # }
+  
     if(!isS4(streams)) {
-      warning("streams should be a S4 matrix") }
+      warning("streams should be a S4 matrix")}
     
     if(prod(Nglobal) != nrow(streams))
       warning("number of work items needs to be same as number of streams")
     # make a deep copy
     # streams = gpuR::vclMatrix(as.matrix(streams), nrow(streams), ncol(streams), FALSE, dimnames(streams))
-  }
+  #}
   
   Nlocal = c(1, 1)
   

@@ -4,12 +4,10 @@
 \alias{createStreamsGpu}
 \title{createStreamsGpu}
 \usage{
-createStreamsGpu(n, initial = sample.int(2147483647, 6, replace = TRUE))
+createStreamsGpu(n)
 }
 \arguments{
 \item{n}{number of streams to create}
-
-\item{initial}{Initial state of the first stream, length 6, recycled if shorter}
 }
 \value{
 A stream object of class 'vclMatrix' on GPU
@@ -18,7 +16,8 @@ A stream object of class 'vclMatrix' on GPU
 Generate streams on GPU device
 }
 \examples{
-myStreamsGpu = createStreamsGpu(n=4, initial=c(12345,12345))
+setBaseCreator(rep(12345,6))
+myStreamsGpu = createStreamsGpu(n=4)
 t(as.matrix(myStreamsGpu))
 myStreamsGpu2 = createStreamsGpu(n=4)
 t(as.matrix(myStreamsGpu2))

@@ -1,3 +1,4 @@
+
 #include "gpuRandom.hpp"
 //#define DEBUGKERNEL
 
@@ -121,7 +122,15 @@ std::string streamsString(int NpadStreams,
     // "creatorCurrentState[row] = fmod((float)acc, (float)mrg31k3p_M2);\n"
     "}\n"
     
-    "}\n" // loop through streams
+    "}\n"; // loop through streams
+  
+  
+  result +=  
+    " for (i=0; i<6; i++) {\n"
+    "creatorInitialGlobal[i] = creatorCurrentState[i];\n"
+    "}\n"
+    
+    
     
     "}\n"; 
   
@@ -132,55 +141,115 @@ std::string streamsString(int NpadStreams,
 
 
 
+#define mrg31k3p_M1 2147483647            
+#define mrg31k3p_M2 2147462579   
 
 
-
-void CreateStreamsGpu(
-    viennacl::vector_base<cl_uint> &creatorInitialGlobal,
+Rcpp::IntegerVector CreateStreamsGpu(
+    Rcpp::IntegerVector creatorInitialGlobalR,
     viennacl::matrix_base<cl_uint> &streams, 
+    Rcpp::IntegerMatrix streamsMat,
+    const int onGpu,
     const int keepInitial,
     int ctx_id) {
   
-  /* std::vector<int>   cpu_vector = {12345, 12345, 12345, 12345, 12345, 12345};
-   viennacl::vector_base<int> creatorInitialGlobal(6); */
-  /* fill a vector on CPU
-   for (size_t i=0; i<6; ++i)
-   cpu_vector[i] = 12345; */
-  
-  // fill a vector on GPU with data from CPU - faster versions:
-  //copy(cpu_vector, creatorInitialGlobal);  //option 1 // copy(cpu_vector.begin(), cpu_vector.end(), vcl_vector.begin()); //option 2
-  
+  static std::vector<cl_uint>  creatorInitial_cpu = Rcpp::as<std::vector<cl_uint> >(creatorInitialGlobalR);
   const int Nstreams = streams.size1(); //# of rows
   
-  std::string streamsKernelString = streamsString(
-    streams.internal_size2(), 
-    keepInitial
-  );
-  
-  
-  
-  // the context
-  viennacl::ocl::switch_context(ctx_id);
-  viennacl::ocl::program & my_prog = viennacl::ocl::current_context().add_program(streamsKernelString, "my_kernel");
-  
-  //Rcpp::Rcout << "after adding kernelstring" << "\n\n";
+  if(onGpu==1){
+    viennacl::vector_base<cl_uint> creatorInitial_gpu(6); 
+    copy(creatorInitial_cpu, creatorInitial_gpu);
+    /* fill a vector on CPU
+     for (size_t i=0; i<6; ++i)
+     cpu_vector[i] = 12345; */
+    
+    // fill a vector on GPU with data from CPU - faster versions:
+    //copy(cpu_vector, creatorInitialGlobal);  //option 1 // copy(cpu_vector.begin(), cpu_vector.end(), vcl_vector.begin()); //option 2
+    
+    
+    
+    std::string streamsKernelString = streamsString(
+      streams.internal_size2(), 
+      keepInitial
+    );
+    
+    
+    
+    // the context
+    viennacl::ocl::switch_context(ctx_id);
+    viennacl::ocl::program & my_prog = viennacl::ocl::current_context().add_program(streamsKernelString, "my_kernel");
+    
+    //Rcpp::Rcout << "after adding kernelstring" << "\n\n";
 #ifdef DEBUGKERNEL
-  Rcpp::Rcout << streamsKernelString << "\n\n";
+    Rcpp::Rcout << streamsKernelString << "\n\n";
 #endif  
+    
+    
+    viennacl::ocl::kernel &streamsKernel = my_prog.get_kernel("createStreams");
+    streamsKernel.global_work_size(0, 1L);
+    streamsKernel.global_work_size(1, 1L);
+    
+    streamsKernel.local_work_size(0, 1L);
+    streamsKernel.local_work_size(1, 1L);
+    //Rcpp::Rcout << "before enqueue kernel" << "\n\n";
+    
+    viennacl::ocl::enqueue(streamsKernel(creatorInitial_gpu, streams, Nstreams) );
+    clFinish(streamsKernel.context().get_queue().handle().get());
+    //Rcpp::Rcout << "after enqueue kernel\n\n" << "\n\n";
+    
+    copy(creatorInitial_gpu,creatorInitial_cpu);
+    
+    
+  }else{
+    int i, row, col, Dstream;
+    ulong acc; 
+    
+    const ulong JUMP_MATRIX[18]= {
+      1702500920, 1849582496, 1656874625,
+      828554832, 1702500920, 1512419905,
+      1143731069,  828554832,  102237247,
+      796789021, 1464208080,  607337906, 
+      1241679051, 1431130166, 1464208080, 
+      1401213391, 1178684362, 1431130166};
+    
+    
+    //static std::vector<cl_uint>  creatorInitial_cpu = Rcpp::as<std::vector<cl_uint> >(initial);
+    uint creatorNextState[6];
+    
+    
+    for(Dstream = 0;   Dstream < Nstreams;    Dstream++){
+      
+      for (i=0; i<6; i++) {
+        streamsMat(Dstream, i) = 
+          streamsMat(Dstream, 6 + i) = 
+          creatorNextState[i] = creatorInitial_cpu[i];
+      }
+      
+      
+      for (row=0; row<3; row++){
+        acc = 0;
+        for (col=0; col<3; col++){
+          acc += (JUMP_MATRIX[3 * row + col] * ( (ulong) creatorNextState[col]) ) % mrg31k3p_M1;
+        }
+        creatorInitial_cpu[row] = (uint) (acc % mrg31k3p_M1);
+      }
+      
+      
+      for (row=3; row<6; row++){
+        acc = 0;
+        for (col=0; col<3; col++){
+          acc += (JUMP_MATRIX[3 * row + col] * ( (ulong) creatorNextState[col+3]) ) % mrg31k3p_M2;
+        }
+        creatorInitial_cpu[row] = (uint) (acc % mrg31k3p_M2);
+      }
+      
+    }
+
+  }
   
+  Rcpp::IntegerVector currentSeed( creatorInitial_cpu.begin(), creatorInitial_cpu.end() );
   
-  viennacl::ocl::kernel &streamsKernel = my_prog.get_kernel("createStreams");
-  streamsKernel.global_work_size(0, 1L);
-  streamsKernel.global_work_size(1, 1L);
-  
-  streamsKernel.local_work_size(0, 1L);
-  streamsKernel.local_work_size(1, 1L);
-  //Rcpp::Rcout << "before enqueue kernel" << "\n\n";
-  
-  viennacl::ocl::enqueue(streamsKernel(creatorInitialGlobal, streams, Nstreams) );
-  clFinish(streamsKernel.context().get_queue().handle().get());
-  //Rcpp::Rcout << "after enqueue kernel\n\n" << "\n\n";
-  
+  return currentSeed;
   /* 
    Rcpp::Rcout << streams(0,0) << "\n" << streams(0,1) << "\n"<< streams(0,2) << "\n\n";
    Rcpp::Rcout << streams(1,0) << "\n" << streams(1,1) << "\n"<< streams(1,2) << "\n\n";
@@ -196,44 +265,35 @@ void CreateStreamsGpu(
 
 
 
-
-void CreateStreamsGpuTemplated(
-    Rcpp::S4 creatorInitialGlobalR,
+SEXP CreateStreamsTemplated(
+    Rcpp::IntegerVector creatorInitialGlobalR,
     Rcpp::S4 streamsR,
+    Rcpp::IntegerMatrix streamsMat,
+    const int onGpu,
     const int keepInitial){
   
   const bool BisVCL=1;
   const int ctx_id = INTEGER(streamsR.slot(".context_index"))[0]-1;
-  std::shared_ptr<viennacl::vector_base<cl_uint> > creatorInitialGlobal = getVCLVecptr<cl_uint>(creatorInitialGlobalR.slot("address"), BisVCL, ctx_id);
+
   std::shared_ptr<viennacl::matrix_base<cl_uint> > streams = getVCLptr<cl_uint>(streamsR.slot("address"), BisVCL, ctx_id);
   
-  
-  
-  //std::cout<< "in CreateStreamsGpuTemplated\n\n\n";    
-  CreateStreamsGpu(*creatorInitialGlobal, *streams, keepInitial, ctx_id);
-  
-  
-  
-  //return Rcpp::wrap(0L);
-}
 
+  return Rcpp::wrap(CreateStreamsGpu(creatorInitialGlobalR, *streams, streamsMat, onGpu, keepInitial, ctx_id));
+  
+}
 
 
 
 
 //[[Rcpp::export]]
-void CreateStreamsGpuBackend(
-    Rcpp::S4 creatorInitialGlobalR,    
+SEXP CreateStreamsBackend(
+    Rcpp::IntegerVector creatorInitialGlobalR,    
     Rcpp::S4 streamsR,
+    Rcpp::IntegerMatrix streamsMat,
+    const int onGpu,
     const int keepInitial){
   
-  CreateStreamsGpuTemplated(creatorInitialGlobalR, streamsR, keepInitial);
+  return CreateStreamsTemplated(creatorInitialGlobalR, streamsR, streamsMat, onGpu, keepInitial);
   
   
 }
-
-
-
-
-
-

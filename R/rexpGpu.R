@@ -1,19 +1,20 @@
-#' @title rexp
+#' @title rexpGpu
 #' @description Generate exponential random numbers on a GPU
 #' @param n A number or a vector specifying the size of the output vector or matrix
 #' @param rate Distribution parameter, mean equals to 1/rate
-#' @param streams Streams object
+#' @param streams Streams object. Default using GPU streams with package default initial seeds
 #' @param Nglobal NDRange of work items for use
 #' @param type "double" or "float" of generated random numbers
 #' @param verbose if TRUE, print extra information
+#' @import gpuR
 #' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
 #' 
 #' @examples
-#' library(clrng)
-#' as.vector(rexp(7, Nglobal=c(4,2)))
-#' as.matrix(rexp(c(2,3), rate=0.5, Nglobal=c(2,2), type="float"))
-#' streams <- createStreamsGpu(6, initial = rep(5,6))
-#' as.vector(rnorm(3, streams=streams, Nglobal=c(3,2)))
+#' library('clrng')
+#' library('gpuR')
+#' streams <- createStreamsGpu(8)
+#' as.vector(rexpGpu(7, streams=streams, Nglobal=c(4,2)))
+#' as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2), type="float"))
 #' 
 #' @useDynLib clrng
 #' @export
@@ -21,7 +22,7 @@
 
 
 
-rexp = function(
+rexpGpu = function(
   n, 
   rate=1,
   streams, 
@@ -53,24 +54,25 @@ rexp = function(
   }
   
   
-  if(missing(streams)) {
-    if(missing(Nglobal)) {
-      Nglobal = c(64,8)
-      seedR = sample.int(2147483647, 6, replace = TRUE) 
-      seed <- gpuR::vclVector(seedR, type="integer")  
-      streams<-vclMatrix(0L, nrow=512, ncol=12, type="integer")
-      CreateStreamsGpuBackend(seed, streams, keepInitial=1)
-    }else{
-      seedR = sample.int(2147483647, 6, replace = TRUE)
-      seed <- gpuR::vclVector(seedR, type="integer")  
-      streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-      CreateStreamsGpuBackend(seed, streams, keepInitial=1)
+    if(missing(streams)) {
+       stop("streams must be supplied")
     }
-  }else if(missing(Nglobal)){
+  
+    if(missing(Nglobal)){
     stop("number of work items needs to be same as number of streams")
-  }else if(prod(Nglobal) != nrow(streams)){
-    warning("number of work items needs to be same as number of streams")
-  }
+     }
+     
+   # if(missing(streams)) {
+   #    initial = as.integer(rep(12345,6))
+   #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+   #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+   #    currentCreator <- streams[nrow(streams),]
+   #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+   #  }
+  
+    if(prod(Nglobal) != nrow(streams)){
+      warning("number of work items needs to be same as number of streams")
+    }
   
   
   
