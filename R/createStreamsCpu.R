@@ -1,6 +1,6 @@
 #' @title createStreamsCpu
 #' @description Create streams stored on the CPU
-#' @param n Number of streams to create
+#' @param n Number of streams to create, default is 1024
 #' @return A stream object on CPU
 #' @examples 
 #' library(clrng)
@@ -15,7 +15,7 @@
 
 #' @export
  
-createStreamsCpu = function(n){
+createStreamsCpu = function(n=1024){
   
   n = as.integer(n)
   

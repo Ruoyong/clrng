@@ -33,7 +33,7 @@
     
 #' @title createStreamsGpu
 #' @description Generate streams on GPU device
-#' @param n number of streams to create
+#' @param n number of streams to create, default is 1024
 #' @return A stream object of class 'vclMatrix' on GPU
 #' @examples
 #' setBaseCreator(rep(12345,6))
@@ -43,7 +43,7 @@
 #' t(as.matrix(myStreamsGpu2))
 #' @useDynLib clrng    
 #' @export
-    createStreamsGpu = function(n){
+    createStreamsGpu = function(n=1024){
       
       streamsR<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
       streamsCpu<- matrix(0L, nrow=as.integer(n), ncol=12)
