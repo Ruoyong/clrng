@@ -71,7 +71,8 @@ rexpGpu = function(
    #  }
   
     if(prod(Nglobal) > nrow(streams)){
-      warning("number of work items needs to be less than number of streams")
+      warning("the number of streams created should always equal (or exceed)
+the maximum number of work items likely to be used")
     }
   
   

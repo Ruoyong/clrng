@@ -7,7 +7,7 @@
 setBaseCreator(initial = rep(12345, 6))
 }
 \arguments{
-\item{initial}{Initial state of the first stream, length 6, recycled if shorter}
+\item{initial}{Initial state of the first stream, length 6, recycled if shorter. Default is c(12345,12345,12345,12345,12345,12345)}
 }
 \value{
 A stream object of class 'vclMatrix' on GPU

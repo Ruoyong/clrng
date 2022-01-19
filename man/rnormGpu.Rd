@@ -31,7 +31,6 @@ Generate standard normal random numbers on a GPU
 }
 \examples{
 library(clrng)
-library(gpuR)
 streams <- createStreamsGpu(8)
 as.vector(rnormGpu(7, streams=streams, Nglobal=c(4,2)))
 as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2), type="float"))
