@@ -21,7 +21,7 @@ runifGpu(
 
 \item{type}{Precision type of random numbers, "double" or "float" or "integer", default is double}
 
-\item{verbose}{if TRUE, print extra information}
+\item{verbose}{if TRUE, print extra information. Default is set to 0.}
 }
 \value{
 A vclVector or vclMatrix of uniform random numbers
