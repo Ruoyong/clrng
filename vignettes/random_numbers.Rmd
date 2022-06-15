@@ -56,7 +56,7 @@ avector<-as.vector(as.matrix(a))
 hist(avector,breaks=40)
 
 # Do a Q-Q plot
-clrng::qqnorm(avector, Nglobal = c(128,64))
+clrng::qqnormGpu(avector, Nglobal = c(128,64))
 # Can also do the Q-Q plot calculation on CPU by stats::qqnorm
 stats::qqnorm(avector)
 ```
