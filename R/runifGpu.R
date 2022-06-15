@@ -45,7 +45,7 @@ runifGpu = function(
       stop("streams must be supplied")
     }
     if(missing(Nglobal)){
-      stop("number of work items needs to be less than number of streams")
+      stop("Nglobal required")
      }
  
    # if(missing(streams)) {

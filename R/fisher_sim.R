@@ -69,7 +69,7 @@ fisher.sim=function(
   
   
      if(missing(Nglobal)){
-       stop("number of work items needs to be same as number of streams")
+       stop("Nglobal required")
      }
   
      # if(missing(streams)) {

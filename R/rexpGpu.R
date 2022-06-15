@@ -59,7 +59,7 @@ rexpGpu = function(
     }
   
     if(missing(Nglobal)){
-    stop("number of work items needs to be less than number of streams")
+    stop("Nglobal required")
      }
      
    # if(missing(streams)) {
