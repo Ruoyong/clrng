@@ -1,4 +1,4 @@
-#' @title qqnorm
+#' @title qqnormGpu
 #' @description Calculate quantiles on GPU and produce a Q-Q plot in R
 #' @param y Data sample
 #' @param ylim  Limits on the plot region
@@ -16,14 +16,14 @@
 #' @examples 
 #' library(clrng)
 #' y <- stats::rt(256, df = 5)
-#' clrng::qqnorm(y, ylim=c(-2,5), mu=0, sigma=1, Nglobal=c(16,4))
+#' clrng::qqnormGpu(y, ylim=c(-2,5), mu=0, sigma=1, Nglobal=c(16,4))
 #' x<-stats::rnorm(256)
-#' clrng::qqnorm(x, Nglobal=c(8,6))
+#' clrng::qqnormGpu(x, Nglobal=c(8,6))
 #' 
 #' @useDynLib clrng
 #' @export
 
-qqnorm<-function(y, ylim, mu=0, sigma=1, lowertail=1,
+qqnormGpu<-function(y, ylim, mu=0, sigma=1, lowertail=1,
                   main = "Normal Q-Q Plot",
                   xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
                   Nglobal, Nlocal = c(2, 2),

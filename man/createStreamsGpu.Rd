@@ -4,10 +4,10 @@
 \alias{createStreamsGpu}
 \title{createStreamsGpu}
 \usage{
-createStreamsGpu(n)
+createStreamsGpu(n = 1024)
 }
 \arguments{
-\item{n}{number of streams to create}
+\item{n}{number of streams to create, default is 1024}
 }
 \value{
 A stream object of class 'vclMatrix' on GPU

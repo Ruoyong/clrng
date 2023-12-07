@@ -15,13 +15,13 @@ runifGpu(
 \arguments{
 \item{n}{A number or a vector specifying the size of output vector or matrix}
 
-\item{streams}{Streams object. Default using GPU streams with package default initial seeds}
+\item{streams}{Streams object.}
 
 \item{Nglobal}{NDRange of work items for use}
 
 \item{type}{Precision type of random numbers, "double" or "float" or "integer", default is double}
 
-\item{verbose}{if TRUE, print extra information}
+\item{verbose}{if TRUE, print extra information. Default is set to 0.}
 }
 \value{
 A vclVector or vclMatrix of uniform random numbers

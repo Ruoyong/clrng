@@ -293,6 +293,10 @@ SEXP CreateStreamsBackend(
     const int onGpu,
     const int keepInitial){
   
+  colnames(streamsMat) = Rcpp::CharacterVector::create(
+    "current.g1.1", "current.g1.2", "current.g1.3", "current.g2.1", "current.g2.2", "current.g2.3",
+    "initial.g1.1", "initial.g1.2", "initial.g1.3", "initial.g2.1", "initial.g2.2", "initial.g2.3");
+  
   return CreateStreamsTemplated(creatorInitialGlobalR, streamsR, streamsMat, onGpu, keepInitial);
   
   

@@ -1,6 +1,6 @@
 #' @title setBaseCreator
 #' @description Set the initial seed of the package or stream
-#' @param initial Initial state of the first stream, length 6, recycled if shorter
+#' @param initial Initial state of the first stream, length 6, recycled if shorter. Default is c(12345,12345,12345,12345,12345,12345)
 #' @return A stream object of class 'vclMatrix' on GPU
 #' @examples
 #' setBaseCreator(c(111,222,333,444,555,666))
@@ -51,8 +51,7 @@
       if(!exists(".Random.seed.clrng")) {
         assign(".Random.seed.clrng", setBaseCreator())
       } 
-      
-
+                                   
       
       currentCreator = CreateStreamsBackend(
         .Random.seed.clrng,    
@@ -61,8 +60,12 @@
         onGpu=TRUE,
         keepInitial=TRUE)
       
-      assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+      # gpuR::colnames(streamsR) = c("current.g1.1", "current.g1.2", "current.g1.3", "current.g2.1", "current.g2.2", "current.g2.3",
+      #                              "initial.g1.1", "initial.g1.2", "initial.g1.3", "initial.g2.1", "initial.g2.2", "initial.g2.3"
+      #                              # "substream.g1.1", "substream.g1.2", "substream.g1.3", "substream.g2.1", "substream.g2.2", "substream.g2.3"
+      # )
       
+      assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
       streamsR
       
     }

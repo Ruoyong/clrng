@@ -4,10 +4,10 @@
 \alias{createStreamsCpu}
 \title{createStreamsCpu}
 \usage{
-createStreamsCpu(n)
+createStreamsCpu(n = 1024)
 }
 \arguments{
-\item{n}{Number of streams to create}
+\item{n}{Number of streams to create, default is 1024}
 }
 \value{
 A stream object on CPU

@@ -2,7 +2,7 @@
 #' @description Generate exponential random numbers on a GPU
 #' @param n A number or a vector specifying the size of the output vector or matrix
 #' @param rate Distribution parameter, mean equals to 1/rate
-#' @param streams Streams object. Default using GPU streams with package default initial seeds
+#' @param streams Streams object. 
 #' @param Nglobal NDRange of work items for use
 #' @param type "double" or "float" of generated random numbers
 #' @param verbose if TRUE, print extra information
@@ -59,7 +59,7 @@ rexpGpu = function(
     }
   
     if(missing(Nglobal)){
-    stop("number of work items needs to be same as number of streams")
+    stop("Nglobal required")
      }
      
    # if(missing(streams)) {
@@ -70,8 +70,9 @@ rexpGpu = function(
    #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
    #  }
   
-    if(prod(Nglobal) != nrow(streams)){
-      warning("number of work items needs to be same as number of streams")
+    if(prod(Nglobal) > nrow(streams)){
+      warning("the number of streams created should always equal (or exceed)
+the maximum number of work items likely to be used")
     }
   
   
