@@ -25,3 +25,5 @@ doc
 Meta
 config.log
 config.status
+inst/.DS_Store
+.DS_Store
