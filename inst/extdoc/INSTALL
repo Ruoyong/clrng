@@ -1,22 +1,38 @@
-# R repository
-sudo add-apt-repository --yes "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-sudo add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+
-
-
-# repository for GPU drivers
-wget -O /tmp/arbutus-cloud-repo_all.deb http://repo.arbutus.cloud.computecanada.ca/pulp/deb/ubuntu22/pool/main/arbutus-cloud-repo_0.1_all.deb
-sudo dpkg -i /tmp/arbutus-cloud-repo_all.deb 
-
 # update and reboot
 sudo apt-get update
 sudo apt-get dist-upgrade
 sudo apt-get autoremove
 sudo reboot
 
+######################
+# Compute Canada Cloud
+# g1-8gb-c4-22gb
+######################
+
+# repository for GPU drivers
+wget -O /tmp/arbutus-cloud-repo_all.deb http://repo.arbutus.cloud.computecanada.ca/pulp/deb/ubuntu22/pool/main/arbutus-cloud-repo_0.1_all.deb
+sudo dpkg -i /tmp/arbutus-cloud-repo_all.deb 
+
 # install drivers
 sudo apt-get -y install nvidia-vgpu-kmod nvidia-vgpu-tools nvidia-vgpu-gridd
 sudo reboot
+
+#####################
+# Amazon
+# g3s.xlarge
+#####################
+
+# ssh -i ~/Admin/share/patrickdefault.pem ubuntu@ec2-18-218-149-6.us-east-2.compute.amazonaws.com
+
+wget -O /tmp/cuda-keyring.deb https://developer.download.nvidia.com/compute/cuda/repos/$distro/$arch/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i /tmp/cuda-keyring_all.deb
+
+sudo apt-get install cuda-toolkit
+sudo apt-get install nvidia-gds
+
+
+# End of drivers
+
 
 # install and check opencl
 lspci -kv
@@ -25,9 +41,16 @@ sudo apt-get install --yes opencl-headers ocl-icd-opencl-dev clinfo
 clinfo
 
 
+# R repositories
+sudo add-apt-repository --yes "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+sudo add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+
+
+# R
 sudo apt-get --yes install r-cran-devtools r-cran-rcppeigen r-cran-bh r-cran-testthat r-cran-knitr r-cran-assertive 
 
-
+# GPU packages
 devtools::install_github("eborgnine/gpuR")
 devtools::install_github("ruoyongxu/clrng")
  
+
