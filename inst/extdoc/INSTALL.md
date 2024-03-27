@@ -1,7 +1,7 @@
 
 # Drivers
 
-The `clrng` and `gpuR` packages require GPU drivers and opencl.  This can be tricky.
+The `clrng` and `gpuR` packages require GPU drivers and opencl.  This can be tricky.  
 
 
 Check you have a GPU
@@ -10,10 +10,12 @@ Check you have a GPU
 lspci -kv
 ```
 
+Below are some instructions for Ubuntu.
+
 
 ## Nvidia
 
-See the [Nvidia installation guide](hhttps://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#network-repo-installation-for-ubuntu)
+See the [Nvidia installation guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#network-repo-installation-for-ubuntu)
 
 
 If you're lucky, the following will work.
@@ -71,6 +73,8 @@ Check the drivers
 
 ## Amazon AWS
 
+Start an instance with
+
 - `g3s.xlarge`
 - ubuntu
 
@@ -124,7 +128,10 @@ clinfo
 
 ## Digital Research Alliance of Canada cloud
 
-- Free for academics in Canada: [info](https://docs.alliancecan.ca/wiki/Cloud)
+Free for academics in Canada: [info](https://docs.alliancecan.ca/wiki/Cloud)
+
+Start an instance with
+
 - `g1-8gb-c4-22gb`
 -  ubuntu
 
@@ -173,7 +180,6 @@ clinfo
 
 # R and packages
 
-On Ubuntu
 
 R repositories
 
@@ -205,3 +211,19 @@ devtools::install_github("eborgnine/gpuR")
 devtools::install_github("ruoyongxu/clrng")
  ```
 
+# CPU
+
+It is possible to install openCL for use with a CPU rather than a GPU.  This could be useful for development and testing, but the code will run considerably slower than on a GPU.
+
+
+```
+sudo apt install intel-opencl-icd
+sudo apt install opencl-dev clinfo
+clinfo
+```
+
+```
+library('gpuR')
+listContexts()
+setContext(grep("cpu", listContexts()$device_type)[1])
+```
