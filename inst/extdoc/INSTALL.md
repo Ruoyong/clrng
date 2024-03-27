@@ -1,7 +1,7 @@
 
 # Drivers
 
-
+The `clrng` and `gpuR` packages require GPU drivers and opencl.  This can be tricky.
 
 
 Check you have a GPU
@@ -10,12 +10,13 @@ Check you have a GPU
 lspci -kv
 ```
 
+
 ## Nvidia
 
 See the [Nvidia installation guide](hhttps://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#network-repo-installation-for-ubuntu)
 
 
-If you're lucky, you 
+If you're lucky, the following will work.
 
 
 ```
@@ -45,8 +46,7 @@ clinfo
 
 ## AMD
 
-see the 
-
+See the 
 [AMD rocm install guide](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/tutorial/quick-start.html)
 
 
@@ -56,10 +56,13 @@ sudo apt install rocm
 sudo reboot
 ```
 
+Check the drivers
 
 ```
 /opt/rocm/bin/rocm-smi
 ```
+
+... and openCL
 
 ```
 /opt/rocm/bin/clinfo
@@ -119,8 +122,9 @@ Check openCL is working
 clinfo
 ```
 
-## Compute Canada Cloud
+## Digital Research Alliance of Canada cloud
 
+- Free for academics in Canada: [info](https://docs.alliancecan.ca/wiki/Cloud)
 - `g1-8gb-c4-22gb`
 -  ubuntu
 

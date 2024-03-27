@@ -27,3 +27,4 @@ config.log
 config.status
 inst/.DS_Store
 .DS_Store
+inst/extdoc/INSTALL.html
