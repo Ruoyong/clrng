@@ -25,7 +25,7 @@
 
 fisher.sim=function(
   x, # a vclMatrix
-  N, # requested number of simualtion,
+  N, # requested number of simualtions,
   streams, 
   type = c('float','double')[1+gpuR::gpuInfo()$double_support],
   returnStatistics = FALSE,
@@ -119,7 +119,7 @@ fisher.sim=function(
   
   PVAL <- NULL
   
-  counts<-cpp_gpuFisher_test(x, results, simPerItem, streams, Nglobal,Nlocal)
+  counts<-clrng:::cpp_gpuFisher_test(x, results, simPerItem, streams, Nglobal,Nlocal)
   
   #theTime<-system.time(cpp_gpuFisher_test(x, results, as.integer(B), streams, Nglobal,Nlocal))
   
@@ -138,15 +138,33 @@ fisher.sim=function(
   
   if (returnStatistics){
     
-    theResult = list(p.value = PVAL, simNum=TotalSim, threshold=counts[1], counts=counts[2], sim = results, streams=streams)
+    theResult <- structure(list(
+      data.name = deparse(substitute(x)),
+      p.value = PVAL,
+      method = paste("Fisher's Exact Test for Count Data", "with simulated p-value\n\t (based on", TotalSim,
+                     "replicates)"),
+      threshold = counts[1],
+      streams=streams,
+      counts=counts[2], 
+      sim = results
+    ), class = "htest")
+
+  }else{
     
-  }else {
-    
-    theResult = list(p.value = PVAL, simNum=TotalSim, threshold=counts[1], counts=counts[2], streams=streams)
+    # Construct htest object
+    theResult <- structure(list(
+      data.name = deparse(substitute(x)),
+      p.value = PVAL,
+      method = paste("Fisher's Exact Test for Count Data", "with simulated p-value\n\t (based on", TotalSim,
+                     "replicates)"),
+      threshold = counts[1],
+      streams=streams,
+      counts=counts[2], 
+      sim = results
+    ), class = "htest")
   }
-  
+
   theResult
-  
   
 }
 
