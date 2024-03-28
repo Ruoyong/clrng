@@ -13,5 +13,6 @@ Suggests: knitr
 LinkingTo:
 	RViennaCL (>= 1.7.1.4),
 	Rcpp
+OS_type: unix
 VignetteBuilder: knitr
 RoxygenNote: 7.2.0

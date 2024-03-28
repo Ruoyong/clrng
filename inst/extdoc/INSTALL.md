@@ -1,13 +1,7 @@
 
-This clrng R package is built as a tool set for random number generation on GPUs in R. 
-It is dependent on the gpuR package and utilize the MRG31k3p RNG from the clRNG, an OpenCL library by [Pierre L’Ecuyer](https://www.iro.umontreal.ca/~lecuyer/).
+# Drivers
 
-
-# Installing drivers
-
-
-
-The `clrng` and `gpuR` packages require GPU drivers and opencl.  This can be tricky.  Although the package is only officially supported on unix, it should work on any computer where openCL is available.   
+The `clrng` and `gpuR` packages require GPU drivers and opencl.  This can be tricky.  
 
 
 Check you have a GPU
@@ -16,7 +10,7 @@ Check you have a GPU
 lspci -kv
 ```
 
-Below are some instructions for installing the required drivers for Ubuntu.
+Below are some instructions for Ubuntu.
 
 
 ## Nvidia
@@ -100,14 +94,13 @@ sudo reboot
 ```
 
 Set up the nvidia software repository
-
 ```
 wget -O /tmp/cuda-keyring.deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
 sudo dpkg -i /tmp/cuda-keyring.deb
 sudo apt update
 ```
 
-Install cuda
+Install cuda, which is sufficient (but much more than necessary)
 
 ```
 sudo apt install -y cuda
@@ -140,7 +133,7 @@ Free for academics in Canada: [info](https://docs.alliancecan.ca/wiki/Cloud)
 Start an instance with
 
 - `g1-8gb-c4-22gb`
-- Ubuntu
+-  ubuntu
 
 
 Update and reboot
@@ -151,14 +144,14 @@ sudo apt dist-upgrade
 sudo reboot
 ```
 
-Add the repository for GPU drivers
+repository for GPU drivers
 
 ```
 wget -O /tmp/arbutus-cloud-repo_all.deb http://repo.arbutus.cloud.computecanada.ca/pulp/deb/ubuntu22/pool/main/arbutus-cloud-repo_0.1_all.deb
 sudo dpkg -i /tmp/arbutus-cloud-repo_all.deb 
 ```
 
-Install drivers
+install drivers
 
 ```
 sudo apt --yes install nvidia-vgpu-kmod nvidia-vgpu-tools nvidia-vgpu-gridd
@@ -188,7 +181,7 @@ clinfo
 # R and packages
 
 
-Add R repositories
+R repositories
 
 ```
 sudo add-apt-repository --yes "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
@@ -203,7 +196,7 @@ sudo apt --yes install r-cran-devtools r-cran-rcppeigen r-cran-bh r-cran-testtha
 sudo apt-get clean
 ```
 
-Set up some folders for R, including a personal library.  
+Set up some files for R, including a personal library.  
 
 ```
 mkdir ~/.R 
@@ -218,7 +211,7 @@ devtools::install_github("eborgnine/gpuR")
 devtools::install_github("ruoyongxu/clrng")
  ```
 
-# openCL on CPU
+# CPU
 
 It is possible to install openCL for use with a CPU rather than a GPU.  This could be useful for development and testing, but the code will run considerably slower than on a GPU.
 
