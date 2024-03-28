@@ -4,7 +4,7 @@
 #' @param ylim  Limits on the plot region
 #' @param mu  Mean of Normal distribution, default is 0
 #' @param sigma  Variance of Normal distribution, default is 1
-#' @param lowertail Logical, whether use lower tail probability, default is TRUE
+#' @param lower.tail Logical, whether use lower tail probability, default is TRUE
 #' @param main plot label
 #' @param xlab plot label
 #' @param ylab plot label
@@ -23,7 +23,7 @@
 #' @useDynLib clrng
 #' @export
 
-qqnormGpu<-function(y, ylim, mu=0, sigma=1, lowertail=1,
+qqnormGpu<-function(y, ylim, mu=0, sigma=1, lower.tail=1,
                   main = "Normal Q-Q Plot",
                   xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
                   Nglobal, Nlocal = c(2, 2),
@@ -59,7 +59,7 @@ qqnormGpu<-function(y, ylim, mu=0, sigma=1, lowertail=1,
  #   p <-gpuR::vclVector(ppoints(n), type=gpuR::typeof(y))
     out <-gpuR::vclVector(length=as.integer(n), type=gpuR::typeof(y))
    
-    x <- as.vector(cpp_gpu_qqnorm(out, mu,sigma, lowertail, Nglobal , Nlocal))
+    x <- as.vector(cpp_gpu_qqnorm(out, mu,sigma, lower.tail, Nglobal , Nlocal))
     
     x <- x[order(order(as.vector(y)))]  ###
     

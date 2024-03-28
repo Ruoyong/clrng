@@ -10,6 +10,16 @@
 
     setBaseCreator <- function(initial = rep(12345,6)) {
       
+      initial = as.integer(initial)
+      
+      # if(any(initial[1:3] >= rep(2147483647,3)){
+      #   stop('CLRNG_INVALID_SEED')
+      # }
+      
+      if(any(initial[4:6] >= rep(2147462579,3))){
+        stop('CLRNG_INVALID_SEED')
+      }
+      
       if(length(initial) != 6){
         # message('initial seed should be a vector of 6 integers!')
         initial = rep_len(initial, 6)
@@ -21,8 +31,6 @@
   
       if(all(initial[1:3] == c(0,0,0)) | all(initial[4:6] == c(0,0,0)))
         stop('CLRNG_INVALID_SEED')
-  
-      initial = as.integer(initial)
 
       assign(".Random.seed.clrng", initial, envir = .GlobalEnv)
     }
