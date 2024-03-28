@@ -37,8 +37,8 @@ runifGpu = function(
     n<-c(n,1)
   }
   
-  if(Nglobal[2]<2){
-    stop("number of work items needs to be an even number for second dimension\n")
+  if(Nglobal[2]%%2 !=0 ){
+    stop("number of work items in dimension 2 must be a multiple of 2")
   }
   
     if(missing(streams)) {

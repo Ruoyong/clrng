@@ -35,23 +35,23 @@ rexpGpu = function(
     stop("'n' has to be a vector of no more than two elements")
   }
   if(length(n)==0){
-    stop("specify the number of rows and columns of the output matrix")
+    stop("need to specify the number of rows and columns of the output matrix")
   }
   if(length(n)==1){
     n<-c(n,1)
   }
   
-  if(Nglobal[2]<2){
-    stop("Nglobal[2] should be larger than 1")
+  if(Nglobal[2]%%2 !=0 ){
+    stop("number of work items in dimension 2 must be a multiple of 2")
   }
   
   if(rate <= 0 || !is.finite(rate)){
     stop("invalid rate value")
   }
   
-  if(Nglobal[2]<2){
-    stop("number of work items needs to be an even number for second dimension\n")
-  }
+  # if(Nglobal[2]<2){
+  #   stop("number of work items needs to be an even number for second dimension\n")
+  # }
   
   
     if(missing(streams)) {
