@@ -363,7 +363,7 @@ template<typename T>
 Rcpp::NumericVector gpuFisher_test(
     viennacl::matrix<int> &x, //  viennacl::vector_base<int> &sr,  //  viennacl::vector_base<int> &sc,
     viennacl::vector_base<T> &results,  
-    int B, //number of simualtion each work item, // int remainder,
+    int B, //number of simualtion each work item, 
     viennacl::matrix<int> &streams,
     Rcpp::IntegerVector numWorkItems,
     Rcpp::IntegerVector numLocalItems,

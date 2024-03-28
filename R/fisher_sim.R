@@ -138,21 +138,7 @@ fisher.sim=function(
   
   if (returnStatistics){
     
-    theResult <- structure(list(
-      data.name = deparse(substitute(x)),
-      p.value = PVAL,
-      method = paste("Fisher's Exact Test for Count Data", "with simulated p-value\n\t (based on", TotalSim,
-                     "replicates)")
-    ), class = "htest")
-
-    
-    attributes(theResult)$gpuResults <- c( threshold = counts[1],   streams=streams,counts=counts[2], sim = results)
-
-    
-  }else{
-    
-    # Construct htest object
-    theResult <- structure(list(
+    theResult <- list(
       data.name = deparse(substitute(x)),
       p.value = PVAL,
       method = paste("Fisher's Exact Test for Count Data", "with simulated p-value\n\t (based on", TotalSim,
@@ -161,9 +147,22 @@ fisher.sim=function(
       streams=streams,
       counts=counts[2], 
       sim = results
-    ), class = "htest")
+    )
+    
+  }else{
+    
+    # Construct htest object
+    theResult <- list(
+      data.name = deparse(substitute(x)),
+      p.value = PVAL,
+      method = paste("Fisher's Exact Test for Count Data", "with simulated p-value\n\t (based on", TotalSim,
+                     "replicates)"),
+      threshold = counts[1],
+      streams=streams,
+      counts=counts[2])
   }
-
+  
+  attr(theResult, "class") <- "htest"
   theResult
   
 }
