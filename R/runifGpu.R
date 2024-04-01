@@ -1,30 +1,32 @@
 #' @title runifGpu
-#' @description Generate uniform random numbers on a GPU
-#' @param n A number or a vector specifying the size of output vector or matrix
-#' @param streams Streams object. 
-#' @param Nglobal NDRange of work items for use
-#' @param type Precision type of random numbers, "double" or "float" or "integer", default is double
-#' @param verbose if TRUE, print extra information. Default is set to 0.
+#' @description Generate uniform random numbers parallely on a GPU
+#' @param n a number or numeric vector specifying the size of output vector or matrix
+#' @param streams a vclMatrix of streams. 
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use
+#' @param type a character string specifying "double" or "float" of random numbers, default depends on GPU capabilities
+#' @param verbose a logical value, if TRUE, print extra information. Default is set to FALSE.
 #' @import gpuR
 #' @importFrom utils capture.output
-#' @return A vclVector or vclMatrix of uniform random numbers
+#' @return a vclVector or vclMatrix of uniform random numbers
 #' @examples  
 #' library('clrng')
 #' library('gpuR')
 #' streams <- createStreamsGpu(8)
 #' as.vector(runifGpu(5, streams, Nglobal=c(4,2)))
-#' as.matrix(runifGpu(c(2,2), streams, Nglobal=c(2,4), type="float"))
+#' 
+#' #Change global options
+#’ options(type="float")
+#' as.matrix(runifGpu(c(2,2), streams, Nglobal=c(2,4)))
 #' @useDynLib clrng
 #' @export
-
 
 
 runifGpu = function(
   n, 
   streams, 
   Nglobal,
-  type=c("float", "double", "integer")[1+gpuInfo()$double_support],
-  verbose=FALSE) {
+  type=getOption('type', default = c('float','double')[1+gpuR::gpuInfo()$double_support]),
+  verbose=getOption("verbose", default = FALSE)) {
   
   
   if(length(n)>=3){

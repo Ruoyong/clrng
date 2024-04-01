@@ -1,21 +1,23 @@
 #' @title rnormGpu
-#' @description Generate standard normal random numbers on a GPU
-#' @param n A number or a vector specifying the size of output vector or matrix
-#' @param streams Streams object. 
-#' @param Nglobal NDRange of work items for use
-#' @param type Precision type of random numbers, "double" or "float"
-#' @param verbose if TRUE, print extra information 
+#' @description Generate standard normal random numbers parallely on a GPU
+#' @param n a number or a vector specifying the size of output vector or matrix
+#' @param streams a vclMatrix of streams. 
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use
+#' @param type a character string specifying "double" or "float" of random numbers, default depends on GPU capabilities
+#' @param verbose a logical value, if TRUE, print extra information. Default is set to FALSE
 #' @import gpuR
-#' @return A 'vclVector' or 'vclMatrix' of standard normal random numbers
+#' @return a 'vclVector' or 'vclMatrix' of standard normal random numbers
 #' @examples 
 #' library(clrng)
 #' streams <- createStreamsGpu(8)
 #' as.vector(rnormGpu(7, streams=streams, Nglobal=c(4,2)))
-#' as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2), type="float"))
+#'
+#' #Change global options
+#’ options(type="float") 
+#' as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2)))
 #' 
 #' @useDynLib clrng
 #' @export
-
 
 
 
@@ -23,8 +25,9 @@ rnormGpu = function(
   n, 
   streams, 
   Nglobal,
-  type=c("float", "double")[1+gpuInfo()$double_support],
-  verbose = FALSE) {
+  type=getOption('type', default = c('float','double')[1+gpuR::gpuInfo()$double_support]),
+  verbose=getOption("verbose", default = FALSE)) {
+  
   
   if(any(grepl("vclMatrix", class(n)))) {
     xVcl = n

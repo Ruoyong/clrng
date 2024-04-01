@@ -1,8 +1,8 @@
 #' @title rexpGpu
-#' @description Generate exponential random numbers on a GPU
+#' @description Generate exponential random numbers parallely on a GPU
 #' @param n A number or a vector specifying the size of the output vector or matrix
 #' @param rate Distribution parameter, mean equals to 1/rate
-#' @param streams Streams object. 
+#' @param streams a vclMatrix of streams. 
 #' @param Nglobal NDRange of work items for use
 #' @param type "double" or "float" of generated random numbers
 #' @param verbose if TRUE, print extra information
@@ -20,16 +20,14 @@
 #' @export
 
 
-
-
 rexpGpu = function(
   n, 
   rate=1,
   streams, 
   Nglobal,
-  type=c("float", "double")[1+gpuInfo()$double_support],
-  verbose=FALSE) {
-  
+  type=getOption('type', default = c('float','double')[1+gpuR::gpuInfo()$double_support]),
+  verbose=getOption("verbose", default = FALSE)) {
+
   
   if(length(n)>=3){
     stop("'n' has to be a vector of no more than two elements")

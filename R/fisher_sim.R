@@ -1,15 +1,18 @@
 #' @title fisher.sim
-#' @description Monte carlo's simulation for Fisher's exact test on GPU
+#' @description Performs Monte carlo's simulation for Fisher's exact test on GPU
 #'
-#' @param x A contingency table, a vclMatrix 
-#' @param N Requested a number of replicates
-#' @param streams Streams objects. Default using GPU streams with package default initial seeds
-#' @param type "double" or "float" of returned test statistics
-#' @param Nglobal Size of the index space for use
-#' @param returnStatistics logical, if TRUE, return test statistics
-#' @param verbose if TRUE, print extra information
+#' @param x a vclMatrix object of integer numbers
+#' @param N a integer number specifying number of replicates
+#' @param streams a vclMatrix of streams. Default using GPU streams with package default initial seeds
+#' @param Nglobal a (non-empty) integer vector specifying size of the index space on GPU for use
+#' @param type a character string specifying "double" or "float" of the returned test statistics
+#' @param returnStatistics a logical value, if TRUE, return test statistics
+#' @param verbose a logical value, if TRUE, print extra information
 #' @import gpuR
-#' @return A list of results, including p-value, actual number of replicates, test statistics, streams
+#' 
+#' @return a htest object of p-value and actual number of replicates and a list test statistics, streams, threshold
+#' 
+#'
 #' @examples 
 #' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 #' Job <- gpuR::vclMatrix(Job, type="integer")
@@ -17,7 +20,7 @@
 #' result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
 #' result$streams
 #' result$simNum
-#' result 
+#' result$thresold 
 #' 
 #' @useDynLib clrng
 #' @export
@@ -25,13 +28,13 @@
 
 
 fisher.sim=function(
-  x, # a vclMatrix
-  N, # requested number of simualtions,
-  streams, 
-  type = c('float','double')[1+gpuR::gpuInfo()$double_support],
-  returnStatistics = FALSE,
-  Nglobal,
-  verbose = FALSE){
+    x, # a vclMatrix
+    N, # requested number of simualtions,
+    streams,
+    Nglobal,
+    type = getOption('type', default = c('float','double')[1+gpuR::gpuInfo()$double_support]),
+    returnStatistics = getOption('returnStatistics', default = FALSE),
+    verbose = getOption('verbose', default = FALSE)){
   
   # METHOD <- "Fisher's Exact Test for Count Data"
   
