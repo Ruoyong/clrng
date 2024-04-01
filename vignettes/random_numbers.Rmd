@@ -5,8 +5,8 @@
 
 
 ```{r packages, results='hide'}
-library('gpuR')
 library('clrng')
+setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
 Use double precision if the GPU supports it

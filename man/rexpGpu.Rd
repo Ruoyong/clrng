@@ -9,8 +9,9 @@ rexpGpu(
   rate = 1,
   streams,
   Nglobal,
-  type = c("float", "double")[1 + gpuInfo()$double_support],
-  verbose = FALSE
+  type = getOption("type", default = c("float", "double")[1 +
+    gpuR::gpuInfo()$double_support]),
+  verbose = getOption("verbose", default = FALSE)
 )
 }
 \arguments{
@@ -18,7 +19,7 @@ rexpGpu(
 
 \item{rate}{Distribution parameter, mean equals to 1/rate}
 
-\item{streams}{Streams object.}
+\item{streams}{a vclMatrix of streams.}
 
 \item{Nglobal}{NDRange of work items for use}
 
@@ -30,13 +31,14 @@ rexpGpu(
 a 'vclVector' or 'vclMatrix' of exponential random numbers
 }
 \description{
-Generate exponential random numbers on a GPU
+Generate exponential random numbers parallely on a GPU
 }
 \examples{
 library('clrng')
-library('gpuR')
+setContext(grep("gpu", listContexts()$device_type)[1])
 streams <- createStreamsGpu(8)
 as.vector(rexpGpu(7, streams=streams, Nglobal=c(4,2)))
-as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2), type="float"))
+options(type='float')
+as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2)))
 
 }

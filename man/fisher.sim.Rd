@@ -8,39 +8,42 @@ fisher.sim(
   x,
   N,
   streams,
-  type = c("float", "double")[1 + gpuR::gpuInfo()$double_support],
-  returnStatistics = FALSE,
   Nglobal,
-  verbose = FALSE
+  type = getOption("type", default = c("float", "double")[1 +
+    gpuR::gpuInfo()$double_support]),
+  returnStatistics = getOption("returnStatistics", default = FALSE),
+  verbose = getOption("verbose", default = FALSE)
 )
 }
 \arguments{
-\item{x}{A contingency table, a vclMatrix}
+\item{x}{a vclMatrix object of integer numbers}
 
-\item{N}{Requested a number of replicates}
+\item{N}{a integer number specifying number of replicates}
 
-\item{streams}{Streams objects. Default using GPU streams with package default initial seeds}
+\item{streams}{a vclMatrix of streams. Default using GPU streams with package default initial seeds}
 
-\item{type}{"double" or "float" of returned test statistics}
+\item{Nglobal}{a (non-empty) integer vector specifying size of the index space on GPU for use}
 
-\item{returnStatistics}{logical, if TRUE, return test statistics}
+\item{type}{a character string specifying "double" or "float" of the returned test statistics}
 
-\item{Nglobal}{Size of the index space for use}
+\item{returnStatistics}{a logical value, if TRUE, return test statistics}
 
-\item{verbose}{if TRUE, print extra information}
+\item{verbose}{a logical value, if TRUE, print extra information}
 }
 \value{
-A list of results, including p-value, actual number of replicates, test statistics and so on
+a htest object of p-value and actual number of replicates and a list test statistics, streams, threshold
 }
 \description{
-Monte carlo's simulation for Fisher's exact test on GPU
+Performs Monte carlo's simulation for Fisher's exact test on GPU
 }
 \examples{
+setContext(grep("gpu", listContexts()$device_type)[1])
 Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 Job <- gpuR::vclMatrix(Job, type="integer")
 streams <- createStreamsGpu(64*16)
-result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
-result$p.value
+result <- fisher.sim(Job, 1e5, streams=streams, Nglobal = c(64,16))
+result$streams
 result$simNum
+result$thresold 
 
 }

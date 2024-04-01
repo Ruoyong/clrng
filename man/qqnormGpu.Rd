@@ -9,7 +9,7 @@ qqnormGpu(
   ylim,
   mu = 0,
   sigma = 1,
-  lowertail = 1,
+  lower.tail = 1,
   main = "Normal Q-Q Plot",
   xlab = "Theoretical Quantiles",
   ylab = "Sample Quantiles",
@@ -28,7 +28,7 @@ qqnormGpu(
 
 \item{sigma}{Variance of Normal distribution, default is 1}
 
-\item{lowertail}{Logical, whether use lower tail probability, default is TRUE}
+\item{lower.tail}{Logical, whether use lower tail probability, default is TRUE}
 
 \item{main}{plot label}
 
@@ -52,8 +52,8 @@ Calculate quantiles on GPU and produce a Q-Q plot in R
 }
 \examples{
 library(clrng)
-y <- stats::rt(256, df = 5)
-clrng::qqnormGpu(y, ylim=c(-2,5), mu=0, sigma=1, Nglobal=c(16,4))
+y <- stats::rt(256, df = 5)  # generates 256 random numbers from a Student's t-distribution
+clrng::qqnormGpu(y, ylim=c(-4,5), mu=0, sigma=1, Nglobal=c(16,4))
 x<-stats::rnorm(256)
 clrng::qqnormGpu(x, Nglobal=c(8,6))
 

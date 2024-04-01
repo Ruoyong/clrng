@@ -8,13 +8,12 @@
 
 ## Fisher test simulation
 ```{r packages, results='hide'}
-library('gpuR')
 library("clrng")
 ```
 
 ```{r memoryAvailable, echo=TRUE, results='hide'}
-gpuInfo()$deviceName   #gpuInfo()$maxAllocatableMem/(1024^3)
 setContext(grep("gpu", listContexts()$device_type)[1])
+gpuInfo()$deviceName
 ```
 
 

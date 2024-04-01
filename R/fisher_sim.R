@@ -14,10 +14,11 @@
 #' 
 #'
 #' @examples 
+#' setContext(grep("gpu", listContexts()$device_type)[1])
 #' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 #' Job <- gpuR::vclMatrix(Job, type="integer")
 #' streams <- createStreamsGpu(64*16)
-#' result <- fisher.sim(Job, 1e5, returnStatistics=FALSE, type="double", streams=streams, Nglobal = c(64,16))
+#' result <- fisher.sim(Job, 1e5, streams=streams, Nglobal = c(64,16))
 #' result$streams
 #' result$simNum
 #' result$thresold 

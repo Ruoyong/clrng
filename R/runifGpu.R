@@ -10,7 +10,7 @@
 #' @return a vclVector or vclMatrix of uniform random numbers
 #' @examples  
 #' library('clrng')
-#' library('gpuR')
+#' setContext(grep("gpu", listContexts()$device_type)[1])
 #' streams <- createStreamsGpu(8)
 #' as.vector(runifGpu(5, streams, Nglobal=c(4,2)))
 #' 

@@ -11,10 +11,11 @@
 #' 
 #' @examples
 #' library('clrng')
-#' library('gpuR')
+#' setContext(grep("gpu", listContexts()$device_type)[1])
 #' streams <- createStreamsGpu(8)
 #' as.vector(rexpGpu(7, streams=streams, Nglobal=c(4,2)))
-#' as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2), type="float"))
+#' options(type='float')
+#' as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2)))
 #' 
 #' @useDynLib clrng
 #' @export

@@ -9,6 +9,7 @@
 #' @return a 'vclVector' or 'vclMatrix' of standard normal random numbers
 #' @examples 
 #' library(clrng)
+#' setContext(grep("gpu", listContexts()$device_type)[1])
 #' streams <- createStreamsGpu(8)
 #' as.vector(rnormGpu(7, streams=streams, Nglobal=c(4,2)))
 #'

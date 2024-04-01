@@ -15,4 +15,4 @@ LinkingTo:
 	Rcpp
 OS_type: unix
 VignetteBuilder: knitr
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.1

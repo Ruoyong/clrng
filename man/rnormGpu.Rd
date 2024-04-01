@@ -8,31 +8,35 @@ rnormGpu(
   n,
   streams,
   Nglobal,
-  type = c("float", "double")[1 + gpuInfo()$double_support],
-  verbose = FALSE
+  type = getOption("type", default = c("float", "double")[1 +
+    gpuR::gpuInfo()$double_support]),
+  verbose = getOption("verbose", default = FALSE)
 )
 }
 \arguments{
-\item{n}{A number or a vector specifying the size of output vector or matrix}
+\item{n}{a number or a vector specifying the size of output vector or matrix}
 
-\item{streams}{Streams object.}
+\item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{NDRange of work items for use}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use}
 
-\item{type}{Precision type of random numbers, "double" or "float"}
+\item{type}{a character string specifying "double" or "float" of random numbers, default depends on GPU capabilities}
 
-\item{verbose}{if TRUE, print extra information}
+\item{verbose}{a logical value, if TRUE, print extra information. Default is set to FALSE}
 }
 \value{
-A 'vclVector' or 'vclMatrix' of standard normal random numbers
+a 'vclVector' or 'vclMatrix' of standard normal random numbers
 }
 \description{
-Generate standard normal random numbers on a GPU
+Generate standard normal random numbers parallely on a GPU
 }
 \examples{
 library(clrng)
+setContext(grep("gpu", listContexts()$device_type)[1])
 streams <- createStreamsGpu(8)
 as.vector(rnormGpu(7, streams=streams, Nglobal=c(4,2)))
-as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2), type="float"))
+
+#Change global options
+as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2)))
 
 }
