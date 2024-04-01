@@ -1,5 +1,5 @@
 
-This clrng R package is built as a tool set for random number generation on GPUs in R. 
+This clrng R package is built as a tool set for parallel random number generation on GPUs in R. 
 It is dependent on the gpuR package and utilize the MRG31k3p RNG from the clRNG, an OpenCL library by [Pierre L’Ecuyer](https://www.iro.umontreal.ca/~lecuyer/).
 
 
