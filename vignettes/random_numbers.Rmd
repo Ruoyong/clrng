@@ -6,27 +6,25 @@
 
 ```{r packages, results='hide'}
 library('clrng')
+setContext(grep("gpu", listContexts()$device_type)[1])
 ```
-
-Use double precision if the GPU supports it
-```{r setType}
-options(type='double')
-```
-
 
 
 
 # runifGpu
 Here we are generating some uniform random numbers.
 ```{r unif, eval=TRUE}
+currentDevice()
 setBaseCreator(rep(12235,6))
 # Generating random uniforms stored in a vector
-myStreamsGpu = clrng::createStreamsGpu(16)
-as.vector(clrng::runifGpu(10, myStreamsGpu, Nglobal=c(4,4),verbose=2))
+getOption('clrng.Nglobal')
+getOption('clrng.type')
+myStreamsGpu = clrng::createStreamsGpu()
+dim(myStreamsGpu)
+as.vector(clrng::runifGpu(10, myStreamsGpu, verbose=2))
 
 # Generating random uniforms stored in a 100 x 100 matrix 
-myStreamsGpu2 = clrng::createStreamsGpu(n=64*64)
-b<-clrng::runifGpu(c(100,100), myStreamsGpu2, Nglobal=c(64,64))
+b<-clrng::runifGpu(c(100,100), myStreamsGpu)
 bvector<-as.vector(as.matrix(b))
 
 # plot the histogram
@@ -42,21 +40,22 @@ quantile(bvector)
 This part shows generating normal random numbers.
 ```{r rnormGpu}
 # Simulate a vector of 10 random normal numbers, and print out the kernel code
-options(Nglobal = c(1,4))
-myStreamsGpu = clrng::createStreamsGpu(n=4)
+options(clrng.Nglobal = c(128,64))
+myStreamsGpu = clrng::createStreamsGpu()
+dim(myStreamsGpu)
 as.vector(clrng::rnormGpu(10, myStreamsGpu, verbose=2))
-(xx = as.matrix(clrng::rnormGpu(c(4, 4), myStreamsGpu)))
+as.matrix(clrng::rnormGpu(c(4, 4), myStreamsGpu))
 
 # Simulate a large matrix of random normal numbers, with user-supplied streams
-streams <- createStreamsGpu(n =512*128)
-a<-clrng::rnormGpu(c(1024,512), streams=streams, Nglobal=c(512,128))
+streamsGpu2 <- createStreamsGpu(n =512*128)
+a<-clrng::rnormGpu(c(1024,512), streams=streamsGpu2, Nglobal=c(512,128))
 
 # See the histogram of the output numbers
 avector<-as.vector(as.matrix(a))
 hist(avector,breaks=40)
 
 # Do a Q-Q plot
-clrng::qqnormGpu(avector, Nglobal = c(128,64))
+clrng::qqnormGpu(avector)
 # Can also do the Q-Q plot calculation on CPU by stats::qqnorm
 stats::qqnorm(avector)
 ```

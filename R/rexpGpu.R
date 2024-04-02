@@ -3,22 +3,23 @@
 #' @param n A number or a vector specifying the size of the output vector or matrix
 #' @param rate Distribution parameter, mean equals to 1/rate
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal NDRange of work items for use, with default value from global option 'Nglobal'
-#' @param type "double" or "float" of generated random numbers, with default value from global option 'type'
-#' @param verbose if TRUE, print extra information, with default value from global option 'verbose'
+#' @param Nglobal NDRange of work items for use, with default value from global option 'clrng.Nglobal'
+#' @param type "double" or "float" of generated random numbers, with default value from global option 'clrng.type'
+#' @param verbose if TRUE, print extra information, default value is FALSE
 #' @import gpuR
 #' 
-#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
 #' 
 #' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
 #' 
 #' @examples
 #' library('clrng')
-#' streams <- createStreamsGpu(8)
+#' setContext(grep("gpu", listContexts()$device_type)[1])
+#' streams <- createStreamsGpu()
 #' as.vector(rexpGpu(7, streams=streams))
 #' 
 #' # to produce float precision random numbers
-#' options(type='float')
+#' options(clrng.type='float')
 #' as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 #' 
 #' @useDynLib clrng
@@ -29,13 +30,12 @@ rexpGpu = function(
   n, 
   rate=1,
   streams, 
-  Nglobal =  NULL,
-  type = NULL,
-  verbose = NULL) {
+  Nglobal = getOption('clrng.Nglobal'),
+  type = getOption('clrng.type'),
+  verbose = FALSE) {
 
-  if (is.null(Nglobal)) Nglobal <- getOption('Nglobal')
-  if (is.null(type))    type <- getOption('type')
-  if (is.null(verbose)) verbose <- getOption('verbose')
+  if (is.null(Nglobal)) stop("Nglobal is missing")
+  if (is.null(type))    stop('precision type missing')
   
   if(length(n)>=3){
     stop("'n' has to be a vector of no more than two elements")
@@ -64,10 +64,6 @@ rexpGpu = function(
        stop("streams must be supplied")
     }
   
-    if(missing(Nglobal)){
-    stop("Nglobal required")
-     }
-     
    # if(missing(streams)) {
    #    initial = as.integer(rep(12345,6))
    #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")

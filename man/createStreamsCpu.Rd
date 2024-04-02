@@ -4,7 +4,7 @@
 \alias{createStreamsCpu}
 \title{createStreamsCpu}
 \usage{
-createStreamsCpu(n = 1024)
+createStreamsCpu(n = prod(getOption("clrng.Nglobal")))
 }
 \arguments{
 \item{n}{Number of streams to create, default is 1024}

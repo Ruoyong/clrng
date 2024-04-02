@@ -4,7 +4,14 @@
 \alias{rexpGpu}
 \title{rexpGpu}
 \usage{
-rexpGpu(n, rate = 1, streams, Nglobal = NULL, type = NULL, verbose = NULL)
+rexpGpu(
+  n,
+  rate = 1,
+  streams,
+  Nglobal = getOption("clrng.Nglobal"),
+  type = getOption("clrng.type"),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{n}{A number or a vector specifying the size of the output vector or matrix}
@@ -13,11 +20,11 @@ rexpGpu(n, rate = 1, streams, Nglobal = NULL, type = NULL, verbose = NULL)
 
 \item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{NDRange of work items for use, with default value from global option 'Nglobal'}
+\item{Nglobal}{NDRange of work items for use, with default value from global option 'clrng.Nglobal'}
 
-\item{type}{"double" or "float" of generated random numbers, with default value from global option 'type'}
+\item{type}{"double" or "float" of generated random numbers, with default value from global option 'clrng.type'}
 
-\item{verbose}{if TRUE, print extra information, with default value from global option 'verbose'}
+\item{verbose}{if TRUE, print extra information, default value is FALSE}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of exponential random numbers
@@ -26,15 +33,16 @@ a 'vclVector' or 'vclMatrix' of exponential random numbers
 Generate exponential random numbers parallely on a GPU
 }
 \details{
-\code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+\code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
 }
 \examples{
 library('clrng')
-streams <- createStreamsGpu(8)
+setContext(grep("gpu", listContexts()$device_type)[1])
+streams <- createStreamsGpu()
 as.vector(rexpGpu(7, streams=streams))
 
 # to produce float precision random numbers
-options(type='float')
+options(clrng.type='float')
 as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 
 }

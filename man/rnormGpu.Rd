@@ -4,18 +4,24 @@
 \alias{rnormGpu}
 \title{rnormGpu}
 \usage{
-rnormGpu(n, streams, Nglobal = NULL, type = NULL, verbose = NULL)
+rnormGpu(
+  n,
+  streams,
+  Nglobal = getOption("clrng.Nglobal"),
+  type = getOption("clrng.type"),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{n}{a number or a vector specifying the size of output vector or matrix}
 
 \item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'Nglobal'}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'}
 
-\item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'type'}
+\item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'}
 
-\item{verbose}{a logical value, if TRUE, print extra information, with default value from global option 'verbose'}
+\item{verbose}{a logical value, if TRUE, print extra information, default value is FALSE}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of standard normal random numbers
@@ -24,12 +30,13 @@ a 'vclVector' or 'vclMatrix' of standard normal random numbers
 Generate standard Normal random numbers parallely on a GPU
 }
 \details{
-\code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+\code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
 }
 \examples{
 library(clrng)
 currentPlatform()
-streams <- createStreamsGpu(8)
+setContext(grep("gpu", listContexts()$device_type)[1])
+streams <- createStreamsGpu()
 as.vector(rnormGpu(7, streams=streams))
 
 getOption('Nglobal')

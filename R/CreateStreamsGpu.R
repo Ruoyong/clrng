@@ -54,7 +54,7 @@
 #' t(as.matrix(myStreamsGpu2))
 #' @useDynLib clrng    
 #' @export
-    createStreamsGpu = function(n=1024){
+    createStreamsGpu = function(n=prod(getOption('clrng.Nglobal'))){
       
       streamsGpu<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
       streamsCpu<- matrix(0L, nrow=as.integer(n), ncol=12)

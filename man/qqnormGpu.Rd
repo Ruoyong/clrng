@@ -13,7 +13,7 @@ qqnormGpu(
   main = "Normal Q-Q Plot",
   xlab = "Theoretical Quantiles",
   ylab = "Sample Quantiles",
-  Nglobal,
+  Nglobal = getOption("clrng.Nglobal"),
   Nlocal = c(2, 2),
   verbose = FALSE,
   ...

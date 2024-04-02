@@ -9,6 +9,7 @@
 ## Fisher test simulation
 ```{r packages, results='hide'}
 library("clrng")
+setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
 ```{r memoryAvailable, echo=TRUE, results='hide'}
@@ -25,17 +26,16 @@ TeaTasting
 
 ## Using the R function 
 fisher.test(TeaTasting)$p.value
-## 0.4857143
 ```
 
 ```{r teaTasting on GPU, eval=T}
 ## Using GPU
 TeaTastingGpu<-gpuR::vclMatrix(TeaTasting,type="integer")
-streams <-  gpuR::vclMatrix(clrng::createStreamsCpu(n=64*16))
-options(returnStatistics=TRUE,Nglobal=c(16,64))
-result<-clrng::fisher.sim(TeaTastingGpu, N=1e5, streams=streams)
-result$counts
-result$p.value
+options(clrng.Nglobal=c(16,64))
+streams <- gpuR::vclMatrix(clrng::createStreamsCpu())
+
+result<-clrng::fisher.sim(TeaTastingGpu, N=1e5, streams=streams,returnStatistics=TRUE)
+print(result)
 result$threshold
 as.vector(result$sim)[10:20]
 length(result$sim)

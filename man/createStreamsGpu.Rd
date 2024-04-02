@@ -4,7 +4,7 @@
 \alias{createStreamsGpu}
 \title{createStreamsGpu}
 \usage{
-createStreamsGpu(n = 1024)
+createStreamsGpu(n = prod(getOption("clrng.Nglobal")))
 }
 \arguments{
 \item{n}{number of streams to create, default is 1024}

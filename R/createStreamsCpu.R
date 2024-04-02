@@ -15,7 +15,7 @@
 
 #' @export
  
-createStreamsCpu = function(n=1024){
+createStreamsCpu = function(n=prod(getOption('clrng.Nglobal'))){
   
   n = as.integer(n)
   

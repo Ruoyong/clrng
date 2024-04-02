@@ -2,18 +2,19 @@
 #' @description Generate standard Normal random numbers parallely on a GPU
 #' @param n a number or a vector specifying the size of output vector or matrix
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'Nglobal'
-#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'type'
-#' @param verbose a logical value, if TRUE, print extra information, with default value from global option 'verbose'
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
+#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'
+#' @param verbose a logical value, if TRUE, print extra information, default value is FALSE
 #' @import gpuR
 #' @return a 'vclVector' or 'vclMatrix' of standard normal random numbers
 #' 
-#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
 #' 
 #' @examples 
 #' library(clrng)
 #' currentPlatform()
-#' streams <- createStreamsGpu(8)
+#' setContext(grep("gpu", listContexts()$device_type)[1])
+#' streams <- createStreamsGpu()
 #' as.vector(rnormGpu(7, streams=streams))
 #'
 #' getOption('Nglobal')
@@ -29,13 +30,12 @@
 rnormGpu = function(
   n, 
   streams, 
-  Nglobal = NULL,
-  type = NULL,
-  verbose = NULL) {
+  Nglobal = getOption('clrng.Nglobal'),
+  type = getOption('clrng.type'),
+  verbose = FALSE) {
   
-  if (is.null(Nglobal)) Nglobal <- getOption('Nglobal')
-  if (is.null(type))    type <- getOption('type')
-  if (is.null(verbose)) verbose <- getOption('verbose')
+  if (is.null(Nglobal)) stop("Nglobal is missing")
+  if (is.null(type))   stop('precision type missing')
   
   if(any(grepl("vclMatrix", class(n)))) {
     xVcl = n
@@ -59,9 +59,6 @@ rnormGpu = function(
   if(missing(streams)) {
     stop("streams must be supplied")
   }
-    if(missing(Nglobal)){
-    stop("Nglobal required")
-    }
   
     # if(missing(streams)) {
     #    initial = as.integer(rep(12345,6))

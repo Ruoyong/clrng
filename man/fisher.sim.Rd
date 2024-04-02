@@ -8,10 +8,10 @@ fisher.sim(
   x,
   N,
   streams,
-  Nglobal = NULL,
-  type = NULL,
-  returnStatistics = NULL,
-  verbose = NULL
+  Nglobal = getOption("clrng.Nglobal"),
+  type = getOption("clrng.type"),
+  returnStatistics = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -21,13 +21,13 @@ fisher.sim(
 
 \item{streams}{a vclMatrix of streams. Default using streams with package default initial seeds}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'Nglobal'}
+\item{Nglobal}{a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'}
 
-\item{type}{a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'type'}
+\item{type}{a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'}
 
-\item{returnStatistics}{a logical value, if TRUE, return test statistics, with default value from global option 'returnStatistics'}
+\item{returnStatistics}{a logical value, if TRUE, return test statistics, default value is FALSE}
 
-\item{verbose}{a logical value, if TRUE, print extra information, with default value from global option 'verbose'}
+\item{verbose}{a logical value, if TRUE, print extra information, default value is FALSE}
 }
 \value{
 a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold
@@ -37,13 +37,15 @@ Performs Monte carlo's simulation for Fisher's exact test on GPU
 }
 \examples{
 library('clrng')
+setContext(grep("gpu", listContexts()$device_type)[1])
 Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 Job <- gpuR::vclMatrix(Job, type="integer")
-streams <- createStreamsGpu(64*16)
 
-getOption('type')
-options(Nglobal = c(64,16)) 
+getOption('clrng.type')
+options(clrng.Nglobal = c(64,16)) 
+streams <- createStreamsGpu()
 result <- fisher.sim(Job, 1e5, streams=streams)
+print(result)
 result$streams
 result$threshold 
 

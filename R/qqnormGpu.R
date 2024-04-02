@@ -26,7 +26,8 @@
 qqnormGpu<-function(y, ylim, mu=0, sigma=1, lower.tail=1,
                   main = "Normal Q-Q Plot",
                   xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
-                  Nglobal, Nlocal = c(2, 2),
+                  Nglobal = getOption('clrng.Nglobal'), 
+                  Nlocal = c(2, 2),
                   verbose=FALSE, ...){
    
    if(has.na <- any(ina <- is.na(y))) { ## keep NA's in proper places
@@ -46,10 +47,8 @@ qqnormGpu<-function(y, ylim, mu=0, sigma=1, lower.tail=1,
     if(sigma==0){
       x<- rep(mu, n)
     }
-
-    if(missing(Nglobal)) 
-    {Nglobal = c(64,4)}
     
+    if (is.null(Nglobal)) stop("Nglobal is missing")
     
     if(verbose) {
       cat('local sizes ', toString(Nlocal), '\nglobal sizes ', toString(Nglobal), '\n')

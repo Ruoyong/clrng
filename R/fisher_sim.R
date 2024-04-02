@@ -4,10 +4,10 @@
 #' @param x a vclMatrix of integers
 #' @param N a integer specifying number of replicates
 #' @param streams a vclMatrix of streams. Default using streams with package default initial seeds
-#' @param Nglobal a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'Nglobal'
-#' @param type a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'type'
-#' @param returnStatistics a logical value, if TRUE, return test statistics, with default value from global option 'returnStatistics'
-#' @param verbose a logical value, if TRUE, print extra information, with default value from global option 'verbose'
+#' @param Nglobal a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'
+#' @param type a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'
+#' @param returnStatistics a logical value, if TRUE, return test statistics, default value is FALSE
+#' @param verbose a logical value, if TRUE, print extra information, default value is FALSE
 #' @import gpuR
 #' 
 #' @return a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold
@@ -15,13 +15,15 @@
 #'
 #' @examples 
 #' library('clrng')
+#' setContext(grep("gpu", listContexts()$device_type)[1])
 #' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 #' Job <- gpuR::vclMatrix(Job, type="integer")
-#' streams <- createStreamsGpu(64*16)
 #' 
-#' getOption('type')
-#' options(Nglobal = c(64,16)) 
+#' getOption('clrng.type')
+#' options(clrng.Nglobal = c(64,16)) 
+#' streams <- createStreamsGpu()
 #' result <- fisher.sim(Job, 1e5, streams=streams)
+#' print(result)
 #' result$streams
 #' result$threshold 
 #' 
@@ -34,15 +36,14 @@ fisher.sim=function(
     x, # a vclMatrix
     N, # requested number of simualtions,
     streams,
-    Nglobal = NULL,
-    type = NULL,
-    returnStatistics = NULL,
-    verbose = NULL){
+    Nglobal = getOption('clrng.Nglobal'),
+    type =  getOption('clrng.type'),
+    returnStatistics = FALSE,
+    verbose = FALSE){
   
-  if (is.null(Nglobal)) Nglobal <- getOption('Nglobal')
-  if (is.null(type))    type <- getOption('type')
-  if (is.null(verbose)) verbose <- getOption('verbose')
-  if (is.null(returnStatistics)) returnStatistics <- getOption('returnStatistics')
+  if (is.null(Nglobal)) stop("Nglobal is missing")
+  if (is.null(type))   stop('precision type missing')
+
   
   # if (is.data.frame(x))
   #   x <- as.matrix(x)
@@ -76,11 +77,6 @@ fisher.sim=function(
   if(missing(streams)) {
     stop("streams must be supplied")
   }
-  
-  
-     if(missing(Nglobal)){
-       stop("Nglobal required")
-     }
   
      # if(missing(streams)) {
      #   initial = as.integer(rep(12345,6))
@@ -129,7 +125,7 @@ fisher.sim=function(
   
   PVAL <- NULL
   
-  counts<-clrng:::cpp_gpuFisher_test(x, results, simPerItem, streams, Nglobal,Nlocal)
+  counts<- cpp_gpuFisher_test(x, results, simPerItem, streams, Nglobal,Nlocal)
   
   #theTime<-system.time(cpp_gpuFisher_test(x, results, as.integer(B), streams, Nglobal,Nlocal))
   

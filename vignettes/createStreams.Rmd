@@ -6,18 +6,24 @@
 ## Create streams
 ```{r packages, results='hide', message=FALSE}
 library('clrng')
+setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
 ```{r streams, eval=TRUE}
+getOption('clrng.Nglobal')
+getOption('clrng.type')
 #Create streams on CPU as R matrix
 a1 <- createStreamsCpu(n=4)
+
 #Important: streams are of type integer in R
 typeof(a1) 
+
 #Attention: when converting streams from CPU to GPU, should set type = "integer", or leave it as default NULL
 t(as.matrix(vclMatrix(a1)))
 t(as.matrix(2*vclMatrix(a1)))
 t(as.matrix(2*vclMatrix(a1, type="integer"))) 
-#Set as "double" or else changes the streams precision type and can cause problems
+
+#Set as "double" or else changes the streams precision type and can cause problems, see the following 
 t(as.matrix(2*vclMatrix(a1, type="double"))) 
 t(as.matrix(vclMatrix(2*a1)))
 
