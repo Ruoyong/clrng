@@ -16,7 +16,7 @@
 #' currentDevice()
 #' setContext(grep("gpu", listContexts()$device_type)[1])
 #' getOption('clrng.Nglobal')
-#' streams <- createStreamsGpu(16*8)
+#' streams <- createStreamsGpu()
 #' as.vector(runifGpu(5, streams))
 #' 
 #' # Change global options
