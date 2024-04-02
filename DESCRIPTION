@@ -10,9 +10,8 @@ Encoding: UTF-8
 NeedsCompilation: yes
 Depends: R (>= 3.5.0), gpuR
 Suggests: knitr
-LinkingTo:
-	RViennaCL (>= 1.7.1.4),
-	Rcpp
+LinkingTo: RViennaCL (>= 1.7.1.4), Rcpp
 OS_type: unix
 VignetteBuilder: knitr
 RoxygenNote: 7.3.1
+Packaged: 2024-04-02 18:12:22 UTC; ruoyong

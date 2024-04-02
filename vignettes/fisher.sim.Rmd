@@ -30,6 +30,8 @@ fisher.test(TeaTasting)$p.value
 
 ```{r teaTasting on GPU, eval=T}
 ## Using GPU
+getOption('clrng.Nglobal')
+getOption('clrng.type')
 TeaTastingGpu<-gpuR::vclMatrix(TeaTasting,type="integer")
 options(clrng.Nglobal=c(16,64))
 streams <- gpuR::vclMatrix(clrng::createStreamsCpu())

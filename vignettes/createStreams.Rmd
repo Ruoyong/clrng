@@ -10,8 +10,6 @@ setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
 ```{r streams, eval=TRUE}
-getOption('clrng.Nglobal')
-getOption('clrng.type')
 #Create streams on CPU as R matrix
 a1 <- createStreamsCpu(n=4)
 
