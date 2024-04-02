@@ -4,15 +4,7 @@
 \alias{rexpGpu}
 \title{rexpGpu}
 \usage{
-rexpGpu(
-  n,
-  rate = 1,
-  streams,
-  Nglobal,
-  type = getOption("type", default = c("float", "double")[1 +
-    gpuR::gpuInfo()$double_support]),
-  verbose = getOption("verbose", default = FALSE)
-)
+rexpGpu(n, rate = 1, streams, Nglobal = NULL, type = NULL, verbose = NULL)
 }
 \arguments{
 \item{n}{A number or a vector specifying the size of the output vector or matrix}
@@ -33,12 +25,17 @@ a 'vclVector' or 'vclMatrix' of exponential random numbers
 \description{
 Generate exponential random numbers parallely on a GPU
 }
+\details{
+\code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+}
 \examples{
 library('clrng')
 setContext(grep("gpu", listContexts()$device_type)[1])
 streams <- createStreamsGpu(8)
-as.vector(rexpGpu(7, streams=streams, Nglobal=c(4,2)))
+as.vector(rexpGpu(7, streams=streams))
+
+change to produce float precision random numbers
 options(type='float')
-as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2)))
+as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 
 }

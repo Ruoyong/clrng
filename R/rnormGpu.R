@@ -1,21 +1,25 @@
 #' @title rnormGpu
-#' @description Generate standard normal random numbers parallely on a GPU
+#' @description Generate standard Normal random numbers parallely on a GPU
 #' @param n a number or a vector specifying the size of output vector or matrix
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal a (non-empty) integer vector specifying size of work items for use
-#' @param type a character string specifying "double" or "float" of random numbers, default depends on GPU capabilities
-#' @param verbose a logical value, if TRUE, print extra information. Default is set to FALSE
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'Nglobal'
+#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'type'
+#' @param verbose a logical value, if TRUE, print extra information, with default value from global option 'verbose'
 #' @import gpuR
 #' @return a 'vclVector' or 'vclMatrix' of standard normal random numbers
+#' 
+#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+#' 
 #' @examples 
 #' library(clrng)
-#' setContext(grep("gpu", listContexts()$device_type)[1])
+#' currentPlatform()
 #' streams <- createStreamsGpu(8)
-#' as.vector(rnormGpu(7, streams=streams, Nglobal=c(4,2)))
+#' as.vector(rnormGpu(7, streams=streams))
 #'
-#' #Change global options
-#’ options(type="float") 
-#' as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2)))
+#' getOption('Nglobal')
+#' #Change to float precision and global size
+#’ options(type="float", Nglobal = c(4,2)) 
+#' as.matrix(rnormGpu(c(2,3), streams=streams))
 #' 
 #' @useDynLib clrng
 #' @export
@@ -25,10 +29,13 @@
 rnormGpu = function(
   n, 
   streams, 
-  Nglobal,
-  type=getOption('type', default = c('float','double')[1+gpuR::gpuInfo()$double_support]),
-  verbose=getOption("verbose", default = FALSE)) {
+  Nglobal = NULL,
+  type = NULL,
+  verbose = NULL) {
   
+  if (is.null(Nglobal)) Nglobal <- getOption('Nglobal')
+  if (is.null(type))    type <- getOption('type')
+  if (is.null(verbose)) verbose <- getOption('verbose')
   
   if(any(grepl("vclMatrix", class(n)))) {
     xVcl = n

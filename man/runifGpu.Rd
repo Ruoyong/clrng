@@ -4,14 +4,7 @@
 \alias{runifGpu}
 \title{runifGpu}
 \usage{
-runifGpu(
-  n,
-  streams,
-  Nglobal,
-  type = getOption("type", default = c("float", "double")[1 +
-    gpuR::gpuInfo()$double_support]),
-  verbose = getOption("verbose", default = FALSE)
-)
+runifGpu(n, streams, Nglobal = NULL, type = NULL, verbose = NULL)
 }
 \arguments{
 \item{n}{a number or numeric vector specifying the size of output vector or matrix}
@@ -30,13 +23,16 @@ a vclVector or vclMatrix of uniform random numbers
 \description{
 Generate uniform random numbers parallely on a GPU
 }
+\details{
+\code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+}
 \examples{
  
 library('clrng')
-setContext(grep("gpu", listContexts()$device_type)[1])
+currentDevice()
 streams <- createStreamsGpu(8)
-as.vector(runifGpu(5, streams, Nglobal=c(4,2)))
-
+as.vector(runifGpu(5, streams, Nglobal=c(2,4), type='double'))
+as.vector(runifGpu(5, streams))
 #Change global options
-as.matrix(runifGpu(c(2,2), streams, Nglobal=c(2,4)))
+as.matrix(runifGpu(c(2,2), streams))
 }

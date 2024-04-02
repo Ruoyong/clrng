@@ -4,14 +4,7 @@
 \alias{rnormGpu}
 \title{rnormGpu}
 \usage{
-rnormGpu(
-  n,
-  streams,
-  Nglobal,
-  type = getOption("type", default = c("float", "double")[1 +
-    gpuR::gpuInfo()$double_support]),
-  verbose = getOption("verbose", default = FALSE)
-)
+rnormGpu(n, streams, Nglobal = NULL, type = NULL, verbose = NULL)
 }
 \arguments{
 \item{n}{a number or a vector specifying the size of output vector or matrix}
@@ -28,15 +21,18 @@ rnormGpu(
 a 'vclVector' or 'vclMatrix' of standard normal random numbers
 }
 \description{
-Generate standard normal random numbers parallely on a GPU
+Generate standard Normal random numbers parallely on a GPU
+}
+\details{
+\code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
 }
 \examples{
 library(clrng)
 setContext(grep("gpu", listContexts()$device_type)[1])
 streams <- createStreamsGpu(8)
-as.vector(rnormGpu(7, streams=streams, Nglobal=c(4,2)))
+as.vector(rnormGpu(7, streams=streams))
 
-#Change global options
-as.matrix(rnormGpu(c(2,3), streams=streams, Nglobal=c(4,2)))
+#Change to float precision
+as.matrix(rnormGpu(c(2,3), streams=streams))
 
 }

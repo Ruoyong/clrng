@@ -7,13 +7,16 @@
 setBaseCreator(initial = rep(12345, 6))
 }
 \arguments{
-\item{initial}{Initial state of the first stream, length 6, recycled if shorter. Default is c(12345,12345,12345,12345,12345,12345)}
+\item{initial}{a vector of six 31-bit integers specifying the initial state of the first stream. Default is c(12345,12345,12345,12345,12345,12345)}
 }
 \value{
-A stream object of class 'vclMatrix' on GPU
+a stream object of class 'vclMatrix'
 }
 \description{
-Set the initial seed of the package or stream
+Set the initial seed of the first stream
+}
+\details{
+\code{initial} is of length 6, recycled if shorter.
 }
 \examples{
 setBaseCreator(c(111,222,333,444,555,666))

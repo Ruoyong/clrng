@@ -2,21 +2,24 @@
 #' @description Generate uniform random numbers parallely on a GPU
 #' @param n a number or numeric vector specifying the size of output vector or matrix
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal a (non-empty) integer vector specifying size of work items for use
-#' @param type a character string specifying "double" or "float" of random numbers, default depends on GPU capabilities
-#' @param verbose a logical value, if TRUE, print extra information. Default is set to FALSE.
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'Nglobal'
+#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'type'
+#' @param verbose a logical value, if TRUE, print extra information, with default value from global option 'verbose'
 #' @import gpuR
 #' @importFrom utils capture.output
+#' 
+#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+#' 
 #' @return a vclVector or vclMatrix of uniform random numbers
 #' @examples  
 #' library('clrng')
-#' setContext(grep("gpu", listContexts()$device_type)[1])
+#' currentDevice()
 #' streams <- createStreamsGpu(8)
-#' as.vector(runifGpu(5, streams, Nglobal=c(4,2)))
+#' as.vector(runifGpu(5, streams))
 #' 
 #' #Change global options
 #’ options(type="float")
-#' as.matrix(runifGpu(c(2,2), streams, Nglobal=c(2,4)))
+#' as.matrix(runifGpu(c(2,2), streams))
 #' @useDynLib clrng
 #' @export
 
@@ -24,10 +27,15 @@
 runifGpu = function(
   n, 
   streams, 
-  Nglobal,
-  type=getOption('type', default = c('float','double')[1+gpuR::gpuInfo()$double_support]),
-  verbose=getOption("verbose", default = FALSE)) {
-  
+  Nglobal = NULL,
+  type = NULL,
+  verbose = NULL) {
+   
+  #print(getOption('Nglobal'))
+
+   if (is.null(Nglobal)) Nglobal <- getOption('Nglobal')
+   if (is.null(type))    type <- getOption('type')
+   if (is.null(verbose)) verbose <- getOption('verbose')
   
   if(length(n)>=3){
     stop("'n' has to be a vector of no more than two elements")

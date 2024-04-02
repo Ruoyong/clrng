@@ -1,7 +1,10 @@
 #' @title setBaseCreator
-#' @description Set the initial seed of the package or stream
-#' @param initial Initial state of the first stream, length 6, recycled if shorter. Default is c(12345,12345,12345,12345,12345,12345)
-#' @return A stream object of class 'vclMatrix' on GPU
+#' @description Set the initial seed of the first stream 
+#' @param initial a vector of six 31-bit integers specifying the initial state of the first stream. Default is c(12345,12345,12345,12345,12345,12345)     
+#' @return a stream object of class 'vclMatrix' 
+#' 
+#' @details \code{initial} is of length 6, recycled if shorter.
+#' 
 #' @examples
 #' setBaseCreator(c(111,222,333,444,555,666))
 #' @useDynLib clrng
@@ -53,7 +56,7 @@
 #' @export
     createStreamsGpu = function(n=1024){
       
-      streamsR<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
+      streamsGpu<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
       streamsCpu<- matrix(0L, nrow=as.integer(n), ncol=12)
       
       if(!exists(".Random.seed.clrng")) {
@@ -63,7 +66,7 @@
       
       currentCreator = CreateStreamsBackend(
         .Random.seed.clrng,    
-        streamsR,
+        streamsGpu,
         streamsCpu,
         onGpu=TRUE,
         keepInitial=TRUE)
@@ -74,7 +77,7 @@
       # )
       
       assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
-      streamsR
+      streamsGpu
       
     }
     

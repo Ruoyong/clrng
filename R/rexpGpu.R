@@ -3,19 +3,23 @@
 #' @param n A number or a vector specifying the size of the output vector or matrix
 #' @param rate Distribution parameter, mean equals to 1/rate
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal NDRange of work items for use
-#' @param type "double" or "float" of generated random numbers
-#' @param verbose if TRUE, print extra information
+#' @param Nglobal NDRange of work items for use, with default value from global option 'Nglobal'
+#' @param type "double" or "float" of generated random numbers, with default value from global option 'type'
+#' @param verbose if TRUE, print extra information, with default value from global option 'verbose'
 #' @import gpuR
+#' 
+#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", default is "double", otherwise, default is "single"
+#' 
 #' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
 #' 
 #' @examples
 #' library('clrng')
-#' setContext(grep("gpu", listContexts()$device_type)[1])
 #' streams <- createStreamsGpu(8)
-#' as.vector(rexpGpu(7, streams=streams, Nglobal=c(4,2)))
+#' as.vector(rexpGpu(7, streams=streams))
+#' 
+#' change to produce float precision random numbers
 #' options(type='float')
-#' as.matrix(rexpGpu(c(2,3), rate=0.5, streams, Nglobal=c(4,2)))
+#' as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 #' 
 #' @useDynLib clrng
 #' @export
@@ -25,10 +29,13 @@ rexpGpu = function(
   n, 
   rate=1,
   streams, 
-  Nglobal,
-  type=getOption('type', default = c('float','double')[1+gpuR::gpuInfo()$double_support]),
-  verbose=getOption("verbose", default = FALSE)) {
+  Nglobal =  NULL,
+  type = NULL,
+  verbose = NULL) {
 
+  if (is.null(Nglobal)) Nglobal <- getOption('Nglobal')
+  if (is.null(type))    type <- getOption('type')
+  if (is.null(verbose)) verbose <- getOption('verbose')
   
   if(length(n)>=3){
     stop("'n' has to be a vector of no more than two elements")

@@ -17,3 +17,11 @@ options
    - set OS_type to unix
    - submit to cran?
 2- explain why it's not on cran (driver problems)
+
+
+
+
+
+
+
+
