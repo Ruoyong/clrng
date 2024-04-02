@@ -26,18 +26,17 @@ TeaTasting
 ## Using the R function 
 fisher.test(TeaTasting)$p.value
 ## 0.4857143
+```
 
-
+```{r teaTasting on GPU, eval=T}
 ## Using GPU
-TeaTasting<-vclMatrix(TeaTasting,type="integer")
+TeaTastingGpu<-gpuR::vclMatrix(TeaTasting,type="integer")
 streams <-  gpuR::vclMatrix(clrng::createStreamsCpu(n=64*16))
 options(returnStatistics=TRUE,Nglobal=c(16,64))
-result<-clrng::fisher.sim(TeaTasting, N=100000L, streams=streams)
+result<-clrng::fisher.sim(TeaTastingGpu, N=1e5, streams=streams)
 result$counts
 result$p.value
 result$threshold
-result$streams
-result$sim
 as.vector(result$sim)[10:20]
 length(result$sim)
 ```
