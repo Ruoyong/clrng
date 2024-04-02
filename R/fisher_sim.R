@@ -14,7 +14,7 @@
 #' 
 #'
 #' @examples 
-#' library('clrng)
+#' library('clrng')
 #' Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
 #' Job <- gpuR::vclMatrix(Job, type="integer")
 #' streams <- createStreamsGpu(64*16)

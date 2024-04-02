@@ -17,7 +17,7 @@
 #' streams <- createStreamsGpu(8)
 #' as.vector(rexpGpu(7, streams=streams))
 #' 
-#' change to produce float precision random numbers
+#' # to produce float precision random numbers
 #' options(type='float')
 #' as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 #' 

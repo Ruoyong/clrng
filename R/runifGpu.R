@@ -17,7 +17,7 @@
 #' streams <- createStreamsGpu(8)
 #' as.vector(runifGpu(5, streams))
 #' 
-#' #Change global options
+#' # Change global options
 #’ options(type="float")
 #' as.matrix(runifGpu(c(2,2), streams))
 #' @useDynLib clrng

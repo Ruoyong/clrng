@@ -11,11 +11,11 @@ runifGpu(n, streams, Nglobal = NULL, type = NULL, verbose = NULL)
 
 \item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'Nglobal'}
 
-\item{type}{a character string specifying "double" or "float" of random numbers, default depends on GPU capabilities}
+\item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'type'}
 
-\item{verbose}{a logical value, if TRUE, print extra information. Default is set to FALSE.}
+\item{verbose}{a logical value, if TRUE, print extra information, with default value from global option 'verbose'}
 }
 \value{
 a vclVector or vclMatrix of uniform random numbers
@@ -31,8 +31,8 @@ Generate uniform random numbers parallely on a GPU
 library('clrng')
 currentDevice()
 streams <- createStreamsGpu(8)
-as.vector(runifGpu(5, streams, Nglobal=c(2,4), type='double'))
 as.vector(runifGpu(5, streams))
-#Change global options
+
+# Change global options
 as.matrix(runifGpu(c(2,2), streams))
 }

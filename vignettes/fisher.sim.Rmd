@@ -12,7 +12,6 @@ library("clrng")
 ```
 
 ```{r memoryAvailable, echo=TRUE, results='hide'}
-setContext(grep("gpu", listContexts()$device_type)[1])
 gpuInfo()$deviceName
 ```
 
@@ -32,11 +31,11 @@ fisher.test(TeaTasting)$p.value
 ## Using GPU
 TeaTasting<-vclMatrix(TeaTasting,type="integer")
 streams <-  gpuR::vclMatrix(clrng::createStreamsCpu(n=64*16))
-result<-clrng::fisher.sim(TeaTasting, N=100000L, streams=streams, returnStatistics=TRUE, type="double", Nglobal=c(16,64))
+options(returnStatistics=TRUE,Nglobal=c(16,64))
+result<-clrng::fisher.sim(TeaTasting, N=100000L, streams=streams)
 result$counts
 result$p.value
 result$threshold
-result$simNum
 result$streams
 result$sim
 as.vector(result$sim)[10:20]

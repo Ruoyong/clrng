@@ -11,11 +11,11 @@ rnormGpu(n, streams, Nglobal = NULL, type = NULL, verbose = NULL)
 
 \item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'Nglobal'}
 
-\item{type}{a character string specifying "double" or "float" of random numbers, default depends on GPU capabilities}
+\item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'type'}
 
-\item{verbose}{a logical value, if TRUE, print extra information. Default is set to FALSE}
+\item{verbose}{a logical value, if TRUE, print extra information, with default value from global option 'verbose'}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of standard normal random numbers
@@ -28,11 +28,12 @@ Generate standard Normal random numbers parallely on a GPU
 }
 \examples{
 library(clrng)
-setContext(grep("gpu", listContexts()$device_type)[1])
+currentPlatform()
 streams <- createStreamsGpu(8)
 as.vector(rnormGpu(7, streams=streams))
 
-#Change to float precision
+getOption('Nglobal')
+# use float precision and global size
 as.matrix(rnormGpu(c(2,3), streams=streams))
 
 }

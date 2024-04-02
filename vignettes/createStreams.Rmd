@@ -6,7 +6,6 @@
 ## Create streams
 ```{r packages, results='hide', message=FALSE}
 library('clrng')
-setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
 ```{r streams, eval=TRUE}

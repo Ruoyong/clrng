@@ -13,11 +13,11 @@ rexpGpu(n, rate = 1, streams, Nglobal = NULL, type = NULL, verbose = NULL)
 
 \item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{NDRange of work items for use}
+\item{Nglobal}{NDRange of work items for use, with default value from global option 'Nglobal'}
 
-\item{type}{"double" or "float" of generated random numbers}
+\item{type}{"double" or "float" of generated random numbers, with default value from global option 'type'}
 
-\item{verbose}{if TRUE, print extra information}
+\item{verbose}{if TRUE, print extra information, with default value from global option 'verbose'}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of exponential random numbers
@@ -30,11 +30,10 @@ Generate exponential random numbers parallely on a GPU
 }
 \examples{
 library('clrng')
-setContext(grep("gpu", listContexts()$device_type)[1])
 streams <- createStreamsGpu(8)
 as.vector(rexpGpu(7, streams=streams))
 
-change to produce float precision random numbers
+# to produce float precision random numbers
 options(type='float')
 as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 
