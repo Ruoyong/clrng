@@ -1,0 +1,89 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Random numbers}
+-->
+
+
+```{r packages, results='hide'}
+library('clrng')
+setContext(grep("gpu", listContexts()$device_type)[1])
+```
+
+
+
+# runifGpu
+Here we are generating some uniform random numbers.
+```{r unif, eval=TRUE}
+currentDevice()
+setBaseCreator(rep(12235,6))
+# Generating random uniforms stored in a vector
+getOption('clrng.Nglobal')
+getOption('clrng.type')
+myStreamsGpu = clrng::createStreamsGpu()
+dim(myStreamsGpu)
+as.vector(clrng::runifGpu(10, myStreamsGpu, verbose=2))
+
+# Generating random uniforms stored in a 100 x 100 matrix 
+b<-clrng::runifGpu(c(100,100), myStreamsGpu)
+bvector<-as.vector(as.matrix(b))
+
+# plot the histogram
+hist(bvector, breaks=40)
+# check the quantiles of the produced random numbers
+quantile(bvector)
+```
+
+
+
+
+# rnormGpu
+This part shows generating normal random numbers.
+```{r rnormGpu}
+# Simulate a vector of 10 random normal numbers, and print out the kernel code
+options(clrng.Nglobal = c(128,64))
+myStreamsGpu = clrng::createStreamsGpu()
+dim(myStreamsGpu)
+as.vector(clrng::rnormGpu(10, myStreamsGpu, verbose=2))
+as.matrix(clrng::rnormGpu(c(4, 4), myStreamsGpu))
+
+# Simulate a large matrix of random normal numbers, with user-supplied streams
+streamsGpu2 <- createStreamsGpu(n =512*128)
+a<-clrng::rnormGpu(c(1024,512), streams=streamsGpu2, Nglobal=c(512,128))
+
+# See the histogram of the output numbers
+avector<-as.vector(as.matrix(a))
+hist(avector,breaks=40)
+
+# Do a Q-Q plot
+clrng::qqnormGpu(avector)
+# Can also do the Q-Q plot calculation on CPU by stats::qqnorm
+stats::qqnorm(avector)
+```
+
+
+
+
+
+
+
+# rexpGpu 
+Last, we show generating random exponential numbers.
+```{r exp}
+streams <- createStreamsGpu(n=64*16)
+# Generating a large matrix of exponential random numbers of mean = 1, using the supplied streams
+b<-clrng::rexpGpu(c(200,100), rate=1, streams = streams, Nglobal=c(64,16))
+
+# Convert it to a R vector on CPU, plot histogram
+bvector<-as.vector(as.matrix(b))
+hist(bvector, freq=TRUE, breaks=40)
+
+# Generating a second vector of exponential random numbers of mean = 1, on CPU, plot the histogram
+b2 <- stats::rexp(20000, rate=1)
+hist(b2, freq=TRUE, breaks = 40)
+
+# Compare the two sequence of random exponential numbers by looking at the quantiles
+quantile(bvector)
+quantile(b2)
+
+```
+

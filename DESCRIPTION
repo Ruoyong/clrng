@@ -1,0 +1,17 @@
+Package: clrng
+Version: 0.1
+Date: 2019-09-14
+Title: Random numbers on the gpu
+Author: Ruoyong Xu, Patrick Brown
+Description: Tools for generating random numbers on GPU's. The package builds on gpuR to provide facilities to generate random numbers on a GPU and save the results as R objects
+Maintainer: Ruoyong Xu <ruoyong.xu@mail.utoronto.ca>
+License: GPL (>= 3)
+Encoding: UTF-8
+NeedsCompilation: yes
+Depends: R (>= 3.5.0), gpuR
+Suggests: knitr
+LinkingTo: RViennaCL (>= 1.7.1.4), Rcpp
+OS_type: unix
+VignetteBuilder: knitr
+RoxygenNote: 7.3.1
+Packaged: 2024-04-02 18:12:22 UTC; ruoyong

@@ -1,0 +1,27 @@
+to do:
+
+patrick: 
+- script file to install drivers and package
+- installation note, explaining why it isn't on cran
+
+ruoyuong
+- go through code and comments, make easy changes
+- move nglobal, type to options
+- clean up documentation
+
+
+options
+
+1- fix gpuR, put gpuR and clrng on cran
+   - download gpR source
+   - set OS_type to unix
+   - submit to cran?
+2- explain why it's not on cran (driver problems)
+
+
+
+
+
+
+
+
