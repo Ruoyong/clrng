@@ -7,8 +7,8 @@
   
   options(clrng.Nglobal = c(16,8), 
           clrng.type = c('float','double')[1+gpuR::deviceHasDouble()]
-          )
-
-  }
+  )
+  
+}
 
 

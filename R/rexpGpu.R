@@ -1,11 +1,12 @@
 #' @title rexpGpu
 #' @description Generate exponential random numbers parallely on a GPU
-#' @param n A number or a vector specifying the size of the output vector or matrix
-#' @param rate Distribution parameter, mean equals to 1/rate
+#' 
+#' @param n a number or a vector specifying the size of the output vector or matrix
+#' @param rate a number specifying the distribution parameter, mean equals to 1/rate
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal NDRange of work items for use, with default value from global option 'clrng.Nglobal'
-#' @param type "double" or "float" of generated random numbers, with default value from global option 'clrng.type'
-#' @param verbose if TRUE, print extra information, default value is FALSE
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
+#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'
+#' @param verbose a logical value, if TRUE, print extra information, default value is FALSE
 #' @import gpuR
 #' 
 #' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
@@ -18,7 +19,7 @@
 #' streams <- createStreamsGpu()
 #' as.vector(rexpGpu(7, streams=streams))
 #' 
-#' # to produce float precision random numbers
+#' # produce float precision random numbers
 #' options(clrng.type='float')
 #' as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 #' 
@@ -27,13 +28,13 @@
 
 
 rexpGpu = function(
-  n, 
-  rate=1,
-  streams, 
-  Nglobal = getOption('clrng.Nglobal'),
-  type = getOption('clrng.type'),
-  verbose = FALSE) {
-
+    n, 
+    rate=1,
+    streams, 
+    Nglobal = getOption('clrng.Nglobal'),
+    type = getOption('clrng.type'),
+    verbose = FALSE) {
+  
   if (is.null(Nglobal)) stop("Nglobal is missing")
   if (is.null(type))    stop('precision type missing')
   
@@ -60,21 +61,21 @@ rexpGpu = function(
   # }
   
   
-    if(missing(streams)) {
-       stop("streams must be supplied")
-    }
+  if(missing(streams)) {
+    stop("streams must be supplied")
+  }
   
-   # if(missing(streams)) {
-   #    initial = as.integer(rep(12345,6))
-   #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-   #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-   #    currentCreator <- streams[nrow(streams),]
-   #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
-   #  }
+  # if(missing(streams)) {
+  #    initial = as.integer(rep(12345,6))
+  #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+  #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+  #    currentCreator <- streams[nrow(streams),]
+  #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+  #  }
   
-    if(prod(Nglobal) > nrow(streams)){
-      warning("the number of streams created should always equal (or exceed) the maximum number of work items likely to be used")
-    }
+  if(prod(Nglobal) > nrow(streams)){
+    warning("the number of streams created should always equal (or exceed) the maximum number of work items likely to be used")
+  }
   
   
   
@@ -91,4 +92,5 @@ rexpGpu = function(
   (1/rate) * xVcl
   
 }
+
 

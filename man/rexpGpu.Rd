@@ -14,17 +14,17 @@ rexpGpu(
 )
 }
 \arguments{
-\item{n}{A number or a vector specifying the size of the output vector or matrix}
+\item{n}{a number or a vector specifying the size of the output vector or matrix}
 
-\item{rate}{Distribution parameter, mean equals to 1/rate}
+\item{rate}{a number specifying the distribution parameter, mean equals to 1/rate}
 
 \item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{NDRange of work items for use, with default value from global option 'clrng.Nglobal'}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'}
 
-\item{type}{"double" or "float" of generated random numbers, with default value from global option 'clrng.type'}
+\item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'}
 
-\item{verbose}{if TRUE, print extra information, default value is FALSE}
+\item{verbose}{a logical value, if TRUE, print extra information, default value is FALSE}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of exponential random numbers
@@ -41,7 +41,7 @@ setContext(grep("gpu", listContexts()$device_type)[1])
 streams <- createStreamsGpu()
 as.vector(rexpGpu(7, streams=streams))
 
-# to produce float precision random numbers
+# produce float precision random numbers
 options(clrng.type='float')
 as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
 

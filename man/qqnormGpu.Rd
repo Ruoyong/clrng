@@ -20,15 +20,15 @@ qqnormGpu(
 )
 }
 \arguments{
-\item{y}{Data sample}
+\item{y}{data sample}
 
-\item{ylim}{Limits on the plot region}
+\item{ylim}{limits on the plot region}
 
-\item{mu}{Mean of Normal distribution, default is 0}
+\item{mu}{mean of Normal distribution, default is 0}
 
-\item{sigma}{Variance of Normal distribution, default is 1}
+\item{sigma}{variance of Normal distribution, default is 1}
 
-\item{lower.tail}{Logical, whether use lower tail probability, default is TRUE}
+\item{lower.tail}{a logical value specifying whether use lower tail probability, default is TRUE}
 
 \item{main}{plot label}
 
@@ -36,19 +36,19 @@ qqnormGpu(
 
 \item{ylab}{plot label}
 
-\item{Nglobal}{Size of the index space for use, default is 64 by 4}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'}
 
-\item{Nlocal}{Work group size of the index space}
+\item{Nlocal}{a (non-empty) integer vector specifying size of local group size of the index space, default is c(2,2)}
 
-\item{verbose}{if TRUE, print extra information}
+\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE}
 
 \item{...}{other graphical parameters}
 }
 \value{
-the Normal Q-Q plot
+a Normal Q-Q plot
 }
 \description{
-Calculate quantiles on GPU and produce a Q-Q plot in R
+Calculate quantiles on a GPU and produce a Q-Q plot in R
 }
 \examples{
 library(clrng)

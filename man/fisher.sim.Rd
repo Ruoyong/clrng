@@ -25,9 +25,9 @@ fisher.sim(
 
 \item{type}{a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'}
 
-\item{returnStatistics}{a logical value, if TRUE, return test statistics, default value is FALSE}
+\item{returnStatistics}{a logical value, if TRUE, return test statistics, default is FALSE}
 
-\item{verbose}{a logical value, if TRUE, print extra information, default value is FALSE}
+\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE}
 }
 \value{
 a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold

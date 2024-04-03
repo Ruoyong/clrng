@@ -7,17 +7,16 @@
 createStreamsCpu(n = prod(getOption("clrng.Nglobal")))
 }
 \arguments{
-\item{n}{Number of streams to create, default is 1024}
+\item{n}{a integer specifying number of streams to create, default is the number of total work items in use}
 }
 \value{
-A stream object on CPU
+a matrix of streams on CPU
 }
 \description{
 Create streams stored on the CPU
 }
 \examples{
 library(clrng)
-library(gpuR)
 t(createStreamsCpu(n=5))
 ###GPU streams
 myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4))

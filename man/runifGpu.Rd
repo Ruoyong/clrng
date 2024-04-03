@@ -13,7 +13,7 @@ runifGpu(
 )
 }
 \arguments{
-\item{n}{a number or numeric vector specifying the size of output vector or matrix}
+\item{n}{a number or a numeric vector specifying the size of output vector or matrix}
 
 \item{streams}{a vclMatrix of streams.}
 
@@ -35,12 +35,14 @@ Generate uniform random numbers parallely on a GPU
 \examples{
  
 library('clrng')
-currentDevice()
 setContext(grep("gpu", listContexts()$device_type)[1])
+currentDevice()
 getOption('clrng.Nglobal')
 streams <- createStreamsGpu()
 as.vector(runifGpu(5, streams))
 
-# Change global options
+# Change global options 
+options(type="float")
+# produce a matrix of random numbers
 as.matrix(runifGpu(c(2,2), streams))
 }

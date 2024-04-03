@@ -1,10 +1,10 @@
 #' @title createStreamsCpu
 #' @description Create streams stored on the CPU
-#' @param n Number of streams to create, default is 1024
-#' @return A stream object on CPU
+#' @param n a integer specifying number of streams to create, default is the number of total work items in use
+#' @return a matrix of streams on CPU
+#' 
 #' @examples 
 #' library(clrng)
-#' library(gpuR)
 #' t(createStreamsCpu(n=5))
 #' ###GPU streams
 #' myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4))
@@ -14,7 +14,7 @@
 
 
 #' @export
- 
+
 createStreamsCpu = function(n=prod(getOption('clrng.Nglobal'))){
   
   n = as.integer(n)
@@ -38,7 +38,10 @@ createStreamsCpu = function(n=prod(getOption('clrng.Nglobal'))){
   streamsCpu
   
 }    
-     
-     
+
+
+
+
+
    
 

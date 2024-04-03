@@ -1,28 +1,44 @@
-#' A dataset stored in x.RData
+#' Sample dataset: month.RData
 #'
-#' Description of your dataset stored in x.RData.
-#' You can provide more details here.
+#' Counts of birth anomalies by birth month and congenital 
+#' anomalies categories in 2018 within the United States.
 #' @name month
 #' @docType data
 #' @usage data(month)
-#' @format A data frame with columns: Month, Days
-#' @source Some source or description of where the data came from.
+#' 
+#' @format A data frame with 12 rows and 12 columns:
+#' \describe{
+#'     \item{row}{Month of the year}
+#'     \item{column}{Congenital anomalies category of the newborn}
+#'   }
+#'   
+#' @source https://www.cdc.gov/nchs/data_access/VitalStatsOnline.htm
 # Load the dataset
 data(month)
 
 
-#' Sample dataset: week
+
+
+
+
+
+
+#' Sample dataset: week.RData
 #'
-#' An example data set representing days of the week.
-#'
+#' Frequencies for birth anomalies by birth day of week and 
+#' congenital anomalies categories in 2018 within the United States.
 #' @name week
 #' @docType data
 #' @usage data(week)
-#' @format A character vector with the names of the days of the week
-#' @source Generated for demonstration purposes.
-#'
-#' @keywords datasets
-"week"
+#' 
+#' @format A data frame with 7 rows and 12 columns:
+#' \describe{
+#'     \item{row}{Day of the week}
+#'     \item{column}{Congenital anomalies category of the newborn}
+#'   }
+#'   
+#' @source https://www.cdc.gov/nchs/data_access/VitalStatsOnline.htm
+# Load the dataset
 data(week)
 
 

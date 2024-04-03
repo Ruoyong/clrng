@@ -1,5 +1,6 @@
 #' @title rnormGpu
 #' @description Generate standard Normal random numbers parallely on a GPU
+#' 
 #' @param n a number or a vector specifying the size of output vector or matrix
 #' @param streams a vclMatrix of streams. 
 #' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
@@ -28,11 +29,11 @@
 
 
 rnormGpu = function(
-  n, 
-  streams, 
-  Nglobal = getOption('clrng.Nglobal'),
-  type = getOption('clrng.type'),
-  verbose = FALSE) {
+    n, 
+    streams, 
+    Nglobal = getOption('clrng.Nglobal'),
+    type = getOption('clrng.type'),
+    verbose = FALSE) {
   
   if (is.null(Nglobal)) stop("Nglobal is missing")
   if (is.null(type))   stop('precision type missing')
@@ -60,21 +61,21 @@ rnormGpu = function(
     stop("streams must be supplied")
   }
   
-    # if(missing(streams)) {
-    #    initial = as.integer(rep(12345,6))
-    #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-    #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-    #    currentCreator <- streams[nrow(streams),]
-    #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
-    #  }
-     
-    if(prod(Nglobal) > nrow(streams)){
-       warning("the number of streams created should always equal (or exceed)
+  # if(missing(streams)) {
+  #    initial = as.integer(rep(12345,6))
+  #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+  #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+  #    currentCreator <- streams[nrow(streams),]
+  #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+  #  }
+  
+  if(prod(Nglobal) > nrow(streams)){
+    warning("the number of streams created should always equal (or exceed)
 the maximum number of work items likely to be used")
-    }
+  }
   
   
-    gpuRnBackend(xVcl, streams, Nglobal,"normal", verbose) 
+  gpuRnBackend(xVcl, streams, Nglobal,"normal", verbose) 
   
   #  invisible(streams)
   

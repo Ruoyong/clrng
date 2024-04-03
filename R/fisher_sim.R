@@ -6,8 +6,8 @@
 #' @param streams a vclMatrix of streams. Default using streams with package default initial seeds
 #' @param Nglobal a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'
 #' @param type a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'
-#' @param returnStatistics a logical value, if TRUE, return test statistics, default value is FALSE
-#' @param verbose a logical value, if TRUE, print extra information, default value is FALSE
+#' @param returnStatistics a logical value, if TRUE, return test statistics, default is FALSE
+#' @param verbose a logical value, if TRUE, print extra information, default is FALSE
 #' @import gpuR
 #' 
 #' @return a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold
@@ -43,7 +43,7 @@ fisher.sim=function(
   
   if (is.null(Nglobal)) stop("Nglobal is missing")
   if (is.null(type))   stop('precision type missing')
-
+  
   
   # if (is.data.frame(x))
   #   x <- as.matrix(x)
@@ -78,19 +78,19 @@ fisher.sim=function(
     stop("streams must be supplied")
   }
   
-     # if(missing(streams)) {
-     #   initial = as.integer(rep(12345,6))
-     #   streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-     #   CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-     # }
+  # if(missing(streams)) {
+  #   initial = as.integer(rep(12345,6))
+  #   streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+  #   CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+  # }
   
-    if(!isS4(streams)) {
-      warning("streams should be a S4 matrix")}
-    
-    if(prod(Nglobal) != nrow(streams))
-      warning("number of work items needs to be same as number of streams")
-    # make a deep copy
-    # streams = gpuR::vclMatrix(as.matrix(streams), nrow(streams), ncol(streams), FALSE, dimnames(streams))
+  if(!isS4(streams)) {
+    warning("streams should be a S4 matrix")}
+  
+  if(prod(Nglobal) != nrow(streams))
+    warning("number of work items needs to be same as number of streams")
+  # make a deep copy
+  # streams = gpuR::vclMatrix(as.matrix(streams), nrow(streams), ncol(streams), FALSE, dimnames(streams))
   #}
   
   Nlocal = c(1, 1)
@@ -172,6 +172,22 @@ fisher.sim=function(
   theResult
   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

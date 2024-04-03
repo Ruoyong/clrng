@@ -3,17 +3,21 @@
 \docType{data}
 \name{week}
 \alias{week}
-\title{Sample dataset: week}
+\title{Sample dataset: week.RData}
 \format{
-A character vector with the names of the days of the week
+A data frame with 7 rows and 12 columns:
+\describe{
+    \item{row}{Day of the week}
+    \item{column}{Congenital anomalies category of the newborn}
+  }
 }
 \source{
-Generated for demonstration purposes.
+https://www.cdc.gov/nchs/data_access/VitalStatsOnline.htm
 }
 \usage{
 data(week)
 }
 \description{
-An example data set representing days of the week.
+Frequencies for birth anomalies by birth day of week and 
+congenital anomalies categories in 2018 within the United States.
 }
-\keyword{datasets}

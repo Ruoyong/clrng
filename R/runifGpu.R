@@ -1,6 +1,7 @@
 #' @title runifGpu
 #' @description Generate uniform random numbers parallely on a GPU
-#' @param n a number or numeric vector specifying the size of output vector or matrix
+#' 
+#' @param n a number or a numeric vector specifying the size of output vector or matrix
 #' @param streams a vclMatrix of streams. 
 #' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
 #' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'
@@ -13,28 +14,29 @@
 #' @return a vclVector or vclMatrix of uniform random numbers
 #' @examples  
 #' library('clrng')
-#' currentDevice()
 #' setContext(grep("gpu", listContexts()$device_type)[1])
+#' currentDevice()
 #' getOption('clrng.Nglobal')
 #' streams <- createStreamsGpu()
 #' as.vector(runifGpu(5, streams))
 #' 
-#' # Change global options
-#’ options(type="float")
+#' # Change global options 
+#' options(type="float")
+#' # produce a matrix of random numbers
 #' as.matrix(runifGpu(c(2,2), streams))
 #' @useDynLib clrng
 #' @export
 
 
 runifGpu = function(
-  n, 
-  streams, 
-  Nglobal = getOption('clrng.Nglobal'),
-  type = getOption('clrng.type'),
-  verbose = FALSE) {
-   
+    n, 
+    streams, 
+    Nglobal = getOption('clrng.Nglobal'),
+    type = getOption('clrng.type'),
+    verbose = FALSE) {
+  
   #print(getOption('Nglobal'))
-
+  
   if (is.null(Nglobal)) stop("Nglobal is missing")
   if (is.null(type))   stop('precision type missing')
   
@@ -52,24 +54,24 @@ runifGpu = function(
     stop("number of work items in dimension 2 must be a multiple of 2")
   }
   
-    if(missing(streams)) {
-      stop("streams must be supplied")
-    }
-
- 
-   # if(missing(streams)) {
-   #    initial <- as.integer(rep(12345,6))
-   #    streams <- vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-   #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-   #    currentCreator <- streams[nrow(streams),]
-   #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
-   # }
-    
-   if(prod(Nglobal) > nrow(streams)){
+  if(missing(streams)) {
+    stop("streams must be supplied")
+  }
+  
+  
+  # if(missing(streams)) {
+  #    initial <- as.integer(rep(12345,6))
+  #    streams <- vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
+  #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
+  #    currentCreator <- streams[nrow(streams),]
+  #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+  # }
+  
+  if(prod(Nglobal) > nrow(streams)){
     warning("the number of streams created should always equal (or exceed)
              the maximum number of work items likely to be used")
-   }
-
+  }
+  
   xVcl<-gpuR::vclMatrix(0L, nrow=n[1], ncol=n[2], type=type[1])    
   
   
@@ -83,12 +85,26 @@ runifGpu = function(
     }else{
       xVcl <- as.vclVector(xVcl)
     }
-      
+    
   }
   
   xVcl
   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

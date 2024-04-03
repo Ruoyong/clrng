@@ -3,17 +3,21 @@
 \docType{data}
 \name{month}
 \alias{month}
-\title{A dataset stored in x.RData}
+\title{Sample dataset: month.RData}
 \format{
-A data frame with columns: Month, Days
+A data frame with 12 rows and 12 columns:
+\describe{
+    \item{row}{Month of the year}
+    \item{column}{Congenital anomalies category of the newborn}
+  }
 }
 \source{
-Some source or description of where the data came from.
+https://www.cdc.gov/nchs/data_access/VitalStatsOnline.htm
 }
 \usage{
 data(month)
 }
 \description{
-Description of your dataset stored in x.RData.
-You can provide more details here.
+Counts of birth anomalies by birth month and congenital 
+anomalies categories in 2018 within the United States.
 }

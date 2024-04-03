@@ -28,3 +28,9 @@ t(as.matrix(vclMatrix(2*a1)))
 #saveRDS(as.matrix(createStreamsCpu(n = 4)), "myStreams.rds")
 #streams_saved <- vclMatrix(readRDS("myStreams.rds"))
 ```
+
+
+
+
+
+
