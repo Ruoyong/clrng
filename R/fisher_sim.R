@@ -151,6 +151,7 @@ fisher.sim=function(
                      "replicates)"),
       threshold = counts[1],
       streams=streams,
+      simNum = TotalSim,
       counts=counts[2], 
       sim = results
     )
@@ -165,6 +166,7 @@ fisher.sim=function(
                      "replicates)"),
       threshold = counts[1],
       streams=streams,
+      simNum = TotalSim,
       counts=counts[2])
   }
   
