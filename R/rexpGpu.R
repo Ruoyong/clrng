@@ -6,7 +6,7 @@
 #' @param streams a vclMatrix of streams. 
 #' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
 #' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'
-#' @param verbose a logical value, if TRUE, print extra information, default value is FALSE
+#' @param verbose a logical value, if TRUE, print extra information, default is FALSE
 #' @import gpuR
 #' 
 #' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"

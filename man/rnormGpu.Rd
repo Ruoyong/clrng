@@ -24,7 +24,7 @@ rnormGpu(
 \item{verbose}{a logical value, if TRUE, print extra information, default value is FALSE}
 }
 \value{
-a 'vclVector' or 'vclMatrix' of standard normal random numbers
+a 'vclVector' or 'vclMatrix' of standard Normal random numbers
 }
 \description{
 Generate standard Normal random numbers parallely on a GPU

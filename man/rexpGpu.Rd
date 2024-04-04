@@ -24,7 +24,7 @@ rexpGpu(
 
 \item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'}
 
-\item{verbose}{a logical value, if TRUE, print extra information, default value is FALSE}
+\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE}
 }
 \value{
 a 'vclVector' or 'vclMatrix' of exponential random numbers
