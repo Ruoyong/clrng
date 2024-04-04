@@ -1,18 +1,21 @@
+---
+title: "Monte carlo's simulation for Fisher's exact test on GPU"
+output:
+  html_document: default
+  pdf_document: default
+---
+
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Fisher test simulation}
+%\VignetteIndexEntry{Fisher's exact test on GPU}
 -->
 
-`https://github.com/clMathLibraries/clRNG`
-
-
-## Performs Monte carlo's simulation for Fisher's exact test on GPU
 ```{r packages, results='hide'}
 library("clrng")
-setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
-```{r memoryAvailable, echo=TRUE, results='hide'}
+```{r memoryAvailable, echo=TRUE}
+setContext(grep("gpu", listContexts()$device_type)[1])
 ## get current device name
 gpuInfo()$deviceName
 ```
@@ -31,7 +34,6 @@ fisher.test(TeaTasting)$p.value
 
 ```{r teaTasting on GPU, eval=T}
 ## using clrng's fisher.sim()
-
 ## check the size of work items and GPU precision type at the moment
 getOption('clrng.Nglobal')
 getOption('clrng.type')

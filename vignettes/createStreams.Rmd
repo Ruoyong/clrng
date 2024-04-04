@@ -1,3 +1,9 @@
+---
+title: "Create streams on GPU/CPU"
+output:
+  html_document: default
+  pdf_document: default
+---
 <!--
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Create streams}
@@ -10,11 +16,8 @@ setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
 
-
-## Create streams on GPU/CPU
 ```{r streams, eval=TRUE}
 ## check gpu information
-gpuInfo()$deviceName
 currentDevice()
 
 ## create 4 streams on CPU as R matrix (with package's default initial seed)
@@ -23,7 +26,8 @@ streamsonCpu <- createStreamsCpu(n=4)
 ## Important: streams are of type integer in R
 typeof(streamsonCpu) 
 
-## Attention: when converting streams from CPU to GPU, should set type = "integer", or leave it as default `NULL' as below
+## Attention: when converting streams from CPU to GPU, 
+## should set type = "integer", or leave it as default `NULL' as below
 t(as.matrix(vclMatrix(streamsonCpu)))
 t(as.matrix(2*vclMatrix(streamsonCpu)))
 t(as.matrix(2*vclMatrix(streamsonCpu, type="integer"))) 
@@ -37,10 +41,10 @@ streamsonGpu <- createStreamsGpu(n=6)
 t(as.matrix(streamsonGpu))
 
 ## save the created streams as .rds object on CPU 
-#saveRDS(as.matrix(createStreamsCpu(n = 4)), "myStreams.rds")
+saveRDS(as.matrix(createStreamsCpu(n = 4)), "myStreams.rds")
 
 ## load saved streams
-#streams_saved <- vclMatrix(readRDS("myStreams.rds"))
+streams_saved <- vclMatrix(readRDS("myStreams.rds"))
 ```
 
 

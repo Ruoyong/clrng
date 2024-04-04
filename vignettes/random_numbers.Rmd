@@ -1,3 +1,9 @@
+---
+title: "Generate parallel random numbers on GPU"
+output:
+  html_document: default
+  pdf_document: default
+---
 <!--
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Random numbers}
@@ -9,7 +15,6 @@ library('clrng')
 ```
 
 
-# Generate random numbers parallely on a GPU
 ## runifGpu
 ```{r unif, eval=TRUE}
 ## show all the available platforms
@@ -83,24 +88,21 @@ stats::qqnorm(avector)
 
 ## rexpGpu
 ```{r exp}
-## create sreams on a GPU
-streams <- createStreamsGpu(n=64*16)
-
 ## generate a 200x100 matrix of exponential random numbers of mean = 1, 
 ## using the supplied streams, and specify the size of Nglobal to be equal to the number of strams 
-b<-clrng::rexpGpu(c(200,100), rate=1, streams = streams, Nglobal=c(64,16))
+b<-clrng::rexpGpu(c(200,100), rate=1, streams = myStreamsGpu, Nglobal=c(64,16))
 
 # convert GPU matrix to an R vector on CPU, plot its histogram
-bvector<-as.vector(as.matrix(b))
-hist(bvector, freq=TRUE, breaks=40)
+bGpu<-as.vector(as.matrix(b))
+hist(bGpu, freq=TRUE, breaks=40)
 
 # generate on CPU a vector of exponential random numbers of mean = 1, plot its histogram
-b2 <- stats::rexp(20000, rate=1)
-hist(b2, freq=TRUE, breaks = 40)
+bCpu <- stats::rexp(20000, rate=1)
+hist(bCpu, freq=TRUE, breaks = 40)
 
 # compare the two sequence of random exponential numbers by looking at their distribution quantiles
-quantile(bvector)
-quantile(b2)
+quantile(bGpu)
+quantile(bCpu)
 
 ```
 
