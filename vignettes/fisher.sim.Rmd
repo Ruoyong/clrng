@@ -6,7 +6,7 @@
 `https://github.com/clMathLibraries/clRNG`
 
 
-## Fisher test simulation
+## Performs Monte carlo's simulation for Fisher's exact test on GPU
 ```{r packages, results='hide'}
 library("clrng")
 setContext(grep("gpu", listContexts()$device_type)[1])
