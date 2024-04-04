@@ -48,24 +48,30 @@ quantile(bvector)
 
 # rnormGpu: generate standard normal random numbers parallely on a GPU
 ```{r rnormGpu}
-# Simulate a vector of 10 random normal numbers, and print out the kernel code
+## configure the size of work items
 options(clrng.Nglobal = c(128,64))
+
+## create default (here is 128*64) number of streams on GPU
 myStreamsGpu = clrng::createStreamsGpu()
+## check its dimension
 dim(myStreamsGpu)
+
+## generate a vector of 10 random normal numbers on GPU, and print out the kernel code
 as.vector(clrng::rnormGpu(10, myStreamsGpu, verbose=2))
+## generate a 4x4 matrix of random normal numbers on GPU, still using the ctreated streams
 as.matrix(clrng::rnormGpu(c(4, 4), myStreamsGpu))
 
-# Simulate a large matrix of random normal numbers, with user-supplied streams
+## create many new streams and generate a 1024x512 matrix of normal random numbers, with specified Nglobal
 streamsGpu2 <- createStreamsGpu(n =512*128)
 a<-clrng::rnormGpu(c(1024,512), streams=streamsGpu2, Nglobal=c(512,128))
 
-# See the histogram of the output numbers
+## see the histogram of the produced normal random numbers
 avector<-as.vector(as.matrix(a))
 hist(avector,breaks=40)
 
-# Do a Q-Q plot
+# do a Q-Q plot with quantiles computed on GPU by clrng package
 clrng::qqnormGpu(avector)
-# Can also do the Q-Q plot calculation on CPU by stats::qqnorm
+# can also do the Q-Q plot calculation on CPU by stats::qqnorm
 stats::qqnorm(avector)
 ```
 
@@ -77,19 +83,22 @@ stats::qqnorm(avector)
 
 # rexpGpu: generate exponential random numbers parallely on a GPU 
 ```{r exp}
+## create sreams on a GPU
 streams <- createStreamsGpu(n=64*16)
-# Generating a large matrix of exponential random numbers of mean = 1, using the supplied streams
+
+## generate a 200x100 matrix of exponential random numbers of mean = 1, 
+## using the supplied streams, and specify the size of Nglobal to be equal to the number of strams 
 b<-clrng::rexpGpu(c(200,100), rate=1, streams = streams, Nglobal=c(64,16))
 
-# Convert it to a R vector on CPU, plot histogram
+# convert GPU matrix to an R vector on CPU, plot its histogram
 bvector<-as.vector(as.matrix(b))
 hist(bvector, freq=TRUE, breaks=40)
 
-# Generating a second vector of exponential random numbers of mean = 1, on CPU, plot the histogram
+# generate on CPU a vector of exponential random numbers of mean = 1, plot its histogram
 b2 <- stats::rexp(20000, rate=1)
 hist(b2, freq=TRUE, breaks = 40)
 
-# Compare the two sequence of random exponential numbers by looking at the quantiles
+# compare the two sequence of random exponential numbers by looking at their distribution quantiles
 quantile(bvector)
 quantile(b2)
 
