@@ -12,10 +12,6 @@ setContext(grep("gpu", listContexts()$device_type)[1])
 
 
 
-
-
-
-
 ```{r streams, eval=TRUE}
 ## check gpu information
 gpuR::gpuInfo()

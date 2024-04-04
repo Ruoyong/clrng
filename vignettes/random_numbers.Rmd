@@ -10,8 +10,7 @@ library('clrng')
 
 
 
-# runifGpu
-Here we are generating some uniform random numbers.
+# runifGpu: generate uniform random numbers parallely on a GPU
 ```{r unif, eval=TRUE}
 ## show all the available platforms
 gpuR::listContexts()[,'platform']
@@ -47,8 +46,7 @@ quantile(bvector)
 
 
 
-# rnormGpu
-This part shows generating normal random numbers.
+# rnormGpu: generate standard normal random numbers parallely on a GPU
 ```{r rnormGpu}
 # Simulate a vector of 10 random normal numbers, and print out the kernel code
 options(clrng.Nglobal = c(128,64))
@@ -77,8 +75,7 @@ stats::qqnorm(avector)
 
 
 
-# rexpGpu 
-Last, we show generating random exponential numbers.
+# rexpGpu: generate exponential random numbers parallely on a GPU 
 ```{r exp}
 streams <- createStreamsGpu(n=64*16)
 # Generating a large matrix of exponential random numbers of mean = 1, using the supplied streams
