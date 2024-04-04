@@ -71,7 +71,7 @@ rnormGpu = function(
   
   if(prod(Nglobal) > nrow(streams)){
     stop("the number of streams for use should always equal (or exceed)
-the maximum number of work items likely to be used")
+          the maximum number of work items to be used")
   }
   
   

@@ -69,7 +69,7 @@ runifGpu = function(
   
   if(prod(Nglobal) > nrow(streams)){
     stop("the number of streams for use should always equal (or exceed)
-             the maximum number of work items likely to be used")
+             the maximum number of work items to be used")
   }
   
   xVcl<-gpuR::vclMatrix(0L, nrow=n[1], ncol=n[2], type=type[1])    
