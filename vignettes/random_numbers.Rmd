@@ -6,7 +6,6 @@
 
 ```{r packages, results='hide'}
 library('clrng')
-setContext(grep("gpu", listContexts()$device_type)[1])
 ```
 
 
@@ -14,22 +13,34 @@ setContext(grep("gpu", listContexts()$device_type)[1])
 # runifGpu
 Here we are generating some uniform random numbers.
 ```{r unif, eval=TRUE}
+## show all the available platforms
+gpuR::listContexts()[,'platform']
+
+## set the context and show the device we are using
+setContext(grep("gpu", listContexts()$device_type)[1])
 currentDevice()
+
+## set the initial seed of the package/first stream
 setBaseCreator(rep(12235,6))
-# Generating random uniforms stored in a vector
+
+## check the size of work items and GPU precision type at the moment
 getOption('clrng.Nglobal')
 getOption('clrng.type')
+
+## create default number of streams on GPU
 myStreamsGpu = clrng::createStreamsGpu()
+## show its dimention
 dim(myStreamsGpu)
+## create 10 uniform random numbers using the streams and show detailed backend code
 as.vector(clrng::runifGpu(10, myStreamsGpu, verbose=2))
 
-# Generating random uniforms stored in a 100 x 100 matrix 
+# generating a 100 x 100 matrix of random uniforms
 b<-clrng::runifGpu(c(100,100), myStreamsGpu)
 bvector<-as.vector(as.matrix(b))
 
-# plot the histogram
+# plot the histogram of the uniform random numbers
 hist(bvector, breaks=40)
-# check the quantiles of the produced random numbers
+# check its quantiles
 quantile(bvector)
 ```
 
