@@ -1,17 +1,17 @@
 #' @title rexpGpu
-#' @description Generate exponential random numbers parallely on a GPU
+#' @description Generate exponential random numbers parallely on a GPU.
 #' 
-#' @param n a number or a vector specifying the size of the output vector or matrix
-#' @param rate a number specifying the distribution parameter, mean equals to 1/rate
+#' @param n a number or a vector specifying the size of the output vector or matrix.
+#' @param rate a number specifying the distribution parameter, mean equals to 1/rate.
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
-#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'
-#' @param verbose a logical value, if TRUE, print extra information, default is FALSE
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'.
+#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'.
+#' @param verbose a logical value, if TRUE, print extra information, default is FALSE.
 #' @import gpuR
 #' 
-#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
+#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single".
 #' 
-#' @return a 'vclVector' or 'vclMatrix' of exponential random numbers
+#' @return a 'vclVector' or 'vclMatrix' of exponential random numbers.
 #' 
 #' @examples
 #' library('clrng')

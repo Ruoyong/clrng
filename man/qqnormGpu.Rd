@@ -20,35 +20,35 @@ qqnormGpu(
 )
 }
 \arguments{
-\item{y}{data sample}
+\item{y}{data sample.}
 
-\item{ylim}{limits on the plot region}
+\item{ylim}{limits on the plot region.}
 
-\item{mu}{mean of Normal distribution, default is 0}
+\item{mu}{mean of Normal distribution, default is 0.}
 
-\item{sigma}{variance of Normal distribution, default is 1}
+\item{sigma}{variance of Normal distribution, default is 1.}
 
-\item{lower.tail}{a logical value specifying whether use lower tail probability, default is TRUE}
+\item{lower.tail}{a logical value specifying whether use lower tail probability, default is TRUE.}
 
-\item{main}{plot label}
+\item{main}{plot label.}
 
-\item{xlab}{plot label}
+\item{xlab}{plot label.}
 
-\item{ylab}{plot label}
+\item{ylab}{plot label.}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'.}
 
-\item{Nlocal}{a (non-empty) integer vector specifying size of local group size of the index space, default is c(2,2)}
+\item{Nlocal}{a (non-empty) integer vector specifying size of local group size of the index space, default is c(2,2).}
 
-\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE}
+\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE.}
 
-\item{...}{other graphical parameters}
+\item{...}{other graphical parameters.}
 }
 \value{
-a Normal Q-Q plot
+a Normal Q-Q plot.
 }
 \description{
-Calculate quantiles on a GPU and produce a Q-Q plot in R
+Calculate quantiles on a GPU and produce a Q-Q plot in R.
 }
 \examples{
 library(clrng)

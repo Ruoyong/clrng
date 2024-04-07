@@ -15,25 +15,25 @@ fisher.sim(
 )
 }
 \arguments{
-\item{x}{a vclMatrix of integers}
+\item{x}{a vclMatrix of integers.}
 
-\item{N}{a integer specifying number of replicates}
+\item{N}{a integer specifying number of replicates.}
 
-\item{streams}{a vclMatrix of streams. Default using streams with package default initial seeds}
+\item{streams}{a vclMatrix of streams. Default using streams with package default initial seeds.}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'}
+\item{Nglobal}{a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'.}
 
-\item{type}{a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'}
+\item{type}{a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'.}
 
-\item{returnStatistics}{a logical value, if TRUE, return test statistics, default is FALSE}
+\item{returnStatistics}{a logical value, if TRUE, return test statistics, default is FALSE.}
 
-\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE}
+\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE.}
 }
 \value{
-a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold
+a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold.
 }
 \description{
-Performs Monte carlo's simulation for Fisher's exact test on GPU
+Performs Monte carlo's simulation for Fisher's exact test on GPU.
 }
 \examples{
 library('clrng')

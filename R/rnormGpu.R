@@ -1,15 +1,15 @@
 #' @title rnormGpu
-#' @description Generate standard Normal random numbers parallely on a GPU
+#' @description Generate standard Normal random numbers parallely on a GPU.
 #' 
-#' @param n a number or a vector specifying the size of output vector or matrix
+#' @param n a number or a vector specifying the size of output vector or matrix.
 #' @param streams a vclMatrix of streams. 
-#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
-#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'
-#' @param verbose a logical value, if TRUE, print extra information, default value is FALSE
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'.
+#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'.
+#' @param verbose a logical value, if TRUE, print extra information, default is FALSE.
 #' @import gpuR
-#' @return a 'vclVector' or 'vclMatrix' of standard Normal random numbers
+#' @return a 'vclVector' or 'vclMatrix' of standard Normal random numbers.
 #' 
-#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
+#' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single".
 #' 
 #' @examples 
 #' library(clrng)

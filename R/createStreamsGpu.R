@@ -1,7 +1,7 @@
 #' @title setBaseCreator
-#' @description Set the initial seed of the first stream 
-#' @param initial a vector of six 31-bit integers specifying the initial state of the first stream. Default is c(12345,12345,12345,12345,12345,12345)     
-#' @return a stream object of class 'vclMatrix' 
+#' @description Set the initial seed of the first stream.
+#' @param initial a vector of six 31-bit integers specifying the initial state of the first stream. Default is c(12345,12345,12345,12345,12345,12345).     
+#' @return a stream object of class 'vclMatrix'.
 #' 
 #' @details \code{initial} is of length 6, recycled if shorter.
 #' 

@@ -13,24 +13,24 @@ runifGpu(
 )
 }
 \arguments{
-\item{n}{a number or a numeric vector specifying the size of output vector or matrix}
+\item{n}{a number or a numeric vector specifying the size of output vector or matrix.}
 
 \item{streams}{a vclMatrix of streams.}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'}
+\item{Nglobal}{a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'.}
 
-\item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'}
+\item{type}{a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'.}
 
-\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE}
+\item{verbose}{a logical value, if TRUE, print extra information, default is FALSE.}
 }
 \value{
-a 'vclVector' or 'vclMatrix' of uniform random numbers
+a 'vclVector' or 'vclMatrix' of uniform random numbers.
 }
 \description{
-Generate uniform random numbers parallely on a GPU
+Generate uniform random numbers parallely on a GPU.
 }
 \details{
-\code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
+\code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single".
 }
 \examples{
  

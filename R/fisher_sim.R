@@ -1,16 +1,16 @@
 #' @title fisher.sim
-#' @description Performs Monte carlo's simulation for Fisher's exact test on GPU
+#' @description Performs Monte carlo's simulation for Fisher's exact test on GPU.
 #'
-#' @param x a vclMatrix of integers
-#' @param N a integer specifying number of replicates
-#' @param streams a vclMatrix of streams. Default using streams with package default initial seeds
-#' @param Nglobal a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'
-#' @param type a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'
-#' @param returnStatistics a logical value, if TRUE, return test statistics, default is FALSE
-#' @param verbose a logical value, if TRUE, print extra information, default is FALSE
+#' @param x a vclMatrix of integers.
+#' @param N a integer specifying number of replicates.
+#' @param streams a vclMatrix of streams. Default using streams with package default initial seeds.
+#' @param Nglobal a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'.
+#' @param type a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'.
+#' @param returnStatistics a logical value, if TRUE, return test statistics, default is FALSE.
+#' @param verbose a logical value, if TRUE, print extra information, default is FALSE.
 #' @import gpuR
 #' 
-#' @return a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold
+#' @return a `htest' object of p-value and actual number of replicates and a list of test statistics, streams used, threshold.
 #' 
 #'
 #' @examples 

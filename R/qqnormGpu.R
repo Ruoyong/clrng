@@ -1,19 +1,19 @@
 #' @title qqnormGpu
-#' @description Calculate quantiles on a GPU and produce a Q-Q plot in R
+#' @description Calculate quantiles on a GPU and produce a Q-Q plot in R.
 #' 
-#' @param y data sample
-#' @param ylim  limits on the plot region
-#' @param mu  mean of Normal distribution, default is 0
-#' @param sigma  variance of Normal distribution, default is 1
-#' @param lower.tail a logical value specifying whether use lower tail probability, default is TRUE
-#' @param main plot label
-#' @param xlab plot label
-#' @param ylab plot label
-#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'
-#' @param Nlocal a (non-empty) integer vector specifying size of local group size of the index space, default is c(2,2)
-#' @param verbose a logical value, if TRUE, print extra information, default is FALSE
-#' @param ... other graphical parameters
-#' @return a Normal Q-Q plot
+#' @param y data sample.
+#' @param ylim  limits on the plot region.
+#' @param mu  mean of Normal distribution, default is 0.
+#' @param sigma  variance of Normal distribution, default is 1.
+#' @param lower.tail a logical value specifying whether use lower tail probability, default is TRUE.
+#' @param main plot label.
+#' @param xlab plot label.
+#' @param ylab plot label.
+#' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'.
+#' @param Nlocal a (non-empty) integer vector specifying size of local group size of the index space, default is c(2,2).
+#' @param verbose a logical value, if TRUE, print extra information, default is FALSE.
+#' @param ... other graphical parameters.
+#' @return a Normal Q-Q plot.
 #' @examples 
 #' library(clrng)
 #' y <- stats::rt(256, df = 5)  # generates 256 random numbers from a Student's t-distribution

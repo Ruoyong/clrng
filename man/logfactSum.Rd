@@ -7,15 +7,15 @@
 logfactSum(x, Nglobal = getOption("clrng.Nglobal"))
 }
 \arguments{
-\item{x}{a matrix of integers}
+\item{x}{a matrix of integers.}
 
-\item{Nglobal}{a (non-empty) integer vector specifying size of the index space for use}
+\item{Nglobal}{a (non-empty) integer vector specifying size of the index space for use.}
 }
 \value{
-sum of log-factorials of elements of the input matrix `x'
+sum of log-factorials of elements of the input matrix `x'.
 }
 \description{
-Computes the log-factorial of a table on a GPU
+Computes the log-factorial of a table on a GPU.
 }
 \examples{
 x <- matrix(c(1:36), 6,6)

@@ -1,9 +1,9 @@
 #' @title logfactSum
-#' @description Computes the log-factorial of a table on a GPU
+#' @description Computes the log-factorial of a table on a GPU.
 #' 
-#' @param x a matrix of integers
-#' @param Nglobal a (non-empty) integer vector specifying size of the index space for use
-#' @return sum of log-factorials of elements of the input matrix `x'
+#' @param x a matrix of integers.
+#' @param Nglobal a (non-empty) integer vector specifying size of the index space for use.
+#' @return sum of log-factorials of elements of the input matrix `x'.
 #' 
 #' @examples 
 #' x <- matrix(c(1:36), 6,6)
