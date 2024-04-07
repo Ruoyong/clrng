@@ -1,6 +1,6 @@
 Package: clrng
 Type: Package
-Title: Random numbers on the gpu
+Title: Parallel Random Number Generation on GPU in R
 Author: c(
       person(given="Ruoyong", family="Xu", 
                     role = c("aut", "cre", "ctb"),
