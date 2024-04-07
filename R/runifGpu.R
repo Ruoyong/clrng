@@ -11,7 +11,7 @@
 #' 
 #' @details \code{type} specifies the precision type of random numbers. If GPU supports "double", 'clrng.Nglobal' is "double", otherwise, `clrng.Nglobal' is "single"
 #' 
-#' @return a vclVector or vclMatrix of uniform random numbers
+#' @return a 'vclVector' or 'vclMatrix' of uniform random numbers
 #' @examples  
 #' library('clrng')
 #' setContext(grep("gpu", listContexts()$device_type)[1])

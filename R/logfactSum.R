@@ -3,7 +3,7 @@
 #' 
 #' @param x a matrix of integers
 #' @param Nglobal a (non-empty) integer vector specifying size of the index space for use
-#' @return sum of log-factorials of elements of the input matrix
+#' @return sum of log-factorials of elements of the input matrix `x'
 #' 
 #' @examples 
 #' x <- matrix(c(1:36), 6,6)
