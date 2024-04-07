@@ -10,7 +10,7 @@ createStreamsCpu(n = prod(getOption("clrng.Nglobal")))
 \item{n}{a integer specifying number of streams to create, default is the number of total work items in use}
 }
 \value{
-a matrix of streams on CPU
+an R matrix of streams on CPU
 }
 \description{
 Create streams stored on the CPU

@@ -1,7 +1,7 @@
 #' @title createStreamsCpu
 #' @description Create streams stored on the CPU
 #' @param n a integer specifying number of streams to create, default is the number of total work items in use
-#' @return a R matrix of streams on CPU
+#' @return an R matrix of streams on CPU
 #' 
 #' @examples 
 #' library(clrng)

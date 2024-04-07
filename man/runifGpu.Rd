@@ -24,7 +24,7 @@ runifGpu(
 \item{verbose}{a logical value, if TRUE, print extra information, default is FALSE}
 }
 \value{
-a vclVector or vclMatrix of uniform random numbers
+a 'vclVector' or 'vclMatrix' of uniform random numbers
 }
 \description{
 Generate uniform random numbers parallely on a GPU

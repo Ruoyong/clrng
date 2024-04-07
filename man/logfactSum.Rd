@@ -12,7 +12,7 @@ logfactSum(x, Nglobal = getOption("clrng.Nglobal"))
 \item{Nglobal}{a (non-empty) integer vector specifying size of the index space for use}
 }
 \value{
-sum of log-factorials of elements of the input matrix
+sum of log-factorials of elements of the input matrix `x'
 }
 \description{
 Computes the log-factorial of a table on a GPU
