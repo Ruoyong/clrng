@@ -2,7 +2,7 @@
 #' @description Performs Monte carlo's simulation for Fisher's exact test on GPU.
 #'
 #' @param x a vclMatrix of integers.
-#' @param N a integer specifying number of replicates.
+#' @param N an integer specifying number of replicates.
 #' @param streams a vclMatrix of streams. Default using streams with package default initial seeds.
 #' @param Nglobal a (non-empty) integer vector specifying size of the index space on GPU for use, with default value from global option 'clrng.Nglobal'.
 #' @param type a character string specifying "double" or "float" of the returned test statistics, with default value from global option 'clrng.type'.

@@ -160,10 +160,10 @@ int gpuMatrixRn(
   //   Rcpp::warning(
   //     "number of work items needs to be an even number for second dimension\n");
   // }  
-  if(numWorkItems[1] * (x.internal_size2()/numWorkItems[1]) != x.internal_size2()) {
-    Rcpp::warning(
-      "number of work items in dimension 2 must be a divisor of internal size 2 of x\n");
-  }  
+  // if(numWorkItems[1] * (x.internal_size2()/numWorkItems[1]) != x.internal_size2()) {
+  //   Rcpp::warning(
+  //     "number of work items in dimension 2 must be a divisor of internal size 2 of x\n");
+  // }  
   
 if(verbose[0]>1) {
   Rcpp::Rcout << mrg31k3pkernelString << "\n\n";
