@@ -1,7 +1,7 @@
 Package: clrng
 Type: Package
 Title: Parallel Random Number Generation on GPU in R
-Description: Builds on gpuR and utilizes the clRNG (OpenCL) library to provide efficient tools to generate independent random numbers in parallel on a GPU and save the results as R objects, and ensuring high-quality random numbers even when R is used interactively or in an ad-hoc manner.
+Description: Builds on gpuR and utilizes the clRNG ('OpenCL') library to provide efficient tools to generate independent random numbers in parallel on a GPU and save the results as R objects, and ensuring high-quality random numbers even when R is used interactively or in an ad-hoc manner.
 Version: 0.2
 Date: 2023-09-14
 Authors@R: c(
