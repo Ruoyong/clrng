@@ -18,7 +18,7 @@
 #' streams <- createStreamsGpu()
 #' as.vector(rnormGpu(7, streams=streams))
 #'
-#' getOption('Nglobal')
+#' getOption('clrng.Nglobal')
 #' # use float precision and global size
 #’ options(type="float", Nglobal = c(4,2)) 
 #' as.matrix(rnormGpu(c(2,3), streams=streams))
