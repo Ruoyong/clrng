@@ -204,9 +204,9 @@ Rcpp::IntegerVector CreateStreamsGpu(
     
   }else{
     int i, row, col, Dstream;
-    ulong acc; 
+    unsigned long acc; 
     
-    const ulong JUMP_MATRIX[18]= {
+    const unsigned long JUMP_MATRIX[18]= {
       1702500920, 1849582496, 1656874625,
       828554832, 1702500920, 1512419905,
       1143731069,  828554832,  102237247,
@@ -231,7 +231,7 @@ Rcpp::IntegerVector CreateStreamsGpu(
       for (row=0; row<3; row++){
         acc = 0;
         for (col=0; col<3; col++){
-          acc += (JUMP_MATRIX[3 * row + col] * ( (ulong) creatorNextState[col]) ) % mrg31k3p_M1;
+          acc += (JUMP_MATRIX[3 * row + col] * ( (unsigned long) creatorNextState[col]) ) % mrg31k3p_M1;
         }
         creatorInitial_cpu[row] = (uint) (acc % mrg31k3p_M1);
       }
@@ -240,7 +240,7 @@ Rcpp::IntegerVector CreateStreamsGpu(
       for (row=3; row<6; row++){
         acc = 0;
         for (col=0; col<3; col++){
-          acc += (JUMP_MATRIX[3 * row + col] * ( (ulong) creatorNextState[col+3]) ) % mrg31k3p_M2;
+          acc += (JUMP_MATRIX[3 * row + col] * ( (unsigned long) creatorNextState[col+3]) ) % mrg31k3p_M2;
         }
         creatorInitial_cpu[row] = (uint) (acc % mrg31k3p_M2);
       }

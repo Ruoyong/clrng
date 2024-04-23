@@ -32,8 +32,9 @@ t(as.matrix(vclMatrix(streamsonCpu)))
 t(as.matrix(2*vclMatrix(streamsonCpu)))
 t(as.matrix(2*vclMatrix(streamsonCpu, type="integer"))) 
 
+type = c('float','double')[1+gpuR::deviceHasDouble()]
 ## setting streams as "double" or other type can cause problems, see the following 
-t(as.matrix(2*vclMatrix(streamsonCpu, type="double"))) 
+t(as.matrix(2*vclMatrix(streamsonCpu, type=type))) 
 t(as.matrix(vclMatrix(2*streamsonCpu)))
 
 ## continue to create 6 streams on GPU
