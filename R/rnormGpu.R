@@ -20,7 +20,7 @@
 #'
 #' getOption('clrng.Nglobal')
 #' # use float precision and global size
-#’ options(type="float", Nglobal = c(4,2)) 
+#’ options(clrng.type="float", clrng.Nglobal = c(4,2)) 
 #' as.matrix(rnormGpu(c(2,3), streams=streams))
 #' 
 #' @useDynLib clrng

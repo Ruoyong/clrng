@@ -21,7 +21,7 @@
 #' as.vector(runifGpu(5, streams))
 #' 
 #' # Change global options 
-#' options(type="float")
+#' options(clrng.type="float")
 #' # produce a matrix of random numbers
 #' as.matrix(runifGpu(c(2,2), streams))
 #' @useDynLib clrng
