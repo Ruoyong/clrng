@@ -202,7 +202,7 @@ Rcpp::IntegerVector CreateStreamsGpu(
     copy(creatorInitial_gpu,creatorInitial_cpu);
     
     
-  }else{
+  } else {
     int i, row, col, Dstream;
     unsigned long acc; 
     
@@ -231,7 +231,7 @@ Rcpp::IntegerVector CreateStreamsGpu(
       for (row=0; row<3; row++){
         acc = 0;
         for (col=0; col<3; col++){
-          acc += (JUMP_MATRIX[3 * row + col] * ( (unsigned long) creatorNextState[col]) ) % mrg31k3p_M1;
+          acc += (JUMP_MATRIX[3 * row + col] * ( (unsigned long) creatorNextState[col] ) ) % mrg31k3p_M1;
         }
         creatorInitial_cpu[row] = (uint) (acc % mrg31k3p_M1);
       }

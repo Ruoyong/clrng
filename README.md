@@ -82,7 +82,9 @@ Check the drivers
 Start an instance with
 
 - `g3s.xlarge`
-- ubuntu
+- ubuntu server 22.04
+- create security group, allow ssh traffic from anywhere, https from anywhere
+- 20gb storage
 
 Make sure the software is up to date
 
@@ -95,7 +97,9 @@ sudo reboot
 Install a version of the kernel with the DRM module
 
 ```
-sudo apt-get install -y linux-headers-virtual linux-source linux-image-extra-virtual
+sudo apt install -y linux-headers-virtual linux-source linux-image-extra-virtual
+sudo apt autoremove
+sudo apt clean
 sudo reboot
 ```
 
@@ -111,6 +115,8 @@ Install cuda
 
 ```
 sudo apt install -y cuda
+sudo apt autoremove
+sudo apt clean
 sudo reboot
 ```
 
@@ -124,7 +130,6 @@ Install openCL
 
 ```
 sudo apt install -y nvidia-opencl-dev clinfo
-sudo apt clean
 ```
 
 Check openCL is working
