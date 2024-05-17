@@ -159,7 +159,7 @@ sudo reboot
 Add the repository for GPU drivers
 
 ```
-wget -O /tmp/arbutus-cloud-repo_all.deb http://repo.arbutus.cloud.computecanada.ca/pulp/deb/ubuntu22/pool/main/arbutus-cloud-repo_0.1_all.deb
+wget -O /tmp/arbutus-cloud-repo_all.deb http://repo.arbutus.cloud.computecanada.ca/pulp/deb/ubuntu22/pool/main/arbutus-cloud-repo_0.2_all.deb
 sudo dpkg -i /tmp/arbutus-cloud-repo_all.deb 
 ```
 
