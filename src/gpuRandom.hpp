@@ -5,9 +5,15 @@
 #include <string>
 //#include <clRNG/mrg31k3p.h>
 
+// clrng's files
+//#include <dynMatrix/dynVCLMatGeostatsgpu.hpp>
+//#include <dynMatrix/dynVCLVecGeostatsgpu.hpp>
+// gpuR's files
 
-#include <dynMatrix/dynVCLMatGeostatsgpu.hpp>
-#include <dynMatrix/dynVCLVecGeostatsgpu.hpp>
+#include <gpuR/utils.hpp>
+#include <gpuR/getVCLptr.hpp>
+//#include <gpuR/dynVCLMat.hpp>
+//#include <gpuR/dynVCLVec.hpp>
 #include "viennacl/linalg/sum.hpp"
 #include "viennacl/ocl/backend.hpp"
 
