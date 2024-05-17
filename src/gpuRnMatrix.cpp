@@ -142,7 +142,7 @@ std::string mrg31k3pMatrixString(
 template<typename T>
 int gpuMatrixRn(
     viennacl::matrix<T> &x,
-    viennacl::matrix<cl_uint> &streams,
+    viennacl::matrix<int> &streams,
     const IntegerVector numWorkItems,
     const int ctx_id,
     const std::string random_type, 
@@ -205,7 +205,7 @@ SEXP gpuRnMatrixTyped(
   const int ctx_id = INTEGER(xR.slot(".context_index"))[0]-1;
   
   std::shared_ptr<viennacl::matrix<T> > x = getVCLptr<T>(xR.slot("address"), BisVCL, ctx_id);
-  std::shared_ptr<viennacl::matrix<cl_uint> > streams = getVCLptr<cl_uint>(streamsR.slot("address"), BisVCL, ctx_id);
+  std::shared_ptr<viennacl::matrix<int> > streams = getVCLptr<int>(streamsR.slot("address"), BisVCL, ctx_id);
   
   
   return(Rcpp::wrap(
