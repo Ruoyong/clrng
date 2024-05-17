@@ -149,17 +149,17 @@ std::string streamsString(int NpadStreams,
 
 Rcpp::IntegerVector CreateStreamsGpu(
     Rcpp::IntegerVector creatorInitialGlobalR,
-    viennacl::matrix_base<cl_uint> &streams, 
+    viennacl::matrix_base<int> &streams, 
     Rcpp::IntegerMatrix streamsMat,
     const int onGpu,
     const int keepInitial,
     int ctx_id) {
   
-  static std::vector<cl_uint>  creatorInitial_cpu = Rcpp::as<std::vector<cl_uint> >(creatorInitialGlobalR);
+  static std::vector<int>  creatorInitial_cpu = Rcpp::as<std::vector<int> >(creatorInitialGlobalR);
   const int Nstreams = streams.size1(); //# of rows
   
   if(onGpu==1){
-    viennacl::vector_base<cl_uint> creatorInitial_gpu(6); 
+    viennacl::vector_base<int> creatorInitial_gpu(6); 
     copy(creatorInitial_cpu, creatorInitial_gpu);
     /* fill a vector on CPU
      for (size_t i=0; i<6; ++i)
@@ -277,7 +277,7 @@ SEXP CreateStreamsTemplated(
   const bool BisVCL=1;
   const int ctx_id = INTEGER(streamsR.slot(".context_index"))[0]-1;
 
-  std::shared_ptr<viennacl::matrix_base<cl_uint> > streams = getVCLptr<cl_uint>(streamsR.slot("address"), BisVCL, ctx_id);
+  std::shared_ptr<viennacl::matrix_base<int> > streams = getVCLptr<int>(streamsR.slot("address"), BisVCL, ctx_id);
   
 
   return Rcpp::wrap(CreateStreamsGpu(creatorInitialGlobalR, *streams, streamsMat, onGpu, keepInitial, ctx_id));
