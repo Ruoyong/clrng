@@ -8,3 +8,6 @@
 ^\.git$
 ^doc$
 ^Meta$
+^0$
+^\.gitignore$
+^\.gitattributes$
