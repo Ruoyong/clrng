@@ -16,10 +16,15 @@ a stream object of class 'vclMatrix' on GPU
 Generate streams on a GPU device
 }
 \examples{
-setBaseCreator(rep(12345,6))
-myStreamsGpu = createStreamsGpu(4)
-t(as.matrix(myStreamsGpu))
+library(clrng)
+if (detectGPUs() >= 1) {
+ setBaseCreator(rep(12345,6))
+ myStreamsGpu = createStreamsGpu(4)
+ t(as.matrix(myStreamsGpu))
 
-myStreamsGpu2 = createStreamsGpu(6)
-t(as.matrix(myStreamsGpu2))
+ myStreamsGpu2 = createStreamsGpu(6)
+ t(as.matrix(myStreamsGpu2)) }else {
+  message("No GPU context available")
+}
+
 }

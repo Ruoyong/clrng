@@ -35,14 +35,18 @@ Generate uniform random numbers parallely on a GPU.
 \examples{
  
 library('clrng')
-setContext(grep("gpu", listContexts()$device_type)[1])
-currentDevice()
-getOption('clrng.Nglobal')
-streams <- createStreamsGpu()
-as.vector(runifGpu(5, streams))
+if (detectGPUs() >= 1) {
+  setContext(grep("gpu", listContexts()$device_type)[1])
+  currentDevice()
+  getOption('clrng.Nglobal')
+  streams <- createStreamsGpu()
+  as.vector(runifGpu(5, streams))
 
-# Change global options 
-options(type="float")
-# produce a matrix of random numbers
-as.matrix(runifGpu(c(2,2), streams))
+  # Change global options 
+  options(clrng.type="float")
+  # produce a matrix of random numbers
+  as.matrix(runifGpu(c(2,2), streams))} else {
+  message("No GPU context available")
+}
+
 }

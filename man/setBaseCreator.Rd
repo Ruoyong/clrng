@@ -19,5 +19,6 @@ Set the initial seed of the first stream.
 \code{initial} is of length 6, recycled if shorter.
 }
 \examples{
+library('clrng')
 setBaseCreator(c(111,222,333,444,555,666))
 }

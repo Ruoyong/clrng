@@ -28,7 +28,7 @@
 #' @references https://www.cdc.gov/nchs/data_access/VitalStatsOnline.htm
 
 # Load the dataset
- data(month)
+ data("month", package = "clrng")
 
 
 
@@ -64,7 +64,7 @@
 #' @source Centers for Disease Control and Prevention (CDC)
 #' @references https://www.cdc.gov/nchs/data_access/VitalStatsOnline.htm
 # Load the dataset
- data(week)
+ data("week", package = "clrng")
 
 
 
