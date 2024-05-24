@@ -17,7 +17,7 @@ fisher.sim(
 \arguments{
 \item{x}{a vclMatrix of integers.}
 
-\item{N}{a integer specifying number of replicates.}
+\item{N}{an integer specifying number of replicates.}
 
 \item{streams}{a vclMatrix of streams. Default using streams with package default initial seeds.}
 
@@ -37,16 +37,21 @@ Performs Monte carlo's simulation for Fisher's exact test on GPU.
 }
 \examples{
 library('clrng')
-setContext(grep("gpu", listContexts()$device_type)[1])
-Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
-Job <- gpuR::vclMatrix(Job, type="integer")
-
-getOption('clrng.type')
-options(clrng.Nglobal = c(64,16)) 
-streams <- createStreamsGpu()
-result <- fisher.sim(Job, 1e5, streams=streams)
-print(result)
-result$streams
-result$threshold 
+if (detectGPUs() >= 1) {
+  setContext(grep("gpu", listContexts()$device_type)[1])
+  
+  Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4)
+  Job <- gpuR::vclMatrix(Job, type="integer")
+  
+  getOption('clrng.type')
+  options(clrng.Nglobal = c(64,16))
+  streams <- createStreamsGpu()
+  result <- fisher.sim(Job, 1e5, streams = streams)
+  print(result)
+  result$streams
+  result$threshold
+} else {
+  message("No GPU context available")
+}
 
 }

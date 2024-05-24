@@ -34,13 +34,16 @@ Generate standard Normal random numbers parallely on a GPU.
 }
 \examples{
 library(clrng)
-currentPlatform()
-setContext(grep("gpu", listContexts()$device_type)[1])
-streams <- createStreamsGpu()
-as.vector(rnormGpu(7, streams=streams))
+if (detectGPUs() >= 1) {
+  setContext(grep("gpu", listContexts()$device_type)[1])
+  currentPlatform()
+  streams <- createStreamsGpu()
+  as.vector(rnormGpu(7, streams=streams))
 
-getOption('Nglobal')
-# use float precision and global size
-as.matrix(rnormGpu(c(2,3), streams=streams))
+  getOption('clrng.Nglobal')
+  # use float precision and global size
+  as.matrix(rnormGpu(c(2,3), streams=streams))} else {
+  message("No GPU context available")
+}
 
 }

@@ -17,8 +17,11 @@ Create streams stored on the CPU.
 }
 \examples{
 library(clrng)
-t(createStreamsCpu(n=5))
-###GPU streams
-myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4))
+if (detectGPUs() >= 1) {
+  t(createStreamsCpu(n=5))
+  ## GPU streams
+  myStreamsGpu = vclMatrix(createStreamsCpu(n=4)) }else {
+  message("No GPU context available")
+}
 
 }
