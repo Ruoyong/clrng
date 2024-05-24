@@ -15,13 +15,16 @@
 #' 
 #' @examples
 #' library('clrng')
-#' setContext(grep("gpu", listContexts()$device_type)[1])
-#' streams <- createStreamsGpu()
-#' as.vector(rexpGpu(7, streams=streams))
+#' if (detectGPUs() >= 1) {
+#'   setContext(grep("gpu", listContexts()$device_type)[1])
+#'   streams <- createStreamsGpu()
+#'   as.vector(rexpGpu(7, streams=streams))
 #' 
-#' # produce float precision random numbers
-#' options(clrng.type='float')
-#' as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
+#'   # produce float precision random numbers
+#'   options(clrng.type='float')
+#'   as.matrix(rexpGpu(c(2,3), rate=0.5, streams))} else {
+#'   message("No GPU context available")
+#' }
 #' 
 #' @useDynLib clrng
 #' @export
@@ -55,24 +58,12 @@ rexpGpu = function(
   if(rate <= 0 || !is.finite(rate)){
     stop("invalid rate value")
   }
-  
-  # if(Nglobal[2]<2){
-  #   stop("number of work items needs to be an even number for second dimension\n")
-  # }
-  
+
   
   if(missing(streams)) {
     stop("streams must be supplied")
   }
-  
-  # if(missing(streams)) {
-  #    initial = as.integer(rep(12345,6))
-  #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-  #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-  #    currentCreator <- streams[nrow(streams),]
-  #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
-  #  }
-  
+
   if(prod(Nglobal) > nrow(streams)){
     stop("the number of streams for use should always equal (or exceed) the maximum number of work items to be used")
   }

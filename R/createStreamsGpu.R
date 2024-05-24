@@ -6,6 +6,7 @@
 #' @details \code{initial} is of length 6, recycled if shorter.
 #' 
 #' @examples
+#' library('clrng')
 #' setBaseCreator(c(111,222,333,444,555,666))
 #' @useDynLib clrng
 
@@ -16,11 +17,11 @@ setBaseCreator <- function(initial = rep(12345,6)) {
   
   initial = as.integer(initial)
   
-  # if(any(initial[1:3] >= rep(2147483647,3)){
-  #   stop('CLRNG_INVALID_SEED')
-  # }
+  if(any(initial[1:3] >= rep(2147483647,3)){     # mrg31k3p_M1
+    stop('CLRNG_INVALID_SEED')
+  }
   
-  if(any(initial[4:6] >= rep(2147462579,3))){
+  if(any(initial[4:6] >= rep(2147462579,3))){    # mrg31k3p_M2
     stop('CLRNG_INVALID_SEED')
   }
   
@@ -52,12 +53,17 @@ setBaseCreator <- function(initial = rep(12345,6)) {
 #' @param n a integer specifying number of streams to create, default is the number of total work items in use
 #' @return a stream object of class 'vclMatrix' on GPU
 #' @examples
-#' setBaseCreator(rep(12345,6))
-#' myStreamsGpu = createStreamsGpu(4)
-#' t(as.matrix(myStreamsGpu))
+#' library(clrng)
+#' if (detectGPUs() >= 1) {
+#'  setBaseCreator(rep(12345,6))
+#'  myStreamsGpu = createStreamsGpu(4)
+#'  t(as.matrix(myStreamsGpu))
 #' 
-#' myStreamsGpu2 = createStreamsGpu(6)
-#' t(as.matrix(myStreamsGpu2))
+#'  myStreamsGpu2 = createStreamsGpu(6)
+#'  t(as.matrix(myStreamsGpu2)) }else {
+#'   message("No GPU context available")
+#' }
+#' 
 #' @useDynLib clrng    
 #' @export
 createStreamsGpu = function(n=prod(getOption('clrng.Nglobal'))){

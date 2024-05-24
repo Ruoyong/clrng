@@ -13,15 +13,18 @@
 #' 
 #' @examples 
 #' library(clrng)
-#' currentPlatform()
-#' setContext(grep("gpu", listContexts()$device_type)[1])
-#' streams <- createStreamsGpu()
-#' as.vector(rnormGpu(7, streams=streams))
+#' if (detectGPUs() >= 1) {
+#'   setContext(grep("gpu", listContexts()$device_type)[1])
+#'   currentPlatform()
+#'   streams <- createStreamsGpu()
+#'   as.vector(rnormGpu(7, streams=streams))
 #'
-#' getOption('clrng.Nglobal')
-#' # use float precision and global size
-#’ options(clrng.type="float", clrng.Nglobal = c(4,2)) 
-#' as.matrix(rnormGpu(c(2,3), streams=streams))
+#'   getOption('clrng.Nglobal')
+#'   # use float precision and global size
+#’   options(clrng.type="float", clrng.Nglobal = c(4,2)) 
+#'   as.matrix(rnormGpu(c(2,3), streams=streams))} else {
+#'   message("No GPU context available")
+#' }
 #' 
 #' @useDynLib clrng
 #' @export
@@ -60,15 +63,7 @@ rnormGpu = function(
   if(missing(streams)) {
     stop("streams must be supplied")
   }
-  
-  # if(missing(streams)) {
-  #    initial = as.integer(rep(12345,6))
-  #    streams<-vclMatrix(0L, nrow=prod(Nglobal), ncol=12, type="integer")
-  #    CreateStreamsGpuBackend(initial, streams, keepInitial=1)
-  #    currentCreator <- streams[nrow(streams),]
-  #    assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
-  #  }
-  
+
   if(prod(Nglobal) > nrow(streams)){
     stop("the number of streams for use should always equal (or exceed)
           the maximum number of work items to be used")
