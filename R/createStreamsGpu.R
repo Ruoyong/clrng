@@ -17,7 +17,7 @@ setBaseCreator <- function(initial = rep(12345,6)) {
   
   initial = as.integer(initial)
   
-  if(any(initial[1:3] >= rep(2147483647,3)){     # mrg31k3p_M1
+  if(any(initial[1:3] >= rep(2147483647,3))){     # mrg31k3p_M1
     stop('CLRNG_INVALID_SEED')
   }
   
