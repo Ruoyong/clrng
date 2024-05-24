@@ -9,6 +9,8 @@
 #' 
 #' library(clrng)
 #' if (detectGPUs() >= 1) {
+#' setContext(grep("gpu", listContexts()$device_type)[1])
+#' 
 #' x <- matrix(c(1:36), 6,6)
 #' logfactSum(x, c(2,2))
 #' # note if matrix is not of integers, a warning will be displayed, eg.

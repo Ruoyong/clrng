@@ -56,6 +56,7 @@ setBaseCreator <- function(initial = rep(12345,6)) {
 #' library(clrng)
 #' if (detectGPUs() >= 1) {
 #'  setBaseCreator(rep(12345,6))
+#'  setContext(grep("gpu", listContexts()$device_type)[1])
 #'  myStreamsGpu = createStreamsGpu(4)
 #'  t(as.matrix(myStreamsGpu))
 #' 
