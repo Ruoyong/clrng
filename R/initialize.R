@@ -20,6 +20,7 @@
 #     options(clrng.type = 'float')
 #   }
 # }    
+clrng_env <- new.env(parent = emptyenv())
 
 .onLoad <- function(libname, pkgname) {
   # Set global options with default values

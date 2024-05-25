@@ -22,8 +22,8 @@ createStreamsCpu = function(n=prod(getOption('clrng.Nglobal'))){
   
   n = as.integer(n)
   
-  if(!exists(".Random.seed.clrng")) {
-    assign(".Random.seed.clrng", setBaseCreator())
+  if(!exists(".Random.seed.clrng", envir = clrng_env)) {
+    assign(".Random.seed.clrng", setBaseCreator(), envir = clrng_env)
   } 
   
   
@@ -31,13 +31,13 @@ createStreamsCpu = function(n=prod(getOption('clrng.Nglobal'))){
   streamsCpu<- matrix(0L, nrow=as.integer(n), ncol=12)
   
   currentCreator = CreateStreamsBackend(
-    .Random.seed.clrng,    
+    get(".Random.seed.clrng", envir = clrng_env),  
     streamsR,
     streamsCpu,
     onGpu=FALSE,
     keepInitial=TRUE)
   # 
-  assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+  assign(".Random.seed.clrng", currentCreator, envir = clrng_env)
   streamsCpu
   
 }    
