@@ -37,7 +37,7 @@ setBaseCreator <- function(initial = rep(12345,6)) {
   if(all(initial[1:3] == c(0,0,0)) | all(initial[4:6] == c(0,0,0)))
     stop('CLRNG_INVALID_SEED')
   
-  assign(".Random.seed.clrng", initial, envir = clrng_env)
+  assign(".Random.seed.clrng", initial, envir = .GlobalEnv)
 }
 
 
@@ -72,13 +72,13 @@ createStreamsGpu = function(n=prod(getOption('clrng.Nglobal'))){
   streamsGpu<-gpuR::vclMatrix(0L, nrow=as.integer(n), ncol=12, type="integer")
   streamsCpu<- matrix(0L, nrow=as.integer(n), ncol=12)
   
-  if(!exists(".Random.seed.clrng", envir = clrng_env)) {
-    assign(".Random.seed.clrng", setBaseCreator(), envir = clrng_env)
+  if(!exists(".Random.seed.clrng", envir = .GlobalEnv)) {
+    setBaseCreator()
   } 
   
   
   currentCreator = CreateStreamsBackend(
-    get(".Random.seed.clrng", envir = clrng_env),   
+    .Random.seed.clrng,   
     streamsGpu,
     streamsCpu,
     onGpu=TRUE,
@@ -89,11 +89,11 @@ createStreamsGpu = function(n=prod(getOption('clrng.Nglobal'))){
   #                              # "substream.g1.1", "substream.g1.2", "substream.g1.3", "substream.g2.1", "substream.g2.2", "substream.g2.3"
   # )
   
-  assign(".Random.seed.clrng", currentCreator, envir = clrng_env)
+  assign(".Random.seed.clrng", currentCreator, envir = .GlobalEnv)
   streamsGpu
   
 }
 
-
+utils::globalVariables(".Random.seed.clrng")
 
 
