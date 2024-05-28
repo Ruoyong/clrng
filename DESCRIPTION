@@ -9,7 +9,7 @@ Version: 0.0.3
 Date: 2024-05-24
 Authors@R: c(
     person(given="Ruoyong", family="Xu", 
-      role = c("cre", "ctb"),
+      role = c("cre", "aut", "ctb"),
       email = "ruoyong.xu@mail.utoronto.ca",
       comment = c(ORCID = '0000-0003-3474-8183')),
     person("Patrick", "Brown", 
