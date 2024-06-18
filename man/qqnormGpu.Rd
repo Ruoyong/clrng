@@ -52,9 +52,13 @@ Calculate quantiles on a GPU and produce a Q-Q plot in R.
 }
 \examples{
 library(clrng)
+if (detectGPUs() >= 1) {
+setContext(grep("gpu", listContexts()$device_type)[1])
 y <- stats::rt(256, df = 5)  # generates 256 random numbers from a Student's t-distribution
 clrng::qqnormGpu(y, ylim=c(-4,5), mu=0, sigma=1, Nglobal=c(16,4))
 x<-stats::rnorm(256)
-clrng::qqnormGpu(x, Nglobal=c(8,6))
+clrng::qqnormGpu(x, Nglobal=c(8,6)) } else {
+  message("No GPU context available")
+}
 
 }

@@ -5,9 +5,12 @@
 #' 
 #' @examples 
 #' library(clrng)
-#' t(createStreamsCpu(n=5))
-#' ###GPU streams
-#' myStreamsGpu1 = vclMatrix(createStreamsCpu(n=4))
+#' if (detectGPUs() >= 1) {
+#'   t(createStreamsCpu(n=5))
+#'   ## GPU streams
+#'   myStreamsGpu = vclMatrix(createStreamsCpu(n=4)) }else {
+#'   message("No GPU context available")
+#' }
 #' 
 #' @useDynLib clrng
 
@@ -19,8 +22,8 @@ createStreamsCpu = function(n=prod(getOption('clrng.Nglobal'))){
   
   n = as.integer(n)
   
-  if(!exists(".Random.seed.clrng")) {
-    assign(".Random.seed.clrng", setBaseCreator())
+  if(!exists(".Random.seed.clrng", envir = .GlobalEnv)) {
+    setBaseCreator()
   } 
   
   
@@ -28,18 +31,18 @@ createStreamsCpu = function(n=prod(getOption('clrng.Nglobal'))){
   streamsCpu<- matrix(0L, nrow=as.integer(n), ncol=12)
   
   currentCreator = CreateStreamsBackend(
-    .Random.seed.clrng,    
+    .Random.seed.clrng,  
     streamsR,
     streamsCpu,
     onGpu=FALSE,
     keepInitial=TRUE)
   # 
-  assign(".Random.seed.clrng",  currentCreator, envir = .GlobalEnv)
+  assign(".Random.seed.clrng", currentCreator, envir = .GlobalEnv)
   streamsCpu
   
 }    
 
-
+utils::globalVariables(".Random.seed.clrng")
 
 
 

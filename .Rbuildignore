@@ -1,10 +1,13 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.httr-oauth$
-^include
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^cran-comments\.md$
 ^\.git$
 ^doc$
 ^Meta$
+^0$
+^\.gitignore$
+^\.gitattributes$
+^src/.*\.(o|so|dylib|dll)$ # Exclude intermediate compilation files

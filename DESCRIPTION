@@ -1,23 +1,26 @@
 Package: clrng
 Type: Package
-Title: Parallel Random Number Generation on GPU in R
-Description: Builds on gpuR and utilizes the clRNG ('OpenCL') library to provide efficient tools to generate independent random numbers in parallel on a GPU and save the results as R objects, and ensuring high-quality random numbers even when R is used interactively or in an ad-hoc manner.
-Version: 0.2
-Date: 2023-09-14
+Title: Parallel Random Number Generation on GPU
+Description: Builds on 'gpuR' and utilizes the 'clRNG' ('OpenCL') library to provide efficient tools to generate independent random numbers in parallel on a GPU and 
+     save the results as 'R' objects, ensuring high-quality random numbers even when 'R' is used interactively or in an ad-hoc manner. 
+     Includes Fisher's simulation method adapted from Patefield, William M (1981) <doi:10.2307/2346669> and 
+     'MRG31k3p' Random Number Generator from 'clRNG' library by Advanced Micro Devices, Inc. (2015) <https://github.com/clMathLibraries/clRNG>.
+Version: 0.0.3
+Date: 2024-05-24
 Authors@R: c(
-      person(given="Ruoyong", family="Xu", 
-                    role = c("aut", "cre", "ctb"),
-                     email = "ruoyong.xu@mail.utoronto.ca",
-                     comment = c(ORCID = '0000-0003-3474-8183')
-                     ),
-      person("Patrick", "Brown", 
-                     email = "patrick.borgnine@gmail.com",
-                     role = c("aut","ctb"),
-                     comment = c(ORCID = '0000-0003-2541-3744')
-                     )
-                     )
+    person(given="Ruoyong", family="Xu", 
+      role = c("cre", "aut", "ctb"),
+      email = "ruoyong.xu@mail.utoronto.ca",
+      comment = c(ORCID = '0000-0003-3474-8183')),
+    person("Patrick", "Brown", 
+      email = "patrick.borgnine@gmail.com",
+      role = c("aut", "ctb"),
+      comment = c(ORCID = '0000-0003-2541-3744')),
+    person(given = "Advanced Micro Devices, Inc.", family = "", 
+           role = "cph", 
+           comment = "Copyright holder of clRNG library code"))
 Maintainer: Ruoyong Xu <ruoyong.xu@mail.utoronto.ca>
-License: GPL (>= 3)
+License: GPL-3
 Encoding: UTF-8
 NeedsCompilation: yes
 Depends: R (>= 3.5.0), gpuR
@@ -27,4 +30,3 @@ SystemRequirements: OpenCL shared library and headers. Requires Linux, unlikely 
 OS_type: unix
 VignetteBuilder: knitr
 RoxygenNote: 7.3.1
-Packaged: 2024-04-02 18:12:22 UTC; ruoyong

@@ -6,12 +6,20 @@
 #' @return sum of log-factorials of elements of the input matrix `x'.
 #' 
 #' @examples 
+#' 
+#' library(clrng)
+#' if (detectGPUs() >= 1) {
+#' setContext(grep("gpu", listContexts()$device_type)[1])
+#' 
 #' x <- matrix(c(1:36), 6,6)
 #' logfactSum(x, c(2,2))
 #' # note if matrix is not of integers, a warning will be displayed, eg.
 #' x2 <- matrix(c(1.1,2.1,3.1,4.1,5.1,6.1,7.1,8.1,9.1), 3,3)
 #' is.integer(x2)
-#' logfactSum(x2, c(16,16))
+#' logfactSum(x2, c(16,16))} else {
+#'   message("No GPU context available")
+#' }
+#' 
 #' @useDynLib clrng
 #' @export
 

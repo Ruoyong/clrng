@@ -37,12 +37,15 @@ Generate exponential random numbers parallely on a GPU.
 }
 \examples{
 library('clrng')
-setContext(grep("gpu", listContexts()$device_type)[1])
-streams <- createStreamsGpu()
-as.vector(rexpGpu(7, streams=streams))
+if (detectGPUs() >= 1) {
+  setContext(grep("gpu", listContexts()$device_type)[1])
+  streams <- createStreamsGpu()
+  as.vector(rexpGpu(7, streams=streams))
 
-# produce float precision random numbers
-options(clrng.type='float')
-as.matrix(rexpGpu(c(2,3), rate=0.5, streams))
+  # produce float precision random numbers
+  options(clrng.type='float')
+  as.matrix(rexpGpu(c(2,3), rate=0.5, streams))} else {
+  message("No GPU context available")
+}
 
 }
