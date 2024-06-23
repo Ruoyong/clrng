@@ -1,20 +1,3 @@
-###################################
-### clrng global options  ###
-###################################
-
-.onLoad <- function(libname, pkgname) {
-  # Set global options with default values
-  options(clrng.Nglobal = c(16, 8))
-  
-  if (!(currentDevice()$device_type %in% c('cpu', 'gpu'))) {
-    options(clrng.type = 'float')
-  } else {
-    options(clrng.type = c('float', 'double')[1 + gpuR::deviceHasDouble()])
-  }
-  
-}
-
-
 # Create package environment
 clrng_env <<- new.env(parent = emptyenv())
 ns <- asNamespace('clrng')
@@ -42,5 +25,23 @@ invisible(mapply(function(xx) assign(xx, function(...){}, pos=clrng_env),
 
 
 
+###################################
+### clrng global options  ###
+###################################
 
+.onLoad <- function(libname, pkgname) {
+  if (!identical(Sys.info()["sysname"], "Linux")) {
+    warning("This package is only supported on Linux, it is unlikely to work on macOS", call. = FALSE)
+  }
+  
+  # Set global options with default values
+  options(clrng.Nglobal = c(16, 8))
+  
+  if (!(currentDevice()$device_type %in% c('cpu', 'gpu'))) {
+    options(clrng.type = 'float')
+  } else {
+    options(clrng.type = c('float', 'double')[1 + gpuR::deviceHasDouble()])
+  }
+  
+}
 

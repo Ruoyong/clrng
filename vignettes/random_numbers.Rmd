@@ -19,7 +19,6 @@ library('clrng')
 ```{r unif, eval=TRUE}
 if (detectGPUs()) {
 
-  setContext(grep("gpu", listContexts()$device_type)[1])
   ## show all the available platforms
   gpuR::listContexts()[,'platform']
   
