@@ -352,8 +352,9 @@ Rcpp::NumericVector gpuFisher_test(
     Rcpp::IntegerVector numLocalItems,
     int ctx_id){
   
-  
+
   std::vector<T> twostatistics(2);
+#ifndef __APPLE__    
   //T threshold;
   double statistics;
   const int nr = x.size1(), nc = x.size2(), resultSize = results.size();
@@ -418,15 +419,12 @@ Rcpp::NumericVector gpuFisher_test(
   fisher_sim.global_work_size(1, numWorkItems[1]);
   fisher_sim.local_work_size(0, 1L);
   fisher_sim.local_work_size(1, 1L); 
-  
-  
-  
-  
-  viennacl::vector_base<double> logFactorials(numWorkItems[0] * numWorkItems[1]);
-  
-  viennacl::ocl::command_queue theQueue = sumLfactorialKernel.context().get_queue();
-  viennacl::ocl::enqueue(sumLfactorialKernel(x, logFactorials), theQueue);
 
+  viennacl::vector_base<double> logFactorials(numWorkItems[0] * numWorkItems[1]);
+  viennacl::ocl::command_queue theQueue = sumLfactorialKernel.context().get_queue();
+
+
+  viennacl::ocl::enqueue(sumLfactorialKernel(x, logFactorials), theQueue);
   statistics = viennacl::linalg::sum(logFactorials);
   twostatistics[0] = (T) (-statistics)/(1+64 * DOUBLE_EPS);   // threshold
   row_sum_impl(x, sr);
@@ -453,14 +451,14 @@ Rcpp::NumericVector gpuFisher_test(
   viennacl::ocl::enqueue(fisher_sim(sr, sc, n, B, count, twostatistics[0], factTrue, results, streams),theQueue); 
   
   clFinish(theQueue.handle().get());
-  
+ 
   /* if(B < resultSize) {
    results[B] = results[0];
   }
    results[0] = statistics;*/
   
   twostatistics[1] = viennacl::linalg::sum(count); //countss
-  
+#endif   
 #ifdef DEBUGKERNEL
  // Rcpp::Rcout << "threshold " << threshold << " countss " << countss << " count0 " << count(0) << " size " << B <<  "\n";
 #endif  

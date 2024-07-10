@@ -30,9 +30,6 @@ invisible(mapply(function(xx) assign(xx, function(...){}, pos=clrng_env),
 ###################################
 
 .onLoad <- function(libname, pkgname) {
-  if (!identical(Sys.info()["sysname"], "Linux")) {
-    warning("This package is only supported on Linux, it is unlikely to work on macOS", call. = FALSE)
-  }
   
   # Set global options with default values
   options(clrng.Nglobal = c(16, 8))

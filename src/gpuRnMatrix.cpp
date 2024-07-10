@@ -181,11 +181,12 @@ if(verbose[0]>1) {
   random_number.local_work_size(0, 1L);
   random_number.local_work_size(1, 2L);
   
-  
-  
   viennacl::ocl::command_queue theQueue = random_number.context().get_queue();
+  
+#ifndef __APPLE__  
   viennacl::ocl::enqueue(random_number(streams, x), theQueue);
   clFinish(theQueue.handle().get());
+#endif  
   
   return(0L);
 }

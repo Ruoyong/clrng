@@ -34,19 +34,17 @@ void gpu_qqnorm_0(
   
   viennacl::ocl::kernel &qqnorm = my_prog.get_kernel("qnorm");
 
-//#ifdef UNDEF  
-//  cl_device_type type_check = ctx.current_device().type();
-  
   qqnorm.global_work_size(0, numWorkItems[0]);
   qqnorm.global_work_size(1, numWorkItems[1]);
   
   qqnorm.local_work_size(0, numLocalItems[0]);
   qqnorm.local_work_size(1, numLocalItems[1]);
-  
+
+#ifndef __APPLE__    
   const int outsize = out.size();
   //viennacl::vector_base<double> out = viennacl::vector_base<double>(outsize, ctx); 
-
   viennacl::ocl::enqueue(qqnorm( out, mu, sigma, outsize, lowertail) );
+#endif
 //#endif  
   
 }

@@ -92,8 +92,9 @@ double logfactsum(
   
   viennacl::vector_base<double> logFactorials(numWorkItems[0] * numWorkItems[1]);
   
+#ifndef __APPLE__  
   viennacl::ocl::enqueue(sumLfactorialKernel(x, logFactorials) );
-  
+#endif   
  
   result = viennacl::linalg::sum(logFactorials);
 

@@ -1,6 +1,4 @@
-
 #include "gpuRandom.hpp"
-//#define DEBUGKERNEL
 // #define mrg31k3p_M1 2147483647             /* 2^31 - 1 */
 // #define mrg31k3p_M2 2147462579             /* 2^31 - 21069 */
 
@@ -194,9 +192,11 @@ Rcpp::IntegerVector CreateStreamsGpu(
     streamsKernel.local_work_size(0, 1L);
     streamsKernel.local_work_size(1, 1L);
     //Rcpp::Rcout << "before enqueue kernel" << "\n\n";
-    
+  
+#ifndef __APPLE__  
     viennacl::ocl::enqueue(streamsKernel(creatorInitial_gpu, streams, Nstreams) );
     clFinish(streamsKernel.context().get_queue().handle().get());
+#endif
     //Rcpp::Rcout << "after enqueue kernel\n\n" << "\n\n";
     
     copy(creatorInitial_gpu,creatorInitial_cpu);
