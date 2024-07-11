@@ -11,6 +11,7 @@
 #' @param ylab plot label.
 #' @param Nglobal a (non-empty) integer vector specifying size of work items for use, with default value from global option 'clrng.Nglobal'.
 #' @param Nlocal a (non-empty) integer vector specifying size of local group size of the index space, default is c(2,2).
+#' @param type a character string specifying "double" or "float" of random numbers, with default value from global option 'clrng.type'.
 #' @param verbose a logical value, if TRUE, print extra information, default is FALSE.
 #' @param ... other graphical parameters.
 #' @return a Normal Q-Q plot.
