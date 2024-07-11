@@ -96,7 +96,7 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP _getSystemInfo();
+RcppExport SEXP _getSystemInfo(void);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_clrng_cpp_gpuFisher_test", (DL_FUNC) &_clrng_cpp_gpuFisher_test, 6},
