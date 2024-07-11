@@ -85,17 +85,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// printSystemInfo
-void printSystemInfo();
-RcppExport SEXP _clrng_printSystemInfo() {
+// getSystemInfo
+Rcpp::List getSystemInfo();
+RcppExport SEXP _clrng_getSystemInfo() {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    printSystemInfo();
-    return R_NilValue;
+    rcpp_result_gen = Rcpp::wrap(getSystemInfo());
+    return rcpp_result_gen;
 END_RCPP
 }
 
-RcppExport SEXP _printSystemInfo();
+RcppExport SEXP _getSystemInfo();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_clrng_cpp_gpuFisher_test", (DL_FUNC) &_clrng_cpp_gpuFisher_test, 6},
@@ -103,8 +104,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_clrng_logfactsumBackend", (DL_FUNC) &_clrng_logfactsumBackend, 2},
     {"_clrng_cpp_gpu_qqnorm", (DL_FUNC) &_clrng_cpp_gpu_qqnorm, 6},
     {"_clrng_CreateStreamsBackend", (DL_FUNC) &_clrng_CreateStreamsBackend, 5},
-    {"_clrng_printSystemInfo", (DL_FUNC) &_clrng_printSystemInfo, 0},
-    {"_printSystemInfo", (DL_FUNC) &_printSystemInfo, 0},
+    {"_clrng_getSystemInfo", (DL_FUNC) &_clrng_getSystemInfo, 0},
+    {"_getSystemInfo", (DL_FUNC) &_getSystemInfo, 0},
     {NULL, NULL, 0}
 };
 

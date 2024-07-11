@@ -33,6 +33,7 @@ qqnormGpu<-function(y, ylim, mu=0, sigma=1, lower.tail=1,
                     xlab = "Theoretical Quantiles", ylab = "Sample Quantiles",
                     Nglobal = getOption('clrng.Nglobal'), 
                     Nlocal = c(2, 2),
+                    type = getOption('clrng.type'),
                     verbose=FALSE, ...){
   
   if(has.na <- any(ina <- is.na(y))) { ## keep NA's in proper places
@@ -54,14 +55,15 @@ qqnormGpu<-function(y, ylim, mu=0, sigma=1, lower.tail=1,
   }
   
   if (is.null(Nglobal)) stop("Nglobal is missing")
+  if (is.null(type))   stop('precision type missing')
   
   if(verbose) {
     cat('local sizes ', toString(Nlocal), '\nglobal sizes ', toString(Nglobal), '\n')
   }
   
   
-  #   p <-gpuR::vclVector(ppoints(n), type=gpuR::typeof(y))
-  out <-gpuR::vclVector(length=as.integer(n), type=gpuR::typeof(y))
+  #out <-gpuR::vclVector(length=as.integer(n), type=gpuR::typeof(y))
+  out <-gpuR::vclVector(length=as.integer(n), type=type)
   
   x <- as.vector(cpp_gpu_qqnorm(out, mu,sigma, lower.tail, Nglobal , Nlocal))
   

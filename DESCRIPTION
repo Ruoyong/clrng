@@ -26,7 +26,6 @@ NeedsCompilation: yes
 Depends: R (>= 3.5.0), gpuR
 Suggests: knitr
 LinkingTo: RViennaCL, Rcpp, gpuR, RcppEigen
-SystemRequirements: OpenCL shared library and headers. Requires Linux, unlikely to work on macOS
 OS_type: unix
 VignetteBuilder: knitr
 RoxygenNote: 7.3.1

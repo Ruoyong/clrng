@@ -1,10 +1,10 @@
-#' @title print_system_info
+#' @title get_system_info
 #' @description This function prints operating system, CPU, GPU, and OpenCL version information.
-#' @return A character vector containing system information.
+#' @return List of system information.
 #' 
-#' @export
 #' @useDynLib clrng
+#' @export
 
-print_system_info <- function() {
-  .Call("_printSystemInfo")
+get_system_info <- function() {
+  .Call("_getSystemInfo")
 }

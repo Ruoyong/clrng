@@ -1,5 +1,6 @@
 #include <Rcpp.h>
 #include <iostream>
+#include <vector>
 
 #ifdef __APPLE__
 #include <sys/types.h>
@@ -88,28 +89,49 @@ std::string getGPUInfo() {
   return gpuInfo;
 }
 
-// Function to print system information
+// Function to get OpenCL version information
+std::string getOpenCLVersion() {
+  std::string versionInfo = "Unknown";
+  
+  cl_platform_id platform;
+  cl_uint numPlatforms;
+  
+  clGetPlatformIDs(1, &platform, &numPlatforms);
+  
+  if (numPlatforms > 0) {
+    char version[256];
+    clGetPlatformInfo(platform, CL_PLATFORM_VERSION, sizeof(version), &version, NULL);
+    versionInfo = version;
+  }
+  
+  return versionInfo;
+}
+
+// Function to get system information
 // [[Rcpp::export]]
-void printSystemInfo() {
-  // Operating System Information
-  std::cout << "Operating System: " << getOSName() << std::endl;
+Rcpp::List getSystemInfo() {
+  // Gather system information
+  std::string osName = getOSName();
+  std::string cpuInfo = getCPUInfo();
+  std::string gpuInfo = getGPUInfo();
+  std::string openCLVersion = getOpenCLVersion();
   
-  // CPU Information
-  std::cout << "CPU: " << getCPUInfo() << std::endl;
-  
-  // GPU Information
-  std::cout << "GPU: " << getGPUInfo() << std::endl;
-  
-  // OpenCL Version Information
-  char version[256];
-  clGetPlatformInfo(NULL, CL_PLATFORM_VERSION, sizeof(version), &version, NULL);
-  std::cout << "OpenCL Version: " << version << std::endl;
+  // Return as R list
+  return Rcpp::List::create(
+    Rcpp::Named("Operating System") = osName,
+    Rcpp::Named("CPU") = cpuInfo,
+    Rcpp::Named("GPU") = gpuInfo,
+    Rcpp::Named("OpenCL Version") = openCLVersion
+  );
 }
 
 // Expose the function to R
-RcppExport SEXP _printSystemInfo() {
-  printSystemInfo();
-  return Rcpp::wrap(1L);
+RcppExport SEXP _getSystemInfo() {
+  return Rcpp::wrap(getSystemInfo());
 }
+
+
+
+
 
 

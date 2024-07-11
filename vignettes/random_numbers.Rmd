@@ -17,6 +17,7 @@ library('clrng')
 
 ## runifGpu
 ```{r unif, eval=TRUE}
+get_system_info()
 if (detectGPUs()) {
 
   ## show all the available platforms

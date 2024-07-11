@@ -15,6 +15,7 @@ qqnormGpu(
   ylab = "Sample Quantiles",
   Nglobal = getOption("clrng.Nglobal"),
   Nlocal = c(2, 2),
+  type = getOption("clrng.type"),
   verbose = FALSE,
   ...
 )

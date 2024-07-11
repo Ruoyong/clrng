@@ -34,7 +34,8 @@ invisible(mapply(function(xx) assign(xx, function(...){}, pos=clrng_env),
   # Set global options with default values
   options(clrng.Nglobal = c(16, 8))
   
-  if (!(currentDevice()$device_type %in% c('cpu', 'gpu'))) {
+  os <- Sys.info()[["sysname"]]
+  if (!(currentDevice()$device_type %in% c('cpu', 'gpu')) || os == "Darwin") {
     options(clrng.type = 'float')
   } else {
     options(clrng.type = c('float', 'double')[1 + gpuR::deviceHasDouble()])

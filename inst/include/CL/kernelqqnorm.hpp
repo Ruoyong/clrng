@@ -1,20 +1,26 @@
 
  /* Use 0.5 - p + 0.5 to perhaps gain 1 bit of accuracy */
+template <typename T> 
+std::string qqnormkernelString(){ 
 
-std::string qqnormkernelString = 
+  std::string typeString = openclTypeString<T>();  // type of the log factorial
+  std::string result = "";
+  
+  if(typeString == "double") {
+    result += "\n#pragma OPENCL EXTENSION cl_khr_fp64 : enable\n";
+  }
 
-"\n#pragma OPENCL EXTENSION cl_khr_fp64 : enable\n\n"
-
+  result += 
 "\n#define R_D_Lval(p)	(lower_tail ? (p) : (0.5 - (p) + 0.5) )\n"
 "#define R_D_Cval(p)	(lower_tail ? (0.5 - (p) + 0.5) : (p) )\n"
 
-"\n\n__kernel void qnorm(__global double  *out,\n"
+"\n\n__kernel void qnorm(__global " + typeString + "*out,\n"
                       "const double mu,\n "
                       "const double sigma,\n"
                       "const int out_size,\n"
-                      "const int lower_tail){\n"
-                    
-         "const int size = get_global_size(1)*get_global_size(0);\n"
+                      "const int lower_tail){\n";
+  
+  result += "const int size = get_global_size(1)*get_global_size(0);\n"
          "const int index = get_global_id(1)*get_global_size(0) + get_global_id(0);\n"
          "int D;\n"  
 //#ifdef UNDEF                    
@@ -77,9 +83,10 @@ std::string qqnormkernelString =
           "}\n  "
           
           "out[D]= mu + sigma * val;}\n"
-//#endif          
   "}\n";
-    
+  
+  return(result);
+}
     
     
     

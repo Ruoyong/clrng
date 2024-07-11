@@ -61,15 +61,17 @@ std::string sum_of_LfactorialString(const int Nrow, const int Ncol, const int Np
 
 
 
-
+template<typename T> 
 double logfactsum(
     viennacl::matrix<int> &x,// viennacl::vector_base<int>  rowSum, viennacl::vector_base<int>  colSum,  
     Rcpp::IntegerVector numWorkItems,
     int ctx_id) {
-  
-  double result;
 
-  std::string sumKernelString = sum_of_LfactorialString<double>(
+  double result;
+  viennacl::vector_base<T> logFactorials(numWorkItems[0] * numWorkItems[1]);
+  
+#ifndef __APPLE__   
+  std::string sumKernelString = sum_of_LfactorialString<T>(
     x.size1(), 
     x.size2(),
     x.internal_size2() 
@@ -89,23 +91,18 @@ double logfactsum(
   
   sumLfactorialKernel.local_work_size(0, 1L);
   sumLfactorialKernel.local_work_size(1, 1L);
-  
-  viennacl::vector_base<double> logFactorials(numWorkItems[0] * numWorkItems[1]);
-  
-#ifndef __APPLE__  
+
   viennacl::ocl::enqueue(sumLfactorialKernel(x, logFactorials) );
 #endif   
  
   result = viennacl::linalg::sum(logFactorials);
-
-  
   return result;
   
 }
 
 
 
-//template<typename T> 
+template<typename T> 
 SEXP logfactsumTemplated(
     Rcpp::S4 xR,
     Rcpp::IntegerVector numWorkItems) {
@@ -116,7 +113,7 @@ SEXP logfactsumTemplated(
   const int ctx_id = INTEGER(xR.slot(".context_index"))[0]-1;
   std::shared_ptr<viennacl::matrix<int> > x = getVCLptr<int>(xR.slot("address"), BisVCL, ctx_id);
   
-  result = logfactsum(*x, numWorkItems, ctx_id);
+  result = logfactsum<T>(*x, numWorkItems, ctx_id);
   
   return Rcpp::wrap(result);
 
@@ -142,7 +139,7 @@ SEXP logfactsumBackend(
     
    std::string precision_type = (std::string) classVarR;*/
    if(precision_type == "ivclMatrix") {
-    result = logfactsumTemplated(xR, numWorkItems);
+    result = logfactsumTemplated<int>(xR, numWorkItems);
    } else {
      Rcpp::warning("class of param must be ivclMatrix\n\n");
      result = Rcpp::wrap(1L);
