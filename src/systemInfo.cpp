@@ -68,43 +68,46 @@ std::string getCPUInfo() {
   return cpuInfo;
 }
 
-// Function to get GPU information
-std::string getGPUInfo() {
-  std::string gpuInfo = "Not detected";
+// Function to get GPU and OpenCL information
+Rcpp::List getGPUAndOpenCLInfo() {
+  std::vector<std::string> gpuInfo;
+  std::vector<std::string> openCLVersion;
   
-  cl_platform_id platform;
-  cl_device_id device;
   cl_uint numPlatforms;
-  cl_uint numDevices;
+  clGetPlatformIDs(0, nullptr, &numPlatforms);
   
-  clGetPlatformIDs(1, &platform, &numPlatforms);
-  clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, &numDevices);
-  
-  if (numDevices > 0) {
-    char deviceName[256];
-    clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(deviceName), &deviceName, NULL);
-    gpuInfo = deviceName;
+  if (numPlatforms == 0) {
+    return Rcpp::List::create(
+      Rcpp::Named("GPU") = Rcpp::wrap(gpuInfo),
+      Rcpp::Named("OpenCL Version") = Rcpp::wrap(openCLVersion)
+    );
   }
   
-  return gpuInfo;
-}
-
-// Function to get OpenCL version information
-std::string getOpenCLVersion() {
-  std::string versionInfo = "Unknown";
+  std::vector<cl_platform_id> platforms(numPlatforms);
+  clGetPlatformIDs(numPlatforms, platforms.data(), nullptr);
   
-  cl_platform_id platform;
-  cl_uint numPlatforms;
-  
-  clGetPlatformIDs(1, &platform, &numPlatforms);
-  
-  if (numPlatforms > 0) {
-    char version[256];
-    clGetPlatformInfo(platform, CL_PLATFORM_VERSION, sizeof(version), &version, NULL);
-    versionInfo = version;
+  for (cl_uint i = 0; i < numPlatforms; ++i) {
+    cl_uint numDevices = 1; // Assuming each platform has exactly one GPU device
+    
+    std::vector<cl_device_id> devices(numDevices);
+    clGetDeviceIDs(platforms[i], CL_DEVICE_TYPE_GPU, numDevices, devices.data(), nullptr);
+    
+    for (cl_uint j = 0; j < numDevices; ++j) {
+      char deviceName[256];
+      clGetDeviceInfo(devices[j], CL_DEVICE_NAME, sizeof(deviceName), deviceName, nullptr);
+      
+      char version[256];
+      clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, sizeof(version), version, nullptr);
+      
+      gpuInfo.push_back(deviceName);
+      openCLVersion.push_back(version);
+    }
   }
   
-  return versionInfo;
+  return Rcpp::List::create(
+    Rcpp::Named("GPU") = Rcpp::wrap(gpuInfo),
+    Rcpp::Named("OpenCL Version") = Rcpp::wrap(openCLVersion)
+  );
 }
 
 // Function to get system information
@@ -113,15 +116,14 @@ Rcpp::List getSystemInfo() {
   // Gather system information
   std::string osName = getOSName();
   std::string cpuInfo = getCPUInfo();
-  std::string gpuInfo = getGPUInfo();
-  std::string openCLVersion = getOpenCLVersion();
+  Rcpp::List gpuAndOpenCLInfo = getGPUAndOpenCLInfo();
   
   // Return as R list
   return Rcpp::List::create(
-    Rcpp::Named("Operating System") = osName,
-    Rcpp::Named("CPU") = cpuInfo,
-    Rcpp::Named("GPU") = gpuInfo,
-    Rcpp::Named("OpenCL Version") = openCLVersion
+    Rcpp::Named("1. Operating System") = osName,
+    Rcpp::Named("2. CPU") = cpuInfo,
+    Rcpp::Named("3. GPU") = gpuAndOpenCLInfo["GPU"],
+                                            Rcpp::Named("4. OpenCL Version") = gpuAndOpenCLInfo["OpenCL Version"]
   );
 }
 
@@ -129,8 +131,6 @@ Rcpp::List getSystemInfo() {
 RcppExport SEXP _getSystemInfo() {
   return Rcpp::wrap(getSystemInfo());
 }
-
-
 
 
 

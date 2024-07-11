@@ -1,5 +1,4 @@
 #include "gpuRandom.hpp"
-
 // Important! this must be a matrix of integers! otherwise, wrong results!
 
 //#define DEBUGKERNEL
@@ -133,19 +132,18 @@ SEXP logfactsumBackend(
   Rcpp::traits::input_parameter< std::string >::type classVarR(RCPP_GET_CLASS(xR));
   std::string precision_type = (std::string) classVarR;
   
-  /*if(precision_type == "fvclMatrix" || precision_type == "dvclMatrix") {
-    Rcpp::warning("must be matrix of integers!\n");
+  if (precision_type == "ivclMatrix") {
+#ifdef __APPLE__
+    result = logfactsumTemplated<float>(xR, numWorkItems);
+#else
+    result = logfactsumTemplated<double>(xR, numWorkItems);
+#endif
+  } else {
+    Rcpp::warning("class of param must be ivclMatrix\n\n");
+    result = Rcpp::wrap(1L);
   }
-    
-   std::string precision_type = (std::string) classVarR;*/
-   if(precision_type == "ivclMatrix") {
-    result = logfactsumTemplated<int>(xR, numWorkItems);
-   } else {
-     Rcpp::warning("class of param must be ivclMatrix\n\n");
-     result = Rcpp::wrap(1L);
-     }
-    return result;
-  
+  return result;
+ 
   }
 
 
