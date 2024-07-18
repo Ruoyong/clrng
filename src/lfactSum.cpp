@@ -133,7 +133,7 @@ SEXP logfactsumBackend(
   std::string precision_type = (std::string) classVarR;
   
   if (precision_type == "ivclMatrix") {
-#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))
+#if defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__))
     result = logfactsumTemplated<float>(xR, numWorkItems);
 #else
     result = logfactsumTemplated<double>(xR, numWorkItems);
