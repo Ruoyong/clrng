@@ -166,7 +166,7 @@ Rcpp::IntegerVector CreateStreamsGpu(
     // fill a vector on GPU with data from CPU - faster versions:
     //copy(cpu_vector, creatorInitialGlobal);  //option 1 // copy(cpu_vector.begin(), cpu_vector.end(), vcl_vector.begin()); //option 2
     
-    
+#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))      
     
     std::string streamsKernelString = streamsString(
       streams.internal_size2(), 
@@ -174,7 +174,7 @@ Rcpp::IntegerVector CreateStreamsGpu(
     );
     
     
-#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))     
+    
     // the context
     viennacl::ocl::switch_context(ctx_id);
     viennacl::ocl::program & my_prog = viennacl::ocl::current_context().add_program(streamsKernelString, "my_kernel");

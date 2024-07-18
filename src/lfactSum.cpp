@@ -132,6 +132,7 @@ SEXP logfactsumBackend(
   Rcpp::traits::input_parameter< std::string >::type classVarR(RCPP_GET_CLASS(xR));
   std::string precision_type = (std::string) classVarR;
 
+
   if (precision_type != "ivclMatrix") {
     Rcpp::warning("class of param must be ivclMatrix\n\n");
     result = Rcpp::wrap(1L);
