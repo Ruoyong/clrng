@@ -47,7 +47,7 @@ std::string mrg31k3pMatrixString(
   //  "#define mrg31k3p_NORM_cl 4.656612875245796923096e-10\n";
   // }
   
-
+  
   result +=
     "\n#define Nrow " + std::to_string(Nrow) + "\n"    
     "#define Ncol " + std::to_string(Ncol) + "\n"
@@ -71,9 +71,9 @@ std::string mrg31k3pMatrixString(
   
   result += "uint g1[3], g2[3];\n"
   "const int startvalue=index * NpadStreams;\n";
-
+  
   result += typeString + " temp;\n";
-
+  
   if(random_type == "normal"){
     result += "const " + typeString + " fact[2] = { mrg31k3p_NORM_cl, TWOPI * mrg31k3p_NORM_cl };\n";
     result += "const " + typeString + " addForSine[2] = { 0.0, - PI_2 };\n";
@@ -84,7 +84,7 @@ std::string mrg31k3pMatrixString(
   } else {
     result += "const " + typeString + " fact = mrg31k3p_NORM_cl;\n";
   }
-
+  
   result += "streamsToPrivate(streams,g1,g2,startvalue);\n";
   
   result += 
@@ -99,7 +99,7 @@ std::string mrg31k3pMatrixString(
     "    for(DcolBlock = 0, Dcol=get_global_id(1), Dentry = DrowStart + Dcol;\n" 
     "        DcolBlock < Ncol;\n"
     "        DcolBlock += get_global_size(1), Dentry += get_global_size(1) ) {\n";
-
+  
   if(random_type == "normal"){  
     result += "      part[get_local_id(1)] = fact[get_local_id(1)] * clrngMrg31k3pNextState(g1, g2);\n";
     result += 
@@ -121,7 +121,7 @@ std::string mrg31k3pMatrixString(
       "      barrier(CLK_LOCAL_MEM_FENCE);\n";
   }
   
-
+  
   
   
   result += 
@@ -131,9 +131,9 @@ std::string mrg31k3pMatrixString(
   
   result += "streamsFromPrivate(streams,g1,g2,startvalue);\n";
   
-
+  
   result += 
-  "}//kernel\n";
+    "}//kernel\n";
   
   return(result);
 }
@@ -165,10 +165,10 @@ int gpuMatrixRn(
   //     "number of work items in dimension 2 must be a divisor of internal size 2 of x\n");
   // }  
   
-if(verbose[0]>1) {
-  Rcpp::Rcout << mrg31k3pkernelString << "\n\n";
-}
-    
+  if(verbose[0]>1) {
+    Rcpp::Rcout << mrg31k3pkernelString << "\n\n";
+  }
+  
   // the context
   viennacl::ocl::switch_context(ctx_id);
   viennacl::ocl::program & my_prog = viennacl::ocl::current_context().add_program(mrg31k3pkernelString, "my_kernel");
@@ -183,7 +183,7 @@ if(verbose[0]>1) {
   
   viennacl::ocl::command_queue theQueue = random_number.context().get_queue();
   
-#ifndef __APPLE__  
+#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))
   viennacl::ocl::enqueue(random_number(streams, x), theQueue);
   clFinish(theQueue.handle().get());
 #endif  
@@ -212,7 +212,7 @@ SEXP gpuRnMatrixTyped(
   return(Rcpp::wrap(
       gpuMatrixRn<T>(*x, *streams, max_global_size, 
                      ctx_id, random_type, verbose)
-           ));	
+  ));	
   
 }
 
@@ -230,7 +230,7 @@ SEXP gpuRnBackend(
   
   SEXP result;
   
-
+  
   
   Rcpp::traits::input_parameter< std::string >::type classInput(RCPP_GET_CLASS(x));
   std::string classInputString = (std::string) classInput;
@@ -248,8 +248,6 @@ SEXP gpuRnBackend(
   }
   return(result);
 }
-
-
 
 
 

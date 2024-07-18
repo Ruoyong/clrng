@@ -354,7 +354,7 @@ Rcpp::NumericVector gpuFisher_test(
   
 
   std::vector<T> twostatistics(2);
-#ifndef __APPLE__    
+#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))  
   //T threshold;
   double statistics;
   const int nr = x.size1(), nc = x.size2(), resultSize = results.size();

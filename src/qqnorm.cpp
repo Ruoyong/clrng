@@ -19,9 +19,8 @@ void gpu_qqnorm_0(
     IntegerVector numWorkItems,
     IntegerVector numLocalItems,
     const int ctx_id){
-#ifndef __APPLE__    
+#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))   
   std::string kernel_string;
-    
   kernel_string= qqnormkernelString<T>();
   
   viennacl::ocl::context ctx(viennacl::ocl::get_context(ctx_id));

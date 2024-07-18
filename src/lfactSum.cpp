@@ -69,7 +69,7 @@ double logfactsum(
   double result;
   viennacl::vector_base<T> logFactorials(numWorkItems[0] * numWorkItems[1]);
   
-#ifndef __APPLE__   
+#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__))) 
   std::string sumKernelString = sum_of_LfactorialString<T>(
     x.size1(), 
     x.size2(),
@@ -133,7 +133,7 @@ SEXP logfactsumBackend(
   std::string precision_type = (std::string) classVarR;
   
   if (precision_type == "ivclMatrix") {
-#ifdef __APPLE__
+#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))
     result = logfactsumTemplated<float>(xR, numWorkItems);
 #else
     result = logfactsumTemplated<double>(xR, numWorkItems);
