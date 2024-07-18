@@ -131,22 +131,25 @@ SEXP logfactsumBackend(
 
   Rcpp::traits::input_parameter< std::string >::type classVarR(RCPP_GET_CLASS(xR));
   std::string precision_type = (std::string) classVarR;
-  
-  if (precision_type == "ivclMatrix") {
-#if !(defined(__APPLE__) && (defined(__x86_64__) || defined(__arm64__)))
-    result = logfactsumTemplated<float>(xR, numWorkItems);
-#else
-    result = logfactsumTemplated<double>(xR, numWorkItems);
-#endif
-  } else {
+
+  if (precision_type != "ivclMatrix") {
     Rcpp::warning("class of param must be ivclMatrix\n\n");
     result = Rcpp::wrap(1L);
   }
-  return result;
- 
+  
+  const int ctx_id = INTEGER(xR.slot(".context_index"))[0]-1;
+  viennacl::ocl::context ctx(viennacl::ocl::get_context(ctx_id));
+
+
+  if (ctx.current_device().double_support()) {
+    result = logfactsumTemplated<double>(xR, numWorkItems);
+  } else {
+    result = logfactsumTemplated<float>(xR, numWorkItems);
   }
 
-
+  return result;
+ 
+}
 
 
 
